@@ -1,4 +1,4 @@
-package edu.gatech.cs2340.eggos;
+package edu.gatech.cs2340.eggos.UI_activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -32,6 +32,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.gatech.cs2340.eggos.R;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -198,7 +200,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        //return password.length() > 4;
+        return true;
     }
 
     /**

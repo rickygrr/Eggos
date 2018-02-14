@@ -1,4 +1,4 @@
-package edu.gatech.cs2340.eggos;
+package edu.gatech.cs2340.eggos.UI_activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import edu.gatech.cs2340.eggos.R;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
