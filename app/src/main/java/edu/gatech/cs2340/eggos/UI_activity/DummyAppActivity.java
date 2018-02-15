@@ -25,16 +25,18 @@ public class DummyAppActivity extends AppCompatActivity {
                 context.startActivity(intent);
             }
         });
-        Button mLoginButton = (Button) findViewById(R.id.dummy_button_login);
-        mLoginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //fire an intent to go to login page
-                Context context = view.getContext();
-                Intent intent = new Intent(context, LoginActivity.class);
-                context.startActivity(intent);
-            }
-        });
+
+        // BACK TO LOGIN BUTTON -> Consider if we need it
+//        Button mLoginButton = (Button) findViewById(R.id.dummy_button_login);
+//        mLoginButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                //fire an intent to go to login page
+//                Context context = view.getContext();
+//                Intent intent = new Intent(context, LoginActivity.class);
+//                context.startActivity(intent);
+//            }
+//        });
 
     }
 }
