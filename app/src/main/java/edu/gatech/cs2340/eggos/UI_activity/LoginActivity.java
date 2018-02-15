@@ -107,8 +107,38 @@ public class LoginActivity extends AppCompatActivity{
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
+        if (TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+            mPasswordView.setError(getString(R.string.error_incorrect_password));
+            focusView = mPasswordView;
+            cancel = true;
+        }
+
+        if (TextUtils.isEmpty(password)) {
+            mPasswordView.setError(getString(R.string.error_field_required));
+            focusView = mPasswordView;
+            cancel = true;
+        }
+
+        // Check for a valid username.
+        if (TextUtils.isEmpty(user)) {
+            mUserView.setError(getString(R.string.error_field_required));
+            focusView = mUserView;
+            cancel = true;
+        }
+
+        if (TextUtils.isEmpty(user) && !TextUtils.isEmpty(password)) {
+            mUserView.setError(getString(R.string.error_field_required));
+            focusView = mUserView;
+            cancel = true;
+        }
+
+        if (!TextUtils.isEmpty(user) && TextUtils.isEmpty(password)) {
+            mPasswordView.setError(getString(R.string.error_field_required));
+            cancel = true;
+        }
+
+        if (!TextUtils.isEmpty(user) && !isPasswordValid(password)) {
+            mPasswordView.setError(getString(R.string.error_incorrect_password));
             focusView = mPasswordView;
             cancel = true;
         }
@@ -117,7 +147,9 @@ public class LoginActivity extends AppCompatActivity{
             mUserView.setError(getString(R.string.error_field_required));
             focusView = mUserView;
             cancel = true;
+
         }
+        
 
         //now do login
         if (!UserHolder.getInstance().login(user,password)){
@@ -136,6 +168,8 @@ public class LoginActivity extends AppCompatActivity{
             context.startActivity(intent);
         }
     }
+
+    //TODO: remove hard coding of username and password
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
