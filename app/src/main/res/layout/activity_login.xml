@@ -11,13 +11,13 @@
     tools:context="edu.gatech.cs2340.eggos.UI_activity.LoginActivity">
 
     <!-- Login progress -->
-    <ProgressBar
+    <!--ProgressBar
         android:id="@+id/login_progress"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:visibility="gone"/>
+        android:visibility="gone"/-->
 
     <ScrollView
         android:id="@+id/login_form"
@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <AutoCompleteTextView
+                <EditText
                     android:id="@+id/username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
