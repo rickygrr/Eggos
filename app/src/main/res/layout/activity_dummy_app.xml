@@ -26,6 +26,10 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/dummy_screen_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/commentText" />
+
     <Button
         android:id="@+id/dummy_button_logout"
         android:layout_width="0dp"

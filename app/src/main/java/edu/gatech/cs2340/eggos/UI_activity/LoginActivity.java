@@ -160,7 +160,9 @@ public class LoginActivity extends AppCompatActivity{
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
-            focusView.requestFocus();
+            if (focusView != null) {
+                focusView.requestFocus();
+            }
         } else {
             // go to main screen
             Context context = mLoginFormView.getContext();
