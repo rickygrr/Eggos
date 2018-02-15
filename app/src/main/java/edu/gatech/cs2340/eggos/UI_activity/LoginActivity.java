@@ -130,7 +130,9 @@ public class LoginActivity extends AppCompatActivity{
             mUserView.setError(getString(R.string.error_field_required));
             focusView = mUserView;
             cancel = true;
+
         }
+        
 
         if (!TextUtils.isEmpty(user) && TextUtils.isEmpty(password)) {
             mPasswordView.setError(getString(R.string.error_field_required));
