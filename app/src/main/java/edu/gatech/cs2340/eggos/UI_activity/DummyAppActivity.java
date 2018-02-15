@@ -6,7 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
+import edu.gatech.cs2340.eggos.Model.User.UserHolder;
 import edu.gatech.cs2340.eggos.R;
 
 public class DummyAppActivity extends AppCompatActivity {
@@ -15,28 +17,18 @@ public class DummyAppActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dummy_app);
-        Button mSplashButton = (Button) findViewById(R.id.dummy_button_splash);
-        mSplashButton.setOnClickListener(new View.OnClickListener() {
+        Button mLogoutButton = (Button) findViewById(R.id.dummy_button_logout);
+        mLogoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //fire an intent to go to login page
+                UserHolder.getInstance().logout();
                 Context context = view.getContext();
                 Intent intent = new Intent(context, SplashScreenActivity.class);
                 context.startActivity(intent);
             }
         });
-
-        // BACK TO LOGIN BUTTON -> Consider if we need it
-//        Button mLoginButton = (Button) findViewById(R.id.dummy_button_login);
-//        mLoginButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                //fire an intent to go to login page
-//                Context context = view.getContext();
-//                Intent intent = new Intent(context, LoginActivity.class);
-//                context.startActivity(intent);
-//            }
-//        });
-
+        TextView usrInfoText = (TextView) findViewById(R.id.userInfoText);
+        usrInfoText.setText(UserHolder.getInstance().getUser().toString());
     }
 }

@@ -38,4 +38,8 @@ public class User {
         this._UserType = newType;
         return true;
     }
+
+    public String toString(){
+        return "User name: "+this._Username+"\nType: "+this._UserType;
+    }
 }
