@@ -172,19 +172,52 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            cancel = true;
-        }
+//        // Check for a valid password, if the user entered one.
+//        if (TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+//            mPasswordView.setError(getString(R.string.error_incorrect_password));
+//            focusView = mPasswordView;
+//            cancel = true;
+//        }
+//
+//        if (TextUtils.isEmpty(password)) {
+//            mPasswordView.setError(getString(R.string.error_field_required));
+//            focusView = mPasswordView;
+//            cancel = true;
+//        }
+//
+//
+//        // Check for a valid username.
+//        if (TextUtils.isEmpty(email)) {
+//            mUserView.setError(getString(R.string.error_field_required));
+//            focusView = mUserView;
+//            cancel = true;
+//        }
 
-        // Check for a valid username.
-        if (TextUtils.isEmpty(email)) {
+        if (TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
             mUserView.setError(getString(R.string.error_field_required));
             focusView = mUserView;
             cancel = true;
         }
+
+        if (!TextUtils.isEmpty(email) && TextUtils.isEmpty(password)) {
+            mPasswordView.setError(getString(R.string.error_field_required));
+            cancel = true;
+        }
+
+        if (!TextUtils.isEmpty(email) && !isPasswordValid(password)) {
+            mPasswordView.setError(getString(R.string.error_incorrect_password));
+            focusView = mPasswordView;
+            cancel = true;
+        }
+
+
+        if (!isUserValid(email) && isPasswordValid(password)) {
+            mUserView.setError("This username is incorrect");
+            focusView = mUserView;
+            cancel = true;
+
+        }
+        
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
@@ -198,10 +231,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
+    //TODO: remove hard coding of username and password
+
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        //return password.length() > 4;
-        return true;
+        if (password.equals("pass")) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isUserValid(String username) {
+        if (username.equals("user")) {
+            return true;
+        }
+        return false;
     }
 
     /**
