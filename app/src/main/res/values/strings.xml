@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Eggos</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_user">Username</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="action_cancel">Cancel</string>
+    <string name="login_button">Login</string>
+    <string name="register_button">Register</string>
+    <string name="dummy_back_splash_screen">Back to splash screen</string>
+    <string name="dummy_back_login">Back to login</string>
+    <string name="dummy_screen_text">Dummy app main screen. To be replaced with actual app.</string>
+</resources>
