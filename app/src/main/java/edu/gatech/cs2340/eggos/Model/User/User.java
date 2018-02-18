@@ -7,6 +7,9 @@ package edu.gatech.cs2340.eggos.Model.User;
  */
 
 public class User {
+    public static final int MIN_USERNAME_LENGTH = 3;
+    public static final int MIN_PASSWORD_LENGTH = 3;
+
     private final String _Username;
     private String _Password;
     private UserTypeEnum _UserType;

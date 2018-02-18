@@ -20,7 +20,7 @@ public class UserDatabase {
     }
 
     public boolean addUser(User newUser){
-        if (this._getUser(newUser.getUsername()) != null){
+        if (userExists(newUser.getUsername())){
             //duplicate user
             return false;
         }
@@ -35,6 +35,10 @@ public class UserDatabase {
             }
         }
         return null;
+    }
+
+    public boolean userExists(String username){
+        return _getUser(username) != null;
     }
 
     public User getUser(String username, String password){
