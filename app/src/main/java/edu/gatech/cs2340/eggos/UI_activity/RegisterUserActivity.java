@@ -29,7 +29,9 @@ public class RegisterUserActivity extends AppCompatActivity {
                     //only go to login screen if success
                     Context context = view.getContext();
                     Intent intent = new Intent(context, LoginActivity.class);
+                    //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     context.startActivity(intent);
+                    finish();
                 }
             }
         });
@@ -39,7 +41,9 @@ public class RegisterUserActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Context context = view.getContext();
                 Intent intent = new Intent(context, SplashScreenActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(intent);
+                finish();
             }
         });
         Spinner mUserType = (Spinner) findViewById(R.id.register_usertype_spinner);
@@ -54,9 +58,12 @@ public class RegisterUserActivity extends AppCompatActivity {
         EditText mUsername = (EditText) findViewById(R.id.register_username);
         EditText mPassword = (EditText) findViewById(R.id.register_password);
         EditText mPasswordConfirm = (EditText) findViewById(R.id.register_password_confirm);
+        Spinner mUserType = (Spinner) findViewById(R.id.register_usertype_spinner);
+        Button mRegisterButton = (Button) findViewById(R.id.register_register_button);
 
         String username = mUsername.getText().toString();
         String password = mPassword.getText().toString();
+        UserTypeEnum usertype = (UserTypeEnum) mUserType.getSelectedItem();
         boolean valid_user = true;
         View focusView = null;
 
@@ -77,9 +84,22 @@ public class RegisterUserActivity extends AppCompatActivity {
             valid_user = false;
             focusView = mPasswordConfirm;
         }
-        //TODO: Now add user. (Copy logic from LoginActivity.)
+        //Now add user
+        if (valid_user) {
+            if (!UserDatabase.getInstance().addUser(new User(username, password, usertype))) {
+                mRegisterButton.setError("User addition failed. Please try again.");
+                focusView = mRegisterButton;
+                valid_user = false;
+            } else {
 
-        return false;
+            }
+        }
+        if (!valid_user) {
+            if (focusView != null) {
+                focusView.requestFocus();
+            }
+        }
+        return valid_user;
     }
 
 }

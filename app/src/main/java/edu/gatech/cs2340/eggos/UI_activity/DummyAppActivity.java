@@ -13,6 +13,8 @@ import edu.gatech.cs2340.eggos.R;
 
 public class DummyAppActivity extends AppCompatActivity {
 
+    TextView usrInfoText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,10 +27,17 @@ public class DummyAppActivity extends AppCompatActivity {
                 UserHolder.getInstance().logout();
                 Context context = view.getContext();
                 Intent intent = new Intent(context, SplashScreenActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(intent);
             }
         });
-        TextView usrInfoText = (TextView) findViewById(R.id.userInfoText);
-        usrInfoText.setText(UserHolder.getInstance().getUser().toString());
+        this.usrInfoText = (TextView) findViewById(R.id.userInfoText);
+        //this.usrInfoText.setText(UserHolder.getInstance().getUser().toString());
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        this.usrInfoText.setText(UserHolder.getInstance().getUser().toString());
     }
 }
