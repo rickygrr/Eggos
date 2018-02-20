@@ -29,6 +29,7 @@ public class DummyAppActivity extends AppCompatActivity {
                 Intent intent = new Intent(context, SplashScreenActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(intent);
+                finish();
             }
         });
         this.usrInfoText = (TextView) findViewById(R.id.userInfoText);
