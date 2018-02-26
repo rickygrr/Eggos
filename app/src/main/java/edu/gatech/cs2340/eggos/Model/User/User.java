@@ -45,4 +45,9 @@ public class User {
     public String toString(){
         return "User name: "+this._Username+"\nType: "+this._UserType;
     }
+
+    @Override
+    public int hashCode(){ //For HashSet use
+        return this._Username.hashCode();
+    }
 }
