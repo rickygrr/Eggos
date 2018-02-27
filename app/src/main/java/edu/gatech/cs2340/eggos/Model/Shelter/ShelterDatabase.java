@@ -33,13 +33,18 @@ public class ShelterDatabase {
         return _ShelterList.keyAt(_ShelterList.size()-1) + 1;
     }
 
-    public SparseArray<Shelter> getShelterList(){
-        return _ShelterList;
+    public SparseArray<Shelter> getShelterList(){ //Copy the content of this function for filtering implementations.
+        return this.getFilteredShelterList(new ShelterDatabaseFilter() {
+            @Override
+            public boolean keepShelter(Shelter s) {
+                return true;
+            }
+        });
     }
 
     public SparseArray<Shelter> getFilteredShelterList(ShelterDatabaseFilter filt){
         /*
-        Wow, talk about a completely unloved class, conforms to ZERO collection interfaces...
+        "Wow, talk about a completely unloved class, conforms to ZERO collection interfaces..."
              -user166390, https://stackoverflow.com/questions/7999211/how-to-iterate-through-sparsearray
          */
         //SparseArray<> is now officially my spirit animal. :(
