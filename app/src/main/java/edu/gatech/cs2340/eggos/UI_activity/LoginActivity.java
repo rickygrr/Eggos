@@ -81,7 +81,9 @@ public class LoginActivity extends AppCompatActivity{
             public void onClick(View view) {
                 Context context = view.getContext();
                 Intent intent = new Intent(context, SplashScreenActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //Make back button great again.
                 context.startActivity(intent);
+                finish();
             }
         });
 
@@ -170,6 +172,7 @@ public class LoginActivity extends AppCompatActivity{
             Context context = mLoginFormView.getContext();
             Intent intent = new Intent(context, DummyAppActivity.class);
             context.startActivity(intent);
+            finish();
         }
     }
 
