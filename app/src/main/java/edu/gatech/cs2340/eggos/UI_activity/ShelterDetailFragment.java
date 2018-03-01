@@ -22,6 +22,7 @@ import java.util.List;
 
 import edu.gatech.cs2340.eggos.Model.Shelter.Shelter;
 import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase;
+import edu.gatech.cs2340.eggos.R;
 
 
 /**
@@ -71,11 +72,13 @@ public class ShelterDetailFragment extends Fragment {
 
             Activity activity = this.getActivity();
 
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
+            /*CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
                 appBarLayout.setTitle(mShelter.toString());
-            }
+            } */
         }
 
     }
+
+
 }

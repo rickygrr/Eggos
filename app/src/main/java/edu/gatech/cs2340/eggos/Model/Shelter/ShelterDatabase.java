@@ -2,6 +2,8 @@ package edu.gatech.cs2340.eggos.Model.Shelter;
 
 import android.util.SparseArray;
 import java.util.HashSet;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by chateau86 on 26-Feb-18.
@@ -11,6 +13,7 @@ public class ShelterDatabase {
     private static final ShelterDatabase ourInstance = new ShelterDatabase();
 
     private SparseArray<Shelter> _ShelterList;
+    private List<Shelter> _ShelterList2;
     private Shelter _currentShelter;
 
     public static ShelterDatabase getInstance() {
@@ -19,6 +22,7 @@ public class ShelterDatabase {
 
     private ShelterDatabase() {
         this._ShelterList = new SparseArray<Shelter>();
+        this._ShelterList2 = new ArrayList<Shelter>();
     }
 
     /**
@@ -34,6 +38,7 @@ public class ShelterDatabase {
             return false; //duplicate
         }
         _ShelterList.append(s.getUID(), s);
+        _ShelterList2.add(s.getUID(), s);
         return true;
     }
 
@@ -49,6 +54,12 @@ public class ShelterDatabase {
                 return true;
             }
         });
+    }
+
+    //This returns a List od shelters intead of a SparseArray
+    //Used for testing purposes in DummyAppActivity
+    public List<Shelter> getShelterList2() {
+        return _ShelterList2;
     }
 
     public SparseArray<Shelter> getFilteredShelterList(ShelterDatabaseFilter filt){

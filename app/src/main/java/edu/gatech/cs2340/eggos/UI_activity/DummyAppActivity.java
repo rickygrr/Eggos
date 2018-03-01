@@ -67,7 +67,7 @@ public class DummyAppActivity extends AppCompatActivity {
      */
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         ShelterDatabase model = ShelterDatabase.getInstance();
-        recyclerView.setAdapter(new SimpleShelterRecyclerViewAdapter(model.getShelterList()));
+        recyclerView.setAdapter(new SimpleShelterRecyclerViewAdapter(model.getShelterList2()));
     }
 
     /**
@@ -109,7 +109,7 @@ public class DummyAppActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
 
-            final ShelterDatabase model = ShelterDatabase.getInstance()
+            final ShelterDatabase model = ShelterDatabase.getInstance();
             /*
             This is where we have to bind each data element in the list (given by position parameter)
             to an element in the view (which is one of our two TextView widgets
@@ -120,7 +120,7 @@ public class DummyAppActivity extends AppCompatActivity {
               Now we bind the data to the widgets.  In this case, pretty simple, put the id in one
               textview and the string rep of a course in the other.
              */
-            holder.mIdView.setText("" + mShelters.get(position).getUID());
+            holder.mIdView.setText( mShelters.get(position).getUID());
             holder.mContentView.setText(mShelters.get(position).toString());
 
             /*
