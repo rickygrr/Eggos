@@ -1,9 +1,18 @@
 package edu.gatech.cs2340.eggos.Model.Shelter;
 
+import android.util.JsonReader;
+import android.util.JsonToken;
 import android.util.SparseArray;
+import android.content.res.Resources;
+import android.content.Context;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashSet;
-import java.util.List;
 import java.util.ArrayList;
+
+import edu.gatech.cs2340.eggos.R;
 
 /**
  * Created by chateau86 on 26-Feb-18.
@@ -14,6 +23,7 @@ public class ShelterDatabase {
 
     private SparseArray<Shelter> _ShelterList;
     private Shelter _currentShelter;
+    private boolean _jsonReadDone;
 
     public static ShelterDatabase getInstance() {
         return ourInstance;
@@ -21,7 +31,8 @@ public class ShelterDatabase {
 
     private ShelterDatabase() {
         this._ShelterList = new SparseArray<Shelter>();
-        this._initTestDatabase();
+        //this._initTestDatabase();
+        this._jsonReadDone = false;
     }
 
     /**
@@ -80,10 +91,72 @@ public class ShelterDatabase {
         return ar;
     }
 
-    private void _initTestDatabase(){
-        this.addShelter(new Shelter(0,"Test Shelter", 20, new HashSet<String>(){}, new HashSet<String>(){}, new double[]{420.0,69.0}, "123 Fake St.\n 42069", "867-5309" ));
-        this.addShelter(new Shelter(1,"Test Shelter 2", 420, new HashSet<String>(){}, new HashSet<String>(){}, new double[]{123.0,45.0}, "124 Fake St.\n 42069", "531-8008" ));
+    public void _initTestDatabase(){
+        this.addShelter(new Shelter(0,"Test Shelter", 20, "blah", new HashSet<String>(){}, new double[]{420.0,69.0}, "123 Fake St.\n 42069", "867-5309" ));
+        this.addShelter(new Shelter(1,"Test Shelter 2", 420, "blah", new HashSet<String>(){}, new double[]{123.0,45.0}, "124 Fake St.\n 42069", "531-8008" ));
     }
 
+    public void initFromJSON(Context cont)throws IOException {
+        if (_jsonReadDone){
+            return;
+        }
+        _jsonReadDone = true;
+        InputStream f_in = cont.getResources().openRawResource(R.raw.shelter);
+        JsonReader reader = new JsonReader(new InputStreamReader(f_in, "UTF-8"));
+        reader.beginArray();
+        while(reader.hasNext()){
+            _readShelter(reader);
+        }
+        reader.endArray();
+    }
+
+    private void _readShelter(JsonReader reader) throws IOException{
+        reader.beginObject();
+        String addr = "", name = "", phone = "", restriction = "";
+        int uid = 0, cap = 0;
+        double lat = 0, lon = 0;
+        HashSet<String> notes = new HashSet<>();
+
+        while(reader.hasNext()){
+            String token_name = reader.nextName();
+            switch(token_name){
+                case "Name":
+                    name = reader.nextString();
+                    break;
+                case "Address":
+                    addr = reader.nextString();
+                    break;
+                case "Phone":
+                    phone = reader.nextString();
+                    break;
+                case "Restriction":
+                    restriction = reader.nextString();
+                    break;
+                case "UID":
+                    uid = reader.nextInt();
+                    break;
+                case "Capacity":
+                    cap = reader.nextInt();
+                    break;
+                case "Lat":
+                    lat = reader.nextDouble();
+                    break;
+                case "Lon":
+                    lon = reader.nextDouble();
+                    break;
+                case "Notes":
+                    reader.beginArray();
+                    while(reader.hasNext()){
+                        notes.add(reader.nextString());
+                    }
+                    reader.endArray();
+                    break;
+                default:
+                    reader.skipValue();
+            }
+        }
+        reader.endObject();
+        this.addShelter(new Shelter(uid, name, cap, restriction, notes, new double[]{lat, lon}, addr, phone));
+    }
     //TODO: Read CSV/JSON
 }

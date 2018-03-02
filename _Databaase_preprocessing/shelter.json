@@ -1,0 +1,182 @@
+[
+    {
+        "Address": "921 Howell Mill Road, Atlanta, Georgia 30318",
+        "Capacity": 264,
+        "Lat": 33.780174,
+        "Lon": -84.410142,
+        "Name": "My Sister's House",
+        "Notes": [
+            "Temporary",
+            "Emergency",
+            "Residential Recovery"
+        ],
+        "Phone": "(404) 367-2465",
+        "Restriction": "Women/Children",
+        "UID": 0
+    },
+    {
+        "Address": "655 Ethel Street, Atlanta, Georgia 30318",
+        "Capacity": 140,
+        "Lat": 33.784889,
+        "Lon": -84.408771,
+        "Name": "The Atlanta Day Center for Women & Children",
+        "Notes": [
+            "Career Facilitation"
+        ],
+        "Phone": "(404) 588-4007",
+        "Restriction": "Women/Children",
+        "UID": 1
+    },
+    {
+        "Address": "156 Mills Street, Atlanta, Georgia 30313",
+        "Capacity": 450,
+        "Lat": 33.765162,
+        "Lon": -84.39265,
+        "Name": "The Shepherd's Inn",
+        "Notes": [
+            "Temporary",
+            "Residential Recovery"
+        ],
+        "Phone": "(404) 367-2493",
+        "Restriction": "Men",
+        "UID": 2
+    },
+    {
+        "Address": "144 Mills Street, Atlanta, Georgia 30313",
+        "Capacity": 92,
+        "Lat": 33.76515,
+        "Lon": -84.392273,
+        "Name": "Fuqua Hall",
+        "Notes": [
+            "Transitional housing"
+        ],
+        "Phone": "(404) 367-2492",
+        "Restriction": "Men",
+        "UID": 3
+    },
+    {
+        "Address": "607 Peachtree Street NE Atlanta, GA 30308",
+        "Capacity": 40,
+        "Lat": 33.770949,
+        "Lon": -84.384433,
+        "Name": "Atlanta's Children Center",
+        "Notes": [
+            "Children's programs",
+            "early childhood education"
+        ],
+        "Phone": "(404) 892-3713",
+        "Restriction": "Families w/ Children under 5",
+        "UID": 4
+    },
+    {
+        "Address": "1300 Joseph E. Boone Blvd NW, Atlanta, GA 30314",
+        "Capacity": 80,
+        "Lat": 33.762316,
+        "Lon": -84.43023,
+        "Name": "Eden Village",
+        "Notes": [
+            "General recovery services",
+            "Capacity 32 for families"
+        ],
+        "Phone": "(404)-874-2241",
+        "Restriction": "Women/Children",
+        "UID": 5
+    },
+    {
+        "Address": "173 Boulevard Northeast, Atlanta, GA 30312",
+        "Capacity": 76,
+        "Lat": 33.759138,
+        "Lon": -84.371706,
+        "Name": "Our House",
+        "Notes": [
+            "Families w/ Newborns",
+            "Pre-K education",
+            "Capacity in rooms"
+        ],
+        "Phone": "(404) 522-6056",
+        "Restriction": "Families w/ newborns",
+        "UID": 6
+    },
+    {
+        "Address": "1559 Johnson Road NW, Atlanta, GA 30318",
+        "Capacity": 80,
+        "Lat": 33.78823,
+        "Lon": -84.437988,
+        "Name": "Covenant House Georgia",
+        "Notes": [
+            "Crisis services",
+            "Career Preparation"
+        ],
+        "Phone": "(404)-937-6957",
+        "Restriction": "Childrens/Young adults",
+        "UID": 7
+    },
+    {
+        "Address": "830 Boulevard SE, Atlanta, GA 30312",
+        "Capacity": -1,
+        "Lat": 33.731823,
+        "Lon": -84.367953,
+        "Name": "Nicholas House",
+        "Notes": [
+            "Family services"
+        ],
+        "Phone": "(404)-622-0793",
+        "Restriction": "Families",
+        "UID": 8
+    },
+    {
+        "Address": "34 Peachtree Street NW, Suite 700, Atlanta, GA 30303",
+        "Capacity": 22,
+        "Lat": 33.753594,
+        "Lon": -84.390429,
+        "Name": "Hope Atlanta",
+        "Notes": [
+            "Emergency shelter",
+            "Capacity in apartments"
+        ],
+        "Phone": "(404)-817-7070",
+        "Restriction": "Anyone",
+        "UID": 9
+    },
+    {
+        "Address": "275 Pryor St. SW, Atlanta, GA 30303",
+        "Capacity": 330,
+        "Lat": 33.747618,
+        "Lon": -84.394529,
+        "Name": "Gateway Center",
+        "Notes": [
+            "Shelter and recovery services"
+        ],
+        "Phone": "(404) 215-6600",
+        "Restriction": "Men",
+        "UID": 10
+    },
+    {
+        "Address": "1230 Hightower Road NW Atlanta, GA 30318",
+        "Capacity": 12,
+        "Lat": 33.789157,
+        "Lon": -84.470567,
+        "Name": "Young Adult Guidance Center",
+        "Notes": [
+            "Emergency",
+            "Independent living",
+            "Restoration"
+        ],
+        "Phone": "(404) 792-7616",
+        "Restriction": "Young adults",
+        "UID": 11
+    },
+    {
+        "Address": "1800 Memorial Dr SE G3, Atlanta, GA 30317",
+        "Capacity": -1,
+        "Lat": 33.747641,
+        "Lon": -84.328691,
+        "Name": "Homes of Light",
+        "Notes": [
+            "Veterans"
+        ],
+        "Phone": "(844) 289-8382",
+        "Restriction": "Veterans",
+        "UID": 12
+    }
+]

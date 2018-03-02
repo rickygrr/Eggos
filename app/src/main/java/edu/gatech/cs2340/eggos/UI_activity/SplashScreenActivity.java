@@ -1,6 +1,8 @@
 package edu.gatech.cs2340.eggos.UI_activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +11,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import java.io.IOException;
+
+import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase;
 import edu.gatech.cs2340.eggos.Model.User.UserTypeEnum;
 import edu.gatech.cs2340.eggos.R;
 
@@ -39,5 +44,22 @@ public class SplashScreenActivity extends AppCompatActivity {
                 context.startActivity(intent);
             }
         });
+
+        //Now run ShelterDatabase load trigger
+        try {
+            ShelterDatabase.getInstance().initFromJSON(this.getApplicationContext());
+        } catch (IOException e){
+            ShelterDatabase.getInstance()._initTestDatabase();
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setTitle("Database load failed");
+            alertDialog.setMessage("Debug data loaded instead.");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
+        }
     }
 }

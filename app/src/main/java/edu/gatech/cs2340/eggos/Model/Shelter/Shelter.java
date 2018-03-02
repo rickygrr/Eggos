@@ -15,13 +15,13 @@ public class Shelter {
     private int _Capacity_max;
     private Set<User> _Staying_user;
     private int _Staying_nonuser; //_Staying_User+_Staying_Nonuser = occupancy
-    private Set<String> _Restrictions; //TODO: Maybe make restrictions their own class?
+    private String _Restrictions; //TODO: Maybe make restrictions their own class?
     private Set<String> _Notes; //TODO: Maybe merge this with restriction?
     private double[] _coord;
     private String _Addr;
     private String _Phone;
 
-    public Shelter(int UID, String name, int capacity, Set<String> restrictions, Set<String> notes, double[] coord, String addr, String phone){
+    public Shelter(int UID, String name, int capacity, String restrictions, Set<String> notes, double[] coord, String addr, String phone){
         //TODO
         this._UID = UID;
         this._Name = name;
@@ -64,18 +64,12 @@ public class Shelter {
         }
     }
 
-    public Set<String> getRestrictions(){
+    public String getRestrictions(){
         return _Restrictions;
     }
-    public boolean setRestrictions(Set<String> restrictions){
+    public boolean setRestrictions(String restrictions){
         this._Restrictions = restrictions;
         return true;
-    }
-    public boolean addRestriction(String res){
-        return this._Restrictions.add(res);
-    }
-    public boolean removeRestriction(String res){
-        return this._Restrictions.remove(res);
     }
 
     public Set<String> getNotes(){
