@@ -25,7 +25,8 @@
         </activity>
         <activity android:name=".UI_activity.LoginActivity" />
         <activity android:name=".UI_activity.DummyAppActivity" />
-        <activity android:name=".UI_activity.RegisterUserActivity"></activity>
+        <activity android:name=".UI_activity.RegisterUserActivity" />
+        <activity android:name=".UI_activity.ShelterDetailActivity" ></activity>
     </application>
 
 </manifest>

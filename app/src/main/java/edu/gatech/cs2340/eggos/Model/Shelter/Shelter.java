@@ -115,7 +115,7 @@ public class Shelter {
     }
 
     public String toString(){
-        return this._UID + ": " + this._Name;
+        return this._Name;
     }
 
     @Override

@@ -18,6 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import junit.framework.Assert;
+
 import java.util.List;
 
 import edu.gatech.cs2340.eggos.Model.Shelter.Shelter;
@@ -38,12 +40,11 @@ public class ShelterDetailFragment extends Fragment {
      * represents.  Used to pass keys into other activities through Bundle/Intent
      */
     public static final String SHELTER_UID = "shelter_uid";
-    //public static final String ARG_STUDENT_ID = "student_id";
 
     TextView shelterDetails;
 
     /**
-     * The course that this detail view is for.
+     * The shelter that this detail view is for.
      */
     private Shelter mShelter;
 
@@ -57,27 +58,34 @@ public class ShelterDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Log.d("hooo", "WE HAVE REACHED THE FRAGMENT");
+        Log.d("hooo", getArguments().toString());
         //Check if we got a valid shelter passed to us
         if (getArguments().containsKey(SHELTER_UID)) {
             // Get the id from the intent arguments (bundle) and
             //ask the model to give us the course object
             ShelterDatabase model = ShelterDatabase.getInstance();
-            // mCourse = model.getCourseById(getArguments().getInt(ARG_COURSE_ID));
+            // mShelter = model.getShelterById(getArguments().getInt(ARG_COURSE_ID));
             mShelter = model.getCurrentShelter();
 
-            this.shelterDetails.setText(mShelter.toString());
-            //Log.d("CourseDetailFragment", "Passing over course: " + mShelter);
-            //Log.d("CourseDetailFragment", "Got students: " + mShelter.getStudents().size());
+            this.shelterDetails.setText("Dummy Text");
+            //this.shelterDetails.setText(mShelter.toString());
+            Log.d("ShelterDetailFragment", "Passing over shelter: " + mShelter);
 
             Activity activity = this.getActivity();
 
-            /*CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-            if (appBarLayout != null) {
-                appBarLayout.setTitle(mShelter.toString());
-            } */
         }
 
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        Log.d("hssooo", "WE HAVE REACHED THE onCreateView");
+        View view = inflater.inflate(R.layout.shelter_detail_fragment, container, false);
+        shelterDetails = (TextView) view.findViewById(R.id.shelterDetailsText);
+        return view;
     }
 
 
