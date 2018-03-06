@@ -9,6 +9,7 @@ import android.content.Context;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.ArrayList;
 
@@ -24,6 +25,8 @@ public class ShelterDatabase {
     private SparseArray<Shelter> _ShelterList;
     private Shelter _currentShelter;
     private boolean _jsonReadDone;
+    private HashSet<String> _allRestrictions;
+    private HashSet<String> _allNotes;
 
     public static ShelterDatabase getInstance() {
         return ourInstance;
@@ -33,6 +36,8 @@ public class ShelterDatabase {
         this._ShelterList = new SparseArray<Shelter>();
         //this._initTestDatabase();
         this._jsonReadDone = false;
+        this._allRestrictions = new HashSet<>();
+        this._allNotes = new HashSet<>();
     }
 
     /**
@@ -41,6 +46,10 @@ public class ShelterDatabase {
      */
     public Shelter getCurrentShelter() { return _currentShelter;}
 
+    public Shelter getShelterByID(int id){
+        return _ShelterList.get(id);
+    }
+
     public void setCurrentShelter(Shelter shelter) { _currentShelter = shelter; }
 
     public boolean addShelter(Shelter s){
@@ -48,12 +57,22 @@ public class ShelterDatabase {
             return false; //duplicate
         }
         _ShelterList.append(s.getUID(), s);
+        this._allRestrictions.add(s.getRestrictions());
+        this._allNotes.addAll(s.getNotes());
         return true;
     }
 
     public int getNextShelterID(){
         //For shelter addition without manual UID
         return _ShelterList.keyAt(_ShelterList.size()-1) + 1;
+    }
+
+    public HashSet<String> getAllRestrictions(){
+        return _allRestrictions;
+    }
+
+    public HashSet<String> getAllNotes(){
+        return _allNotes;
     }
 
     public ArrayList<Shelter> getShelterList(){ //Copy the content of this function for filtering implementations.

@@ -1,5 +1,7 @@
 package edu.gatech.cs2340.eggos.Model.User;
 
+import edu.gatech.cs2340.eggos.Model.Shelter.Shelter;
+
 /**
  * User object
  * Setters will return true if successful, false if failed.
@@ -13,6 +15,7 @@ public class User {
     private final String _Username;
     private String _Password;
     private UserTypeEnum _UserType;
+    private Shelter _currentShelter;
 
     public User(String username, String password, UserTypeEnum type){
         this._Username = username;
@@ -50,4 +53,14 @@ public class User {
     public int hashCode(){ //For HashSet use
         return this._Username.hashCode();
     }
+
+    public boolean setShelter(Shelter s) {
+        this._currentShelter = s;
+        return true;
+    }
+
+    public Shelter getShelter(){
+        return _currentShelter;
+    }
+
 }
