@@ -5,13 +5,10 @@ package edu.gatech.cs2340.eggos.UI_activity;
  */
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.app.AppCompatActivity;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,7 +65,7 @@ public class ShelterDetailFragment extends Fragment {
             // mShelter = model.getShelterById(getArguments().getInt(ARG_COURSE_ID));
             mShelter = model.getCurrentShelter();
 
-            this.shelterDetails.setText("Dummy Text");
+            //this.shelterDetails.setText("Dummy Text");
             //this.shelterDetails.setText(mShelter.toString());
             Log.d("ShelterDetailFragment", "Passing over shelter: " + mShelter);
 
@@ -84,9 +81,17 @@ public class ShelterDetailFragment extends Fragment {
         // Inflate the layout for this fragment
         Log.d("hssooo", "WE HAVE REACHED THE onCreateView");
         View view = inflater.inflate(R.layout.shelter_detail_fragment, container, false);
-        shelterDetails = (TextView) view.findViewById(R.id.shelterDetailsText);
+        //this.shelterDetails = (TextView) view.findViewById(R.id.shelterDetailsText);
         return view;
     }
 
+    @Override
+    public void onStart(){
+        super.onStart();
+        Log.e("hssooo", "at onStart");
+        //this.usrInfoText.setText(UserHolder.getInstance().getUser().toString());
+        this.shelterDetails = getView().findViewById(R.id.shelterDetailsText);
+        this.shelterDetails.setText(mShelter.toString());
+    }
 
 }

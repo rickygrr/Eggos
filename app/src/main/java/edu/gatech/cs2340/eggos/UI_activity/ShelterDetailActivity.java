@@ -72,7 +72,7 @@ public class ShelterDetailActivity extends AppCompatActivity {
             fragment.setArguments(arguments);
             Log.d("hi", "Reached Bottom of no savedInstance STate");
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.textView4, fragment)
+                    .add(fragment, "blah")
                     .commit();
         }
 
