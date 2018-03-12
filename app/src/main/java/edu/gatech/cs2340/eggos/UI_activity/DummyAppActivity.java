@@ -13,7 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -138,7 +137,10 @@ public class DummyAppActivity extends AppCompatActivity {
                     pass along the id of the course so we can retrieve the correct data in
                     the next window
                  */
-                intent.putExtra(ShelterDetailFragment.SHELTER_UID, holder.mShelter.getUID());
+
+                Bundle b = new Bundle();
+                b.putInt("uid", holder.mShelter.getUID());
+                intent.putExtras(b);
 
                 model.setCurrentShelter(holder.mShelter);
                 //now just display the new window

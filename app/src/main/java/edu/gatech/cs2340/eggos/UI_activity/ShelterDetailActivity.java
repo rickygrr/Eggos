@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import edu.gatech.cs2340.eggos.Model.Shelter.Shelter;
 import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase;
@@ -25,30 +26,8 @@ public class ShelterDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("hi", "Reached AAAShelterDetailActivity");
         setContentView(R.layout.activity_shelter_detail);
-        Log.d("hi", "Reached ShelterDetailActivity");
 
-
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
-        //setSupportActionBar(toolbar);
-
-        /* FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Creating a new Student", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                Intent intent = new Intent(getBaseContext(), EditStudentActivity.class);
-                startActivity(intent);
-            }
-        }); */
-
-        // Show the Up button in the action bar.
-        /* ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        } */
 
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activityz
@@ -59,21 +38,36 @@ public class ShelterDetailActivity extends AppCompatActivity {
         //
         // http://developer.android.com/guide/components/fragments.html
         //
-        Log.d("hi", "Reached Before of no savedInstance STate");
-        assert savedInstanceState == null;
         if (savedInstanceState == null) {
-            // Create the detail fragment and add it to the activity
             Log.d("hi", "Reached Top of no savedInstance STate");
-            Bundle arguments = new Bundle();
-            arguments.putInt(ShelterDetailFragment.SHELTER_UID,
-                    getIntent().getIntExtra(ShelterDetailFragment.SHELTER_UID, 0));
+            Bundle b = getIntent().getExtras();
+            int uid = b.getInt("uid");
 
-            ShelterDetailFragment fragment = new ShelterDetailFragment();
+            Shelter currShelter = ShelterDatabase.getInstance().getShelterByID(uid);
+
+            TextView ShelterDetails = (TextView) findViewById(R.id.shelterDetailsTextView);
+            String coord = "";
+            for(int i = 0; i<currShelter.getCoord().length; i++) {
+                coord += currShelter.getCoord()[i] + ", ";
+            }
+            String details = "Name: " + currShelter.toString()
+                    + "\n" + "Capacity: " + currShelter.getMaxCap()
+                    + "\n" + "Restrictions: " + currShelter.getRestrictions()
+                    + "\n" + "Coordinates: " + coord
+                    + "\n" + "Address " + currShelter.getAddr()
+                    + "\n" + "Phone Number " + currShelter.getPhone();
+
+            ShelterDetails.setText(details);
+
+            /* arguments.putInt(ShelterDetailFragment.SHELTER_UID,
+                    getIntent().getIntExtra(ShelterDetailFragment.SHELTER_UID, 0)); */
+
+            /*ShelterDetailFragment fragment = new ShelterDetailFragment();
             fragment.setArguments(arguments);
             Log.d("hi", "Reached Bottom of no savedInstance STate");
             getSupportFragmentManager().beginTransaction()
                     .add(fragment, "blah")
-                    .commit();
+                    .commit(); */
         }
 
 

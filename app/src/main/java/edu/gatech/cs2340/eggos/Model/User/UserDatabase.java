@@ -54,6 +54,7 @@ public class UserDatabase {
 
     public void _initTestDatabase(){ //Fake database for debugging only
         this.addUser(new User("Monika","JustMonika",UserTypeEnum.ADMIN));// Just Monika [ok]
+        this.addUser(new User("a","b",UserTypeEnum.ADMIN));
         this.addUser(new User("homelessdude","password",UserTypeEnum.USER));
         this.addUser(new User("shelterguy","gimmeshelter",UserTypeEnum.EMPLOYEE)); //Denzel Washington rolling over an MD-80 not included.
     }
