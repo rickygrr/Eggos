@@ -47,7 +47,7 @@ public class ShelterDetailActivity extends AppCompatActivity {
 
             TextView ShelterDetails = (TextView) findViewById(R.id.shelterDetailsTextView);
             String coord = "";
-            for(int i = 0; i<currShelter.getCoord().length; i++) {
+            for(int i = 0; i < currShelter.getCoord().length; i++) {
                 coord += currShelter.getCoord()[i] + ", ";
             }
             String details = "Name: " + currShelter.toString()

@@ -15,9 +15,11 @@ import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-
+import android.widget.Filter;
+import android.widget.Filterable;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import edu.gatech.cs2340.eggos.Model.Shelter.Shelter;
 import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase;
@@ -76,12 +78,13 @@ public class DummyAppActivity extends AppCompatActivity {
      * In this case, we are just mapping the toString of the Course object to a text field.
      */
     public class SimpleShelterRecyclerViewAdapter
-            extends RecyclerView.Adapter<SimpleShelterRecyclerViewAdapter.ViewHolder> {
+            extends RecyclerView.Adapter<SimpleShelterRecyclerViewAdapter.ViewHolder> implements Filterable {
 
         /**
          * Collection of the items to be shown in this list.
          */
         private final List<Shelter> mShelters;
+        private List<Shelter> mFiltered;
 
         /**
          * set the items to be used by the adapter
@@ -89,7 +92,9 @@ public class DummyAppActivity extends AppCompatActivity {
          * @param items the list of items to be displayed in the recycler view
          */
         public SimpleShelterRecyclerViewAdapter(List<Shelter> items) {
+
             mShelters = items;
+            mFiltered = items;
         }
 
         @Override
@@ -152,6 +157,45 @@ public class DummyAppActivity extends AppCompatActivity {
         @Override
         public int getItemCount() {
             return mShelters.size();
+        }
+
+        @Override
+        public Filter getFilter() {
+
+            return new Filter() {
+                @Override
+                protected FilterResults performFiltering(CharSequence charSequence) {
+
+                    String charString = charSequence.toString();
+
+                    if (charString.isEmpty()) {
+                        mFiltered = mShelters;
+                    } else {
+
+                        List<Shelter> filteredList = new ArrayList<Shelter>();
+
+                        for (Shelter shelter : mShelters) {
+
+                            if (shelter.getName().toLowerCase().contains(charString) || shelter.getName().toLowerCase().contains(charString)) {
+
+                                filteredList.add(shelter);
+                            }
+                        }
+
+                        mFiltered = filteredList;
+                    }
+
+                    FilterResults filterResults = new FilterResults();
+                    filterResults.values = mFiltered;
+                    return filterResults;
+                }
+
+                @Override
+                protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                    mFiltered = (ArrayList<Shelter>) filterResults.values;
+                    notifyDataSetChanged();
+                }
+            };
         }
 
         /**
