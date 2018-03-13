@@ -26,6 +26,8 @@
         <activity android:name=".UI_activity.LoginActivity" />
         <activity android:name=".UI_activity.DummyAppActivity" />
         <activity android:name=".UI_activity.RegisterUserActivity" />
+        <activity android:name=".UI_activity.ShelterFilterChecklistActivity" />
+        <activity android:name=".UI_activity.ShelterFilterActivity" />
         <activity android:name=".UI_activity.ShelterDetailActivity" ></activity>
     </application>
 

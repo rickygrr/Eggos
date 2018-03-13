@@ -12,7 +12,7 @@ import edu.gatech.cs2340.eggos.Model.User.UserHolder;
 import edu.gatech.cs2340.eggos.R;
 
 /**
- * Created by Sheetal on 3/12/2018.
+ * Created by Vibhav on 3/12/2018.
  */
 
 public class ShelterFilterActivity extends AppCompatActivity {
