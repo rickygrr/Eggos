@@ -176,10 +176,7 @@ public class LoginActivity extends AppCompatActivity{
         }
     }
 
-    //TODO: remove hard coding of username and password
-
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
         return password.length() > 0;
     }
 }

@@ -16,19 +16,22 @@ public class Shelter {
     private Set<User> _Staying_user;
     private int _Staying_nonuser; //_Staying_User+_Staying_Nonuser = occupancy
     private String _Restrictions; //TODO: Maybe make restrictions their own class?
+    private Set<String> _Genders;
+    private Set<String> _Age;
     private Set<String> _Notes; //TODO: Maybe merge this with restriction?
     private double[] _coord;
     private String _Addr;
     private String _Phone;
 
-    public Shelter(int UID, String name, int capacity, String restrictions, Set<String> notes, double[] coord, String addr, String phone){
-        //TODO
+    public Shelter(int UID, String name, int capacity, String restrictions, Set<String> genders, Set<String> age, Set<String> notes, double[] coord, String addr, String phone){
         this._UID = UID;
         this._Name = name;
         this._Capacity_max = capacity;
         this._Staying_nonuser = 0;
         this._Staying_user = new HashSet<User>();
         this._Restrictions = restrictions;
+        this._Genders = genders;
+        this._Age = age;
         this._Notes = notes;
         this._coord = coord;
         this._Addr = addr;
@@ -84,6 +87,26 @@ public class Shelter {
     }
     public boolean removeNote(String res){
         return this._Notes.remove(res);
+    }
+
+    public Set<String> getGender(){
+        return _Genders;
+    }
+    public boolean addGender(String res){
+        return this._Genders.add(res);
+    }
+    public boolean removeGender(String res){
+        return this._Genders.remove(res);
+    }
+
+    public Set<String> getAge(){
+        return _Age;
+    }
+    public boolean addAge(String res){
+        return this._Age.add(res);
+    }
+    public boolean removeAge(String res){
+        return this._Age.remove(res);
     }
 
     public double[] getCoord() {

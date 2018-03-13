@@ -43,7 +43,6 @@ public class UserDatabase {
 
     public User getUser(String username, String password){
         //Only return user if password matches, null otherwise
-        //TODO
         User usr = this._getUser(username);
         if(usr != null && usr.checkPassword(password)){
             return usr;

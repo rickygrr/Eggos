@@ -53,6 +53,9 @@ public class ShelterDetailActivity extends AppCompatActivity {
             String details = "Name: " + currShelter.toString()
                     + "\n" + "Capacity: " + currShelter.getMaxCap()
                     + "\n" + "Restrictions: " + currShelter.getRestrictions()
+                    + "\n" + "Gender Restrictions: " + currShelter.getGender().toString()
+                    + "\n" + "Age Restrictions: " + currShelter.getAge().toString()
+                    + "\n" + "Notes: " + currShelter.getNotes().toString()
                     + "\n" + "Coordinates: " + coord
                     + "\n" + "Address " + currShelter.getAddr()
                     + "\n" + "Phone Number " + currShelter.getPhone();

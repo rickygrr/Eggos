@@ -1,7 +1,13 @@
 [
     {
         "Address": "921 Howell Mill Road, Atlanta, Georgia 30318",
+        "AgeRestriction": [
+            "Children"
+        ],
         "Capacity": 264,
+        "GenderRestriction": [
+            "Women"
+        ],
         "Lat": 33.780174,
         "Lon": -84.410142,
         "Name": "My Sister's House",
@@ -16,7 +22,13 @@
     },
     {
         "Address": "655 Ethel Street, Atlanta, Georgia 30318",
+        "AgeRestriction": [
+            "Children"
+        ],
         "Capacity": 140,
+        "GenderRestriction": [
+            "Women"
+        ],
         "Lat": 33.784889,
         "Lon": -84.408771,
         "Name": "The Atlanta Day Center for Women & Children",
@@ -29,7 +41,13 @@
     },
     {
         "Address": "156 Mills Street, Atlanta, Georgia 30313",
+        "AgeRestriction": [
+            "All age"
+        ],
         "Capacity": 450,
+        "GenderRestriction": [
+            "Men"
+        ],
         "Lat": 33.765162,
         "Lon": -84.39265,
         "Name": "The Shepherd's Inn",
@@ -43,7 +61,13 @@
     },
     {
         "Address": "144 Mills Street, Atlanta, Georgia 30313",
+        "AgeRestriction": [
+            "All age"
+        ],
         "Capacity": 92,
+        "GenderRestriction": [
+            "Men"
+        ],
         "Lat": 33.76515,
         "Lon": -84.392273,
         "Name": "Fuqua Hall",
@@ -56,7 +80,14 @@
     },
     {
         "Address": "607 Peachtree Street NE Atlanta, GA 30308",
+        "AgeRestriction": [
+            "Children"
+        ],
         "Capacity": 40,
+        "GenderRestriction": [
+            "Women",
+            "Men"
+        ],
         "Lat": 33.770949,
         "Lon": -84.384433,
         "Name": "Atlanta's Children Center",
@@ -70,7 +101,13 @@
     },
     {
         "Address": "1300 Joseph E. Boone Blvd NW, Atlanta, GA 30314",
+        "AgeRestriction": [
+            "Children"
+        ],
         "Capacity": 80,
+        "GenderRestriction": [
+            "Women"
+        ],
         "Lat": 33.762316,
         "Lon": -84.43023,
         "Name": "Eden Village",
@@ -84,7 +121,14 @@
     },
     {
         "Address": "173 Boulevard Northeast, Atlanta, GA 30312",
+        "AgeRestriction": [
+            "Family with newborns"
+        ],
         "Capacity": 76,
+        "GenderRestriction": [
+            "Women",
+            "Men"
+        ],
         "Lat": 33.759138,
         "Lon": -84.371706,
         "Name": "Our House",
@@ -99,7 +143,15 @@
     },
     {
         "Address": "1559 Johnson Road NW, Atlanta, GA 30318",
+        "AgeRestriction": [
+            "Children",
+            "Young adults"
+        ],
         "Capacity": 80,
+        "GenderRestriction": [
+            "Women",
+            "Men"
+        ],
         "Lat": 33.78823,
         "Lon": -84.437988,
         "Name": "Covenant House Georgia",
@@ -113,7 +165,14 @@
     },
     {
         "Address": "830 Boulevard SE, Atlanta, GA 30312",
+        "AgeRestriction": [
+            "All age"
+        ],
         "Capacity": -1,
+        "GenderRestriction": [
+            "Women",
+            "Men"
+        ],
         "Lat": 33.731823,
         "Lon": -84.367953,
         "Name": "Nicholas House",
@@ -126,7 +185,14 @@
     },
     {
         "Address": "34 Peachtree Street NW, Suite 700, Atlanta, GA 30303",
+        "AgeRestriction": [
+            "All age"
+        ],
         "Capacity": 22,
+        "GenderRestriction": [
+            "Women",
+            "Men"
+        ],
         "Lat": 33.753594,
         "Lon": -84.390429,
         "Name": "Hope Atlanta",
@@ -140,7 +206,13 @@
     },
     {
         "Address": "275 Pryor St. SW, Atlanta, GA 30303",
+        "AgeRestriction": [
+            "All age"
+        ],
         "Capacity": 330,
+        "GenderRestriction": [
+            "Men"
+        ],
         "Lat": 33.747618,
         "Lon": -84.394529,
         "Name": "Gateway Center",
@@ -153,7 +225,14 @@
     },
     {
         "Address": "1230 Hightower Road NW Atlanta, GA 30318",
+        "AgeRestriction": [
+            "Young adults"
+        ],
         "Capacity": 12,
+        "GenderRestriction": [
+            "Women",
+            "Men"
+        ],
         "Lat": 33.789157,
         "Lon": -84.470567,
         "Name": "Young Adult Guidance Center",
@@ -168,7 +247,14 @@
     },
     {
         "Address": "1800 Memorial Dr SE G3, Atlanta, GA 30317",
+        "AgeRestriction": [
+            "All age"
+        ],
         "Capacity": -1,
+        "GenderRestriction": [
+            "Women",
+            "Men"
+        ],
         "Lat": 33.747641,
         "Lon": -84.328691,
         "Name": "Homes of Light",

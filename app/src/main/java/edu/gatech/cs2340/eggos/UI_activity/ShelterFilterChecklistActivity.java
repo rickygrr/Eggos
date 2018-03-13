@@ -5,9 +5,12 @@ package edu.gatech.cs2340.eggos.UI_activity;
  */
 
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 import android.app.Activity;
+import android.app.LauncherActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,60 +33,84 @@ import edu.gatech.cs2340.eggos.R;
 
 public class ShelterFilterChecklistActivity extends Activity {
 
-    MyCustomAdapter dataAdapter = null;
-
+    MyCustomAdapter genderAdapter = null;
+    MyCustomAdapter ageAdapter = null;
+    TextView textNameSearch = null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.checklist_filter_layout);
-
+        textNameSearch = (TextView) findViewById(R.id.textNameSearch);
         //Generate list View from ArrayList
         displayListView();
-
         checkButtonClick();
 
     }
 
     private void displayListView() {
-
-        //Array list of countries
-        ArrayList<String> restrictionList = new ArrayList<String>();
-        restrictionList.add("Male");
-        restrictionList.add("Female");
-        restrictionList.add("Other");
-        restrictionList.add("Family with Newborns");
-        restrictionList.add("Children");
-        restrictionList.add("Young Adults");
-        restrictionList.add("Anyone");
-
-
         //create an ArrayAdaptar from the String Array
-        dataAdapter = new MyCustomAdapter(this,
-                R.layout.shelter_info, restrictionList);
-        ListView listView = (ListView) findViewById(R.id.listView1);
+        genderAdapter = new MyCustomAdapter(this,
+                R.layout.shelter_info, str2list(ShelterDatabase.getInstance().getGenderRestrictions()));
+        ListView listViewGender = (ListView) findViewById(R.id.listViewGenderRestrictions);
         // Assign adapter to ListView
-        listView.setAdapter(dataAdapter);
-
-
-        listView.setOnItemClickListener(new OnItemClickListener() {
+        listViewGender.setAdapter(genderAdapter);
+        listViewGender.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 // When clicked, log a message
-                String restriction = (String) parent.getItemAtPosition(position);
-                Log.d("call", "Clicked on " + restriction);
+                ListItem restriction = (ListItem) parent.getItemAtPosition(position);
+                Log.d("call", "Clicked on " + restriction.toString());
+            }
+        });
+
+        ageAdapter = new MyCustomAdapter(this,
+                R.layout.shelter_info, str2list(ShelterDatabase.getInstance().getAgeRestrictions()));
+        ListView listViewAge = (ListView) findViewById(R.id.listViewAgeRestrictions);
+        // Assign adapter to ListView
+        listViewAge.setAdapter(ageAdapter);
+        listViewAge.setOnItemClickListener(new OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                // When clicked, log a message
+                ListItem restriction = (ListItem) parent.getItemAtPosition(position);
+                Log.d("call", "Clicked on " + restriction.toString());
             }
         });
 
     }
 
-    private class MyCustomAdapter extends ArrayAdapter<String> {
+    private class ListItem {
+        public String str;
+        public boolean selected;
+        public ListItem(String str){
+            this.str = str;
+            this.selected = false;
+        }
+        public String toString(){
+            return str;
+        }
+        public boolean isSelected(){
+            return selected;
+        }
+        public void setSelected(boolean s){
+            this.selected = s;
+        }
+    }
 
-        private ArrayList<String> restrictionList;
+    private ArrayList<ListItem> str2list (ArrayList<String> strArr){
+        ArrayList<ListItem> out = new ArrayList<>();
+        for (String s: strArr){
+            out.add(new ListItem(s));
+        }
+        return out;
+    }
 
+    private class MyCustomAdapter extends ArrayAdapter<ListItem> {
+        private ArrayList<ListItem> restrictionList;
         public MyCustomAdapter(Context context, int textViewResourceId,
-                               ArrayList<String> restrictionList) {
+                               ArrayList<ListItem> restrictionList) {
             super(context, textViewResourceId, restrictionList);
-            this.restrictionList = new ArrayList<String>();
+            this.restrictionList = new ArrayList<ListItem>();
             this.restrictionList.addAll(restrictionList);
         }
 
@@ -107,22 +134,21 @@ public class ShelterFilterChecklistActivity extends Activity {
                 //holder.code = (TextView) convertView.findViewById(R.id.code);
                 holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
                 convertView.setTag(holder);
-
-                /* holder.name.setOnClickListener( new View.OnClickListener() {
+                holder.name.setOnClickListener( new View.OnClickListener() {
                     public void onClick(View v) {
                         CheckBox cb = (CheckBox) v ;
-                        String restriction = (String) cb.getTag();
+                        ListItem restriction = (ListItem) cb.getTag();
                         restriction.setSelected(cb.isChecked());
                     }
-                }); */
+                });
             }
             else {
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            String restriction = restrictionList.get(position);
+            ListItem restriction = restrictionList.get(position);
             //holder.code.setText(" (" +  country.getCode() + ")");
-            holder.name.setText(restriction);
+            holder.name.setText(restriction.toString());
            // holder.name.setChecked(country.isSelected());
             holder.name.setTag(restriction);
 
@@ -133,30 +159,45 @@ public class ShelterFilterChecklistActivity extends Activity {
     }
 
     private void checkButtonClick() {
-
-
-        /* Button myButton = (Button) findViewById(R.id.findSelected);
+        Button myButton = (Button) findViewById(R.id.findSelected);
         myButton.setOnClickListener(new OnClickListener() {
-
             @Override
             public void onClick(View v) {
-
                 StringBuffer responseText = new StringBuffer();
-                responseText.append("The following were selected...\n");
+                responseText.append("The following gender were selected...");
 
-                ArrayList<Country> countryList = dataAdapter.countryList;
-                for(int i=0;i<countryList.size();i++){
-                    Country country = countryList.get(i);
-                    if(country.isSelected()){
-                        responseText.append("\n" + country.getName());
+                ArrayList<ListItem> genderList = genderAdapter.restrictionList;
+                ArrayList<String> selectedGender = new ArrayList<>();
+                for(int i=0;i<genderList.size();i++){
+                    ListItem g = genderList.get(i);
+                    if(g.isSelected()){
+                        responseText.append("\n" + g.toString());
+                        selectedGender.add(g.toString());
                     }
                 }
 
-                Toast.makeText(getApplicationContext(),
-                        responseText, Toast.LENGTH_LONG).show();
+                responseText.append("\nThe following age were selected...");
+
+                ArrayList<ListItem> ageList = ageAdapter.restrictionList;
+                ArrayList<String> selectedAge = new ArrayList<>();
+                for(int i=0;i<ageList.size();i++){
+                    ListItem a = ageList.get(i);
+                    if(a.isSelected()){
+                        responseText.append("\n" + a.toString());
+                        selectedAge.add(a.toString());
+                    }
+                }
+                Log.d("call", "Clicked on " + responseText);
+
+                Intent intent = new Intent();
+                intent.putExtra("name", textNameSearch.getText().toString());
+                intent.putExtra("gender", selectedGender);
+                intent.putExtra("age", selectedAge);
+                setResult(RESULT_OK, intent);
+                finish();
 
             }
-        }); */
+        });
 
     }
 

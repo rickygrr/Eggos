@@ -11,7 +11,7 @@ import json
 import pprint
 
 json_out = open('shelter.json','w')
-f_in = open('Homeless Shelter Database.csv','r')
+f_in = open('Homeless Shelter Database2.csv','r')
 
 def parse_notes(in_str):
     #return list of notes
@@ -23,12 +23,14 @@ csv_col = {
     'UID':  (0, int),
     'Name': (1, str),
     'Capacity': (2, int),
-    'Restriction': (3, str),
-    'Lon': (4, float),
-    'Lat': (5, float),
-    'Address': (6, str),
-    'Notes': (7, parse_notes),
-    'Phone': (8, str)
+    'GenderRestriction': (3, parse_notes),
+    'AgeRestriction': (4, parse_notes),
+    'Restriction': (5, str),
+    'Lon': (6, float),
+    'Lat': (7, float),
+    'Address': (8, str),
+    'Notes': (9, parse_notes),
+    'Phone': (10, str)
 }
 shelter_list = []
 

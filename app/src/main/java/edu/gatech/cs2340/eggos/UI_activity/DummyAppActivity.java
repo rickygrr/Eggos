@@ -23,17 +23,29 @@ import java.util.ArrayList;
 
 import edu.gatech.cs2340.eggos.Model.Shelter.Shelter;
 import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase;
+import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabaseFilter;
 import edu.gatech.cs2340.eggos.Model.User.UserHolder;
 import edu.gatech.cs2340.eggos.R;
 
 public class DummyAppActivity extends AppCompatActivity {
 
+    static final int SELECT_FILTER_REQUEST = 1;
     TextView usrInfoText;
+    View recyclerView;
+    ShelterDatabaseFilter filter = ShelterDatabase.SHOW_ALL_FILTER;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.filter = ShelterDatabase.SHOW_ALL_FILTER;
         setContentView(R.layout.activity_dummy_app);
+
+        //Step 1.  Setup the recycler view by getting it from our layout in the main window
+        this.recyclerView = findViewById(R.id.shelter_list_dummy);
+        assert recyclerView != null;
+        //Step 2.  Hook up the adapter to the view
+        setupRecyclerView((RecyclerView) recyclerView, filter);
+
         Button mLogoutButton = (Button) findViewById(R.id.dummy_button_logout);
         mLogoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,27 +60,74 @@ public class DummyAppActivity extends AppCompatActivity {
             }
         });
 
-        /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setTitle("Shelter List"); */
+        Button mFilterButton = (Button) findViewById(R.id.dummy_button_filter);
+        mFilterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //fire an intent to go to login page
+                //UserHolder.getInstance().logout();
+                Context context = view.getContext();
+                Intent intent = new Intent(context, ShelterFilterChecklistActivity.class);
+                startActivityForResult(intent, SELECT_FILTER_REQUEST);
+                //finish();
+            }
+        });
 
-        //this.usrInfoText = (TextView) findViewById(R.id.userInfoText);
-        //this.usrInfoText.setText(UserHolder.getInstance().getUser().toString());
+        Button mRstFilterButton = (Button) findViewById(R.id.dummy_button_rst_filter);
+        mRstFilterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            filter = ShelterDatabase.SHOW_ALL_FILTER;
+            //TODO: Re-generate recycler view
+            setupRecyclerView((RecyclerView) recyclerView, filter);
+            }
+        });
 
-        //Step 1.  Setup the recycler view by getting it from our layout in the main window
-        View recyclerView = findViewById(R.id.shelter_list_dummy);
-        assert recyclerView != null;
-        //Step 2.  Hook up the adapter to the view
-        setupRecyclerView((RecyclerView) recyclerView);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == SELECT_FILTER_REQUEST && resultCode == RESULT_OK) {
+            final String name = data.getStringExtra("name");
+            final ArrayList<String> gender = data.getStringArrayListExtra("gender");
+            final ArrayList<String> age = data.getStringArrayListExtra("age");
+            //TODO: Make ShelterDatabaseFilter a real class
+            this.filter = new ShelterDatabaseFilter() {
+                @Override
+                public boolean keepShelter(Shelter s) {
+                    //check name
+                    if(!s.getName().toLowerCase().contains(name.toLowerCase())){
+                        return false;
+                    }
+                    for (String g: gender){
+                        if(!s.getGender().contains(g)) {
+                            return false;
+                        }
+                    }
+                    for (String a: age){
+                        if(!s.getAge().contains(a)) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+            };
+        } else {
+            this.filter = ShelterDatabase.SHOW_ALL_FILTER;
+        }
+        //regenerate recyclerview
+        setupRecyclerView((RecyclerView) recyclerView, filter);
+    }
+
+
 
     /**
      * Set up an adapter and hook it to the provided view
      * @param recyclerView  the view that needs this adapter
      */
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+    private void setupRecyclerView(@NonNull RecyclerView recyclerView, ShelterDatabaseFilter filter) {
         ShelterDatabase model = ShelterDatabase.getInstance();
-        recyclerView.setAdapter(new SimpleShelterRecyclerViewAdapter(model.getShelterList()));
+        recyclerView.setAdapter(new SimpleShelterRecyclerViewAdapter(model.getFilteredShelterList(filter)));
     }
 
     /**
