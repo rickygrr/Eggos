@@ -5,10 +5,8 @@ package edu.gatech.cs2340.eggos.UI_activity;
  */
 
 import java.util.ArrayList;
-import java.util.ListIterator;
 
 import android.app.Activity;
-import android.app.LauncherActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,9 +23,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
-import edu.gatech.cs2340.eggos.Model.Shelter.Shelter;
-import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase;
-import edu.gatech.cs2340.eggos.Model.User.UserHolder;
+import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabaseInterface;
+import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase_local;
 import edu.gatech.cs2340.eggos.R;
 
 
@@ -36,10 +33,12 @@ public class ShelterFilterChecklistActivity extends Activity {
     MyCustomAdapter genderAdapter = null;
     MyCustomAdapter ageAdapter = null;
     TextView textNameSearch = null;
+    ShelterDatabaseInterface ShelterDBInstance;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.checklist_filter_layout);
+        ShelterDBInstance = ShelterDatabase_local.getInstance();
         textNameSearch = (TextView) findViewById(R.id.textNameSearch);
         //Generate list View from ArrayList
         displayListView();
@@ -50,7 +49,7 @@ public class ShelterFilterChecklistActivity extends Activity {
     private void displayListView() {
         //create an ArrayAdaptar from the String Array
         genderAdapter = new MyCustomAdapter(this,
-                R.layout.shelter_info, str2list(ShelterDatabase.getInstance().getGenderRestrictions()));
+                R.layout.shelter_info, str2list(ShelterDBInstance.getGenderRestrictions()));
         ListView listViewGender = (ListView) findViewById(R.id.listViewGenderRestrictions);
         // Assign adapter to ListView
         listViewGender.setAdapter(genderAdapter);
@@ -64,7 +63,7 @@ public class ShelterFilterChecklistActivity extends Activity {
         });
 
         ageAdapter = new MyCustomAdapter(this,
-                R.layout.shelter_info, str2list(ShelterDatabase.getInstance().getAgeRestrictions()));
+                R.layout.shelter_info, str2list(ShelterDBInstance.getAgeRestrictions()));
         ListView listViewAge = (ListView) findViewById(R.id.listViewAgeRestrictions);
         // Assign adapter to ListView
         listViewAge.setAdapter(ageAdapter);

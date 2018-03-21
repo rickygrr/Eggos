@@ -7,22 +7,22 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
 
 import java.io.IOException;
+import java.io.InputStream;
 
-import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase;
-import edu.gatech.cs2340.eggos.Model.User.UserTypeEnum;
+import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabaseInterface;
+import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase_local;
 import edu.gatech.cs2340.eggos.R;
 
 public class SplashScreenActivity extends AppCompatActivity {
-
+    ShelterDatabaseInterface ShelterDBInstance;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+        ShelterDBInstance = ShelterDatabase_local.getInstance();
         Button mSignInButton = (Button) findViewById(R.id.splash_login_button);
         Button mRegisterButton = (Button) findViewById(R.id.splash_register_button);
         mSignInButton.setOnClickListener(new View.OnClickListener() {
@@ -45,11 +45,12 @@ public class SplashScreenActivity extends AppCompatActivity {
             }
         });
 
-        //Now run ShelterDatabase load trigger
+        //Now run ShelterDatabase_local load trigger
         try {
-            ShelterDatabase.getInstance().initFromJSON(this.getApplicationContext());
+            InputStream f_in = this.getApplicationContext().getResources().openRawResource(R.raw.shelter);
+            ShelterDBInstance.initFromJSON(f_in);
         } catch (IOException e){
-            ShelterDatabase.getInstance()._initTestDatabase();
+            ShelterDBInstance._initTestDatabase();
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.setTitle("Database load failed");
             alertDialog.setMessage("Debug data loaded instead.");

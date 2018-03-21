@@ -2,19 +2,14 @@ package edu.gatech.cs2340.eggos.UI_activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
 import edu.gatech.cs2340.eggos.Model.Shelter.Shelter;
-import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase;
-import edu.gatech.cs2340.eggos.Model.User.UserHolder;
+import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabaseInterface;
+import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase_local;
 import edu.gatech.cs2340.eggos.R;
 
 /**
@@ -23,12 +18,13 @@ import edu.gatech.cs2340.eggos.R;
 
 public class ShelterDetailActivity extends AppCompatActivity {
     //public static final String SHELTER_UID = "shelter_uid";
+    private ShelterDatabaseInterface ShelterDBInstance;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shelter_detail);
 
-
+        ShelterDBInstance = ShelterDatabase_local.getInstance();
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activityz
         // (e.g. when rotating the screen from portrait to landscape).
@@ -43,7 +39,7 @@ public class ShelterDetailActivity extends AppCompatActivity {
             Bundle b = getIntent().getExtras();
             int uid = b.getInt("uid");
 
-            Shelter currShelter = ShelterDatabase.getInstance().getShelterByID(uid);
+            Shelter currShelter = ShelterDBInstance.getShelterByID(uid);
 
             TextView ShelterDetails = (TextView) findViewById(R.id.shelterDetailsTextView);
             String coord = "";

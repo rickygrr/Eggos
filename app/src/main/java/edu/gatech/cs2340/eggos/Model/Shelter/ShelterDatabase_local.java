@@ -1,30 +1,23 @@
 package edu.gatech.cs2340.eggos.Model.Shelter;
 
 import android.util.JsonReader;
-import android.util.JsonToken;
 import android.util.SparseArray;
-import android.content.res.Resources;
-import android.content.Context;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.ArrayList;
-import java.util.Set;
-
-import edu.gatech.cs2340.eggos.R;
 
 /**
  * Created by chateau86 on 26-Feb-18.
  */
 
-public class ShelterDatabase {
-    private static final ShelterDatabase ourInstance = new ShelterDatabase();
+public class ShelterDatabase_local implements ShelterDatabaseInterface{
+
+    private static final ShelterDatabase_local ourInstance = new ShelterDatabase_local();
 
     private SparseArray<Shelter> _ShelterList;
-    private Shelter _currentShelter;
     private boolean _jsonReadDone;
     private HashSet<String> _allRestrictions;
     private HashSet<String> _allGenderRestrictions;
@@ -38,11 +31,11 @@ public class ShelterDatabase {
         }
     };
 
-    public static ShelterDatabase getInstance() {
+    public static ShelterDatabase_local getInstance() {
         return ourInstance;
     }
 
-    private ShelterDatabase() {
+    private ShelterDatabase_local() {
         this._ShelterList = new SparseArray<Shelter>();
         //this._initTestDatabase();
         this._jsonReadDone = false;
@@ -52,17 +45,9 @@ public class ShelterDatabase {
         this._allNotes = new HashSet<>();
     }
 
-    /**
-     *
-     * @return  the currently selected course
-     */
-    public Shelter getCurrentShelter() { return _currentShelter;}
-
     public Shelter getShelterByID(int id){
         return _ShelterList.get(id);
     }
-
-    public void setCurrentShelter(Shelter shelter) { _currentShelter = shelter; }
 
     public boolean addShelter(Shelter s){
         if(_ShelterList.get(s.getUID()) != null){
@@ -131,12 +116,12 @@ public class ShelterDatabase {
         this.addShelter(new Shelter(1,"Test Shelter 2", 420, "blah", new HashSet<String>(){}, new HashSet<String>(){}, new HashSet<String>(){}, new double[]{123.0,45.0}, "124 Fake St.\n 42069", "531-8008" ));
     }
 
-    public void initFromJSON(Context cont)throws IOException {
+    public void initFromJSON(InputStream f_in)throws IOException {
         if (_jsonReadDone){
             return;
         }
         _jsonReadDone = true;
-        InputStream f_in = cont.getResources().openRawResource(R.raw.shelter);
+        //InputStream f_in = cont.getResources().openRawResource(R.raw.shelter);
         JsonReader reader = new JsonReader(new InputStreamReader(f_in, "UTF-8"));
         reader.beginArray();
         while(reader.hasNext()){

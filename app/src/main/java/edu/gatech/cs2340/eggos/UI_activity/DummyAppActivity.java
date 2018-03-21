@@ -9,10 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Filter;
@@ -22,8 +19,9 @@ import java.util.List;
 import java.util.ArrayList;
 
 import edu.gatech.cs2340.eggos.Model.Shelter.Shelter;
-import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase;
+import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase_local;
 import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabaseFilter;
+import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabaseInterface;
 import edu.gatech.cs2340.eggos.Model.User.UserHolder;
 import edu.gatech.cs2340.eggos.R;
 
@@ -32,12 +30,13 @@ public class DummyAppActivity extends AppCompatActivity {
     static final int SELECT_FILTER_REQUEST = 1;
     TextView usrInfoText;
     View recyclerView;
-    ShelterDatabaseFilter filter = ShelterDatabase.SHOW_ALL_FILTER;
+    ShelterDatabaseInterface ShelterDBInstance = ShelterDatabase_local.getInstance();
+    ShelterDatabaseFilter filter = ShelterDatabase_local.SHOW_ALL_FILTER;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.filter = ShelterDatabase.SHOW_ALL_FILTER;
+        this.filter = ShelterDBInstance.SHOW_ALL_FILTER;
         setContentView(R.layout.activity_dummy_app);
 
         //Step 1.  Setup the recycler view by getting it from our layout in the main window
@@ -77,7 +76,7 @@ public class DummyAppActivity extends AppCompatActivity {
         mRstFilterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            filter = ShelterDatabase.SHOW_ALL_FILTER;
+            filter = ShelterDatabase_local.SHOW_ALL_FILTER;
             //TODO: Re-generate recycler view
             setupRecyclerView((RecyclerView) recyclerView, filter);
             }
@@ -113,7 +112,7 @@ public class DummyAppActivity extends AppCompatActivity {
                 }
             };
         } else {
-            this.filter = ShelterDatabase.SHOW_ALL_FILTER;
+            this.filter = ShelterDatabase_local.SHOW_ALL_FILTER;
         }
         //regenerate recyclerview
         setupRecyclerView((RecyclerView) recyclerView, filter);
@@ -126,8 +125,8 @@ public class DummyAppActivity extends AppCompatActivity {
      * @param recyclerView  the view that needs this adapter
      */
     private void setupRecyclerView(@NonNull RecyclerView recyclerView, ShelterDatabaseFilter filter) {
-        ShelterDatabase model = ShelterDatabase.getInstance();
-        recyclerView.setAdapter(new SimpleShelterRecyclerViewAdapter(model.getFilteredShelterList(filter)));
+        //ShelterDatabase model = ShelterDatabase.getInstance();
+        recyclerView.setAdapter(new SimpleShelterRecyclerViewAdapter(ShelterDBInstance.getFilteredShelterList(filter)));
     }
 
     /**
@@ -172,7 +171,7 @@ public class DummyAppActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
 
-            final ShelterDatabase model = ShelterDatabase.getInstance();
+            //final ShelterDatabase model = ShelterDBInstance;
             /*
             This is where we have to bind each data element in the list (given by position parameter)
             to an element in the view (which is one of our two TextView widgets
@@ -206,7 +205,7 @@ public class DummyAppActivity extends AppCompatActivity {
                 b.putInt("uid", holder.mShelter.getUID());
                 intent.putExtras(b);
 
-                model.setCurrentShelter(holder.mShelter);
+                //model.setCurrentShelter(holder.mShelter);
                 //now just display the new window
                 context.startActivity(intent);
                 }

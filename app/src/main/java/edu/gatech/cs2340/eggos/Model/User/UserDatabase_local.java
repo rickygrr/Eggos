@@ -6,15 +6,15 @@ import java.util.ArrayList;
  * Created by chateau86 on 14-Feb-18.
  */
 
-public class UserDatabase {
-    private static final UserDatabase ourInstance = new UserDatabase();
-    public static UserDatabase getInstance() {
+public class UserDatabase_local implements UserDatabaseInterface {
+    private static final UserDatabase_local ourInstance = new UserDatabase_local();
+    public static UserDatabase_local getInstance() {
         return ourInstance;
     }
 
     private ArrayList<User> _Userlist;
 
-    private UserDatabase() {
+    private UserDatabase_local() {
        this. _Userlist = new ArrayList<User>();
        this._initTestDatabase(); //TODO: Replace with database read or something
     }

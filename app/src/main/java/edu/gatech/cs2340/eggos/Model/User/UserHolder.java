@@ -10,10 +10,12 @@ public class UserHolder {
     public static UserHolder getInstance() {
         return ourInstance;
     }
+    private UserDatabaseInterface _UserDBInstance;
 
     private User _currentUser;
     private UserHolder() {
         this._currentUser = null; //Might default to guest when we implement guest.
+        this._UserDBInstance = UserDatabase_local.getInstance();
     }
 
     private boolean _setUser(User usr){
@@ -26,7 +28,7 @@ public class UserHolder {
     }
 
     public boolean login(String username, String password){
-        User usr = UserDatabase.getInstance().getUser(username, password);
+        User usr = this._UserDBInstance.getUser(username, password);
         if (usr == null){
             return false;
         } else{
