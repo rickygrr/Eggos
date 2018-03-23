@@ -2,40 +2,53 @@ package edu.gatech.cs2340.eggos.UI_activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.EmailAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import edu.gatech.cs2340.eggos.Model.User.User;
-import edu.gatech.cs2340.eggos.Model.User.UserDatabaseInterface;
-import edu.gatech.cs2340.eggos.Model.User.UserDatabase_local;
 import edu.gatech.cs2340.eggos.Model.User.UserTypeEnum;
 import edu.gatech.cs2340.eggos.R;
 
 public class RegisterUserActivity extends AppCompatActivity {
 
-    UserDatabaseInterface UserDBInstance;
+    //UserDatabaseInterface UserDBInstance;
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
+    private Button mRegisterButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_user);
-        UserDBInstance = UserDatabase_local.getInstance();
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        mAuth.signOut();
+        //UserDBInstance = UserDatabase_local.getInstance();
         Button mRegisterButton = (Button) findViewById(R.id.register_register_button);
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(attemptRegister()) {
-                    //only go to login screen if success
-                    Context context = view.getContext();
-                    Intent intent = new Intent(context, LoginActivity.class);
-                    //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    context.startActivity(intent);
-                    finish();
-                }
+                attemptRegister();
             }
         });
         Button mCancelButton = (Button) findViewById(R.id.register_cancel_button);
@@ -62,11 +75,11 @@ public class RegisterUserActivity extends AppCompatActivity {
         EditText mPassword = (EditText) findViewById(R.id.register_password);
         EditText mPasswordConfirm = (EditText) findViewById(R.id.register_password_confirm);
         Spinner mUserType = (Spinner) findViewById(R.id.register_usertype_spinner);
-        Button mRegisterButton = (Button) findViewById(R.id.register_register_button);
+        mRegisterButton = (Button) findViewById(R.id.register_register_button);
 
-        String username = mUsername.getText().toString();
-        String password = mPassword.getText().toString();
-        UserTypeEnum usertype = (UserTypeEnum) mUserType.getSelectedItem();
+        final String username = mUsername.getText().toString();
+        final String password = mPassword.getText().toString();
+        final UserTypeEnum usertype = (UserTypeEnum) mUserType.getSelectedItem();
         boolean valid_user = true;
         View focusView = null;
 
@@ -74,10 +87,10 @@ public class RegisterUserActivity extends AppCompatActivity {
             mUsername.setError("Username too short.");
             valid_user = false;
             focusView = mUsername;
-        }else if (UserDBInstance.userExists(username)){
+        /*}else if (UserDBInstance.userExists(username)){
             mUsername.setError("User already exists.");
             valid_user = false;
-            focusView = mUsername;
+            focusView = mUsername;*/
         }else if (password.length() < User.MIN_PASSWORD_LENGTH){
             mPassword.setError("Password too short.");
             valid_user = false;
@@ -89,18 +102,77 @@ public class RegisterUserActivity extends AppCompatActivity {
         }
         //Now add user
         if (valid_user) {
-            if (!UserDBInstance.addUser(new User(username, password, usertype))) {
+            /*if (!UserDBInstance.addUser(new User(username, password, usertype))) {
                 mRegisterButton.setError("User addition failed. Please try again.");
                 focusView = mRegisterButton;
                 valid_user = false;
             } else {
 
-            }
+            }*/
+            mAuth.createUserWithEmailAndPassword(username, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            boolean success = true;
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d("RegisterUserActivity", "createUserWithEmail:success");
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                try{
+                                    //TODO Add user to permission database
+                                    Map<String, Object> userProperty = new HashMap<>();
+                                    userProperty.put("Type", usertype.toString());
+                                    userProperty.put("CurrentShelter", null);
+                                    Log.d("RegisterUserActivity", "User UID = "+user.getUid());
+                                    DocumentReference userDoc = db.collection("user").document(user.getUid());
+                                    userDoc.set(userProperty)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Log.d("RegisterUserActivity", "User DB write ok");
+                                                    //Put screen change *all the way in* to force write to get done first.
+                                                    Context context = mRegisterButton.getContext();
+                                                    Intent intent = new Intent(context, LoginActivity.class);
+                                                    //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                    context.startActivity(intent);
+                                                    finish();
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Log.w("RegisterUserActivity", "Error writing database", e);
+                                                    throw new RuntimeException("User DB write failed",e);
+                                                }
+                                            });
+                                }catch(Exception e){
+                                    Log.e("RegisterUserActivity", "Failed after add user: "+e.toString());
+                                    success = false;
+                                    //now undo user add
+                                    if(user != null) {
+                                        user.reauthenticate(EmailAuthProvider.getCredential(username, password));
+                                        user.delete(); //Monika approves!
+                                        Log.e("RegisterUserActivity", "User un-added");
+                                    }
+                                }
+                            } else {
+                                success = false;
+                            }
+
+                            if (!success) {
+                                // If sign in fails, display a message to the user.
+                                Log.w("RegisterUserActivity", "createUserWithEmail:failure", task.getException());
+                                //updateUI(null);
+                                mRegisterButton.setError("User addition failed. Please try again.");
+                                //focusView = mRegisterButton;
+                                //valid_user = false;
+                            }
+                        }
+                    });
+
         }
-        if (!valid_user) {
-            if (focusView != null) {
-                focusView.requestFocus();
-            }
+        if (focusView != null) {
+            focusView.requestFocus();
         }
         return valid_user;
     }

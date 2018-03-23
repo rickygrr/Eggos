@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -23,6 +26,11 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         ShelterDBInstance = ShelterDatabase_local.getInstance();
+
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(false)
+                .build();
+        FirebaseFirestore.getInstance().setFirestoreSettings(settings);
         Button mSignInButton = (Button) findViewById(R.id.splash_login_button);
         Button mRegisterButton = (Button) findViewById(R.id.splash_register_button);
         mSignInButton.setOnClickListener(new View.OnClickListener() {

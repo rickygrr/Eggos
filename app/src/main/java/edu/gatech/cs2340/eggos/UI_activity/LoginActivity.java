@@ -135,11 +135,6 @@ public class LoginActivity extends AppCompatActivity{
             cancel = true;
         }
 
-        /*if (!TextUtils.isEmpty(user) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_incorrect_password));
-            focusView = mPasswordView;
-            cancel = true;
-        }*/
         // Check for a valid username.
         if (TextUtils.isEmpty(user)) {
             mUserView.setError(getString(R.string.error_field_required));
@@ -179,8 +174,8 @@ public class LoginActivity extends AppCompatActivity{
         }
     }
 
-    private boolean isPasswordValid(String password) {
+    /*private boolean isPasswordValid(String password) {
         return password.length() > 0;
-    }
+    }*/
 }
 
