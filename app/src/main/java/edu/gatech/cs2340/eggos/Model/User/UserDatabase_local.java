@@ -1,5 +1,7 @@
 package edu.gatech.cs2340.eggos.Model.User;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+
 import java.util.ArrayList;
 
 /**
@@ -26,6 +28,18 @@ public class UserDatabase_local implements UserDatabaseInterface {
         }
         this._Userlist.add(newUser);
         return true;
+    }
+
+    public boolean addUser(String username, String password, UserTypeEnum type){
+        User newUser = new User(username, password, type);
+        return this.addUser(newUser);
+    }
+
+    public void addUser(String username, String password, UserTypeEnum type, OnSuccessListener<Void> callback){
+        User newUser = new User(username, password, type);
+        if (this.addUser(newUser)){
+            callback.onSuccess(null);
+        }
     }
 
     private User _getUser(String username){

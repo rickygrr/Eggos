@@ -12,4 +12,15 @@ public enum UserTypeEnum {
     public static UserTypeEnum[] getRegisterableEnum() {
         return new UserTypeEnum[]{ADMIN, EMPLOYEE, USER};
     }
+
+    public UserTypeEnum fromString(String enum_str){
+        char chr = enum_str.toLowerCase().charAt(0);
+        if(chr == 'a'){
+            return ADMIN;
+        } else if (chr == 'e'){
+            return EMPLOYEE;
+        } else {
+            return USER;
+        }
+    }
 }
