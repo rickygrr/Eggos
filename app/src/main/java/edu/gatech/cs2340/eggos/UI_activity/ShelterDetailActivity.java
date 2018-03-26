@@ -73,8 +73,11 @@ public class ShelterDetailActivity extends AppCompatActivity {
             applyButton.setOnClickListener(new OnClickListener() {
 
                 public void onClick(View v) {
-                    int numBeds = Integer.pa
-                    //TODO Apply Number in EditText to Shelter
+                    //TODO Set User with this shelter and remove beds from shelter
+                    int numBeds = Integer.parseInt(numBedsEditText.getText().toString());
+                    //User.setShelter(currShelter)
+                    //currShelter.removeBeds(numBeds)
+
                 }
             });
         }
