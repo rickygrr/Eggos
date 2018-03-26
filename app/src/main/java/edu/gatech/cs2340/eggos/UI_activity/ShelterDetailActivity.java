@@ -2,19 +2,17 @@ package edu.gatech.cs2340.eggos.UI_activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.view.View.OnClickListener;
 
 import edu.gatech.cs2340.eggos.Model.Shelter.Shelter;
 import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase;
-import edu.gatech.cs2340.eggos.Model.User.UserHolder;
 import edu.gatech.cs2340.eggos.R;
 
 /**
@@ -39,9 +37,13 @@ public class ShelterDetailActivity extends AppCompatActivity {
         // http://developer.android.com/guide/components/fragments.html
         //
         if (savedInstanceState == null) {
-            Log.d("hi", "Reached Top of no savedInstance STate");
+            Log.d("hi", "Reached Top of no savedInstance State");
             Bundle b = getIntent().getExtras();
             int uid = b.getInt("uid");
+            Button reserveButton = (Button) findViewById(R.id.reserveButton);
+            final Button applyButton = (Button) findViewById(R.id.applyButton);
+            final EditText numBedsEditText = (EditText) findViewById(R.id.numBedsEditText);
+            final TextView numBedsText = (TextView) findViewById(R.id.numBedsText);
 
             Shelter currShelter = ShelterDatabase.getInstance().getShelterByID(uid);
 
@@ -58,6 +60,23 @@ public class ShelterDetailActivity extends AppCompatActivity {
                     + "\n" + "Phone Number " + currShelter.getPhone();
 
             ShelterDetails.setText(details);
+
+            reserveButton.setOnClickListener(new OnClickListener() {
+
+                public void onClick(View v) {
+                    numBedsEditText.setVisibility(View.VISIBLE);
+                    numBedsText.setVisibility(View.VISIBLE);
+                    applyButton.setVisibility(View.VISIBLE);
+                }
+            });
+
+            applyButton.setOnClickListener(new OnClickListener() {
+
+                public void onClick(View v) {
+                    int numBeds = Integer.pa
+                    //TODO Apply Number in EditText to Shelter
+                }
+            });
         }
 
 

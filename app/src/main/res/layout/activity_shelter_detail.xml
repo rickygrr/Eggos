@@ -42,36 +42,56 @@
         app:layout_constraintBottom_toBottomOf="@+id/shelterDetailsTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintTop_toBottomOf="@+id/numBedsEditText"
+        app:layout_constraintVertical_bias="0.818" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/numBedsEditText"
         android:layout_width="124dp"
         android:layout_height="48dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="376dp"
+        android:layout_marginTop="272dp"
         android:ems="10"
         android:gravity="center"
         android:inputType="number"
         android:text="0"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.778"
+        app:layout_constraintHorizontal_bias="0.836"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/numBedsText"
         android:layout_width="123dp"
         android:layout_height="43dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="28dp"
         android:layout_marginTop="8dp"
+        android:gravity="center"
         android:text="Number of Beds"
         android:textSize="18sp"
-        android:gravity="center"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/editText"
+        app:layout_constraintEnd_toStartOf="@+id/numBedsEditText"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.814" />
+        app:layout_constraintVertical_bias="0.586" />
+
+    <Button
+        android:id="@+id/applyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Apply"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/shelterDetailsTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.485"
+        app:layout_constraintStart_toStartOf="@+id/shelterDetailsTextView"
+        app:layout_constraintTop_toTopOf="@+id/shelterDetailsTextView"
+        app:layout_constraintVertical_bias="0.74" />
 </android.support.constraint.ConstraintLayout>
