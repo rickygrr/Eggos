@@ -52,9 +52,9 @@ public class UserDatabase_local implements UserDatabaseInterface {
     }
 
     public void _initTestDatabase(){ //Fake database for debugging only
-        this.addUser(new User("Monika","JustMonika",UserTypeEnum.ADMIN));// Just Monika [ok]
-        this.addUser(new User("a","b",UserTypeEnum.ADMIN));
-        this.addUser(new User("homelessdude","password",UserTypeEnum.USER));
-        this.addUser(new User("shelterguy","gimmeshelter",UserTypeEnum.EMPLOYEE)); //Denzel Washington rolling over an MD-80 not included.
+        this.addUser(new User("Monika","JustMonika",UserTypeEnum.ADMIN.toString()));// Just Monika [ok]
+        this.addUser(new User("a","b",UserTypeEnum.ADMIN.toString()));
+        this.addUser(new User("homelessdude","password",UserTypeEnum.USER.toString()));
+        this.addUser(new User("shelterguy","gimmeshelter",UserTypeEnum.EMPLOYEE.toString())); //Denzel Washington rolling over an MD-80 not included.
     }
 }

@@ -14,15 +14,20 @@ import java.io.InputStream;
 
 import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabaseInterface;
 import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase_local;
+import edu.gatech.cs2340.eggos.Model.User.UserDatabaseInterface;
+import edu.gatech.cs2340.eggos.Model.User.UserDatabase_room;
 import edu.gatech.cs2340.eggos.R;
 
 public class SplashScreenActivity extends AppCompatActivity {
     ShelterDatabaseInterface ShelterDBInstance;
+    UserDatabaseInterface UserDBInstance;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         ShelterDBInstance = ShelterDatabase_local.getInstance();
+        UserDBInstance = UserDatabase_room.getFirstInstance(getApplicationContext());
+
         Button mSignInButton = (Button) findViewById(R.id.splash_login_button);
         Button mRegisterButton = (Button) findViewById(R.id.splash_register_button);
         mSignInButton.setOnClickListener(new View.OnClickListener() {

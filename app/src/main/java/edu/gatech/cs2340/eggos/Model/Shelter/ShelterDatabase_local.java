@@ -192,7 +192,7 @@ public class ShelterDatabase_local implements ShelterDatabaseInterface{
             }
         }
         reader.endObject();
-        this.addShelter(new Shelter(uid, name, cap, restriction, genders, age, notes, new double[]{lat, lon}, addr, phone));
+        this.addShelter(new Shelter(uid, name, cap, restriction, genders, age, notes, lat, lon, addr, phone));
     }
     //TODO: Read CSV/JSON
 }

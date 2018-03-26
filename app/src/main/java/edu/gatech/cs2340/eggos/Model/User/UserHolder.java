@@ -15,7 +15,8 @@ public class UserHolder {
     private User _currentUser;
     private UserHolder() {
         this._currentUser = null; //Might default to guest when we implement guest.
-        this._UserDBInstance = UserDatabase_local.getInstance();
+        //this._UserDBInstance = UserDatabase_local.getInstance();
+        this._UserDBInstance = UserDatabase_room.getInstance();
     }
 
     private boolean _setUser(User usr){

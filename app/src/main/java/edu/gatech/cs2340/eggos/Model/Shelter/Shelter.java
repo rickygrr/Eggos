@@ -1,5 +1,8 @@
 package edu.gatech.cs2340.eggos.Model.Shelter;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,31 +12,37 @@ import edu.gatech.cs2340.eggos.Model.User.User;
  * Created by chateau86 on 26-Feb-18.
  */
 
+@Entity(tableName = "Shelters")
 public class Shelter {
+    @PrimaryKey
     private int _UID;
-    private String _Name;
-    private int _Capacity_max;
-    private Set<User> _Staying_user;
-    private int _Staying_nonuser; //_Staying_User+_Staying_Nonuser = occupancy
-    private String _Restrictions; //TODO: Maybe make restrictions their own class?
-    private Set<String> _Genders;
-    private Set<String> _Age;
-    private Set<String> _Notes; //TODO: Maybe merge this with restriction?
-    private double[] _coord;
-    private String _Addr;
-    private String _Phone;
+    public final String _Name;
+    public int _Capacity_max;
+    public int _Capacity_current;
+    //private Set<User> _Staying_user;
+    //private int _Staying_nonuser; //_Staying_User+_Staying_Nonuser = occupancy
+    public String _Restrictions; //TODO: Maybe make restrictions their own class?
+    public String _Genders;
+    public String _Age;
+    public String _Notes; //TODO: Maybe merge this with restriction?
+    public double _lat;
+    public double _lon;
+    public String _Addr;
+    public String _Phone;
 
-    public Shelter(int UID, String name, int capacity, String restrictions, Set<String> genders, Set<String> age, Set<String> notes, double[] coord, String addr, String phone){
+    public Shelter(int UID, String name, int capacity, String restrictions, String genders, String age, String notes, double lat, double lon, String addr, String phone){
         this._UID = UID;
         this._Name = name;
         this._Capacity_max = capacity;
-        this._Staying_nonuser = 0;
-        this._Staying_user = new HashSet<User>();
+        this._Capacity_current = capacity;
+        //this._Staying_nonuser = 0;
+        //this._Staying_user = new HashSet<User>();
         this._Restrictions = restrictions;
         this._Genders = genders;
         this._Age = age;
         this._Notes = notes;
-        this._coord = coord;
+        this._lat = lat;
+        this._lon = lon;
         this._Addr = addr;
         this._Phone = phone;
     }
@@ -48,22 +57,26 @@ public class Shelter {
         return this._Capacity_max;
     }
     public int getAvailCap(){
-        return (this._Capacity_max - (this._Staying_nonuser + this._Staying_user.size()));
+        return (this._Capacity_current);
     }
-    public boolean addUser(User usr){
-        return this._Staying_user.add(usr);
+    public boolean haveRoomFor(int cap){
+        return (this._Capacity_current >= cap);
     }
-    public boolean removeUser(User usr){
-        return this._Staying_user.remove(usr);
-    }
-    public boolean adjustOccupancy(int newOccupancy){
-        //Adjust _staying_nonuser to match availability
-        int adjusted_nonuser = newOccupancy - this._Staying_user.size();
-        if (adjusted_nonuser < 0){
-            return false;
-        } else {
-            this._Staying_nonuser = adjusted_nonuser;
+    public boolean requestRoom(int cap){
+        if(cap >= 0 && this.haveRoomFor(cap)){
+            this._Capacity_current -= cap;
             return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean freeRoom(int cap){
+        if(cap >= 0 && cap <= (this._Capacity_max-this._Capacity_current)){
+            this._Capacity_current += cap;
+            return true;
+        } else {
+            return false;
         }
     }
 

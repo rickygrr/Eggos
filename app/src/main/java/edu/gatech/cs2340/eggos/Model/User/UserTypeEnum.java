@@ -12,4 +12,5 @@ public enum UserTypeEnum {
     public static UserTypeEnum[] getRegisterableEnum() {
         return new UserTypeEnum[]{ADMIN, EMPLOYEE, USER};
     }
+
 }
