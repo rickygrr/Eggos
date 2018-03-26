@@ -58,16 +58,6 @@ public class ShelterDetailActivity extends AppCompatActivity {
                     + "\n" + "Phone Number " + currShelter.getPhone();
 
             ShelterDetails.setText(details);
-
-            /* arguments.putInt(ShelterDetailFragment.SHELTER_UID,
-                    getIntent().getIntExtra(ShelterDetailFragment.SHELTER_UID, 0)); */
-
-            /*ShelterDetailFragment fragment = new ShelterDetailFragment();
-            fragment.setArguments(arguments);
-            Log.d("hi", "Reached Bottom of no savedInstance STate");
-            getSupportFragmentManager().beginTransaction()
-                    .add(fragment, "blah")
-                    .commit(); */
         }
 
 
