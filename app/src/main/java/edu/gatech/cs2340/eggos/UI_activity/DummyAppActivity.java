@@ -18,6 +18,8 @@ import android.widget.Filterable;
 import java.util.List;
 import java.util.ArrayList;
 
+import edu.gatech.cs2340.eggos.Model.Shelter.AgeEnum;
+import edu.gatech.cs2340.eggos.Model.Shelter.GenderEnum;
 import edu.gatech.cs2340.eggos.Model.Shelter.Shelter;
 import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase_local;
 import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabaseFilter;
@@ -99,12 +101,12 @@ public class DummyAppActivity extends AppCompatActivity {
                         return false;
                     }
                     for (String g: gender){
-                        if(!s.getGender().contains(g)) {
+                        if(!GenderEnum.maskContains(g, s._GenderMask)) {
                             return false;
                         }
                     }
                     for (String a: age){
-                        if(!s.getAge().contains(a)) {
+                        if(!AgeEnum.maskContains(a, s._AgeMask)) {
                             return false;
                         }
                     }

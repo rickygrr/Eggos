@@ -5,6 +5,7 @@ package edu.gatech.cs2340.eggos.UI_activity;
  */
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,6 +24,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
+import edu.gatech.cs2340.eggos.Model.Shelter.AgeEnum;
+import edu.gatech.cs2340.eggos.Model.Shelter.GenderEnum;
 import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabaseInterface;
 import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase_local;
 import edu.gatech.cs2340.eggos.R;
@@ -49,7 +52,7 @@ public class ShelterFilterChecklistActivity extends Activity {
     private void displayListView() {
         //create an ArrayAdaptar from the String Array
         genderAdapter = new MyCustomAdapter(this,
-                R.layout.shelter_info, str2list(ShelterDBInstance.getGenderRestrictions()));
+                R.layout.shelter_info, str2list(GenderEnum.getGenderList()));
         ListView listViewGender = (ListView) findViewById(R.id.listViewGenderRestrictions);
         // Assign adapter to ListView
         listViewGender.setAdapter(genderAdapter);
@@ -63,7 +66,7 @@ public class ShelterFilterChecklistActivity extends Activity {
         });
 
         ageAdapter = new MyCustomAdapter(this,
-                R.layout.shelter_info, str2list(ShelterDBInstance.getAgeRestrictions()));
+                R.layout.shelter_info, str2list(AgeEnum.getAgeList()));
         ListView listViewAge = (ListView) findViewById(R.id.listViewAgeRestrictions);
         // Assign adapter to ListView
         listViewAge.setAdapter(ageAdapter);
@@ -96,7 +99,7 @@ public class ShelterFilterChecklistActivity extends Activity {
         }
     }
 
-    private ArrayList<ListItem> str2list (ArrayList<String> strArr){
+    private ArrayList<ListItem> str2list (List<String> strArr){
         ArrayList<ListItem> out = new ArrayList<>();
         for (String s: strArr){
             out.add(new ListItem(s));

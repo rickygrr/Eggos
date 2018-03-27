@@ -19,11 +19,6 @@ public class ShelterDatabase_local implements ShelterDatabaseInterface{
 
     private SparseArray<Shelter> _ShelterList;
     private boolean _jsonReadDone;
-    private HashSet<String> _allRestrictions;
-    private HashSet<String> _allGenderRestrictions;
-    private HashSet<String> _allAgeRestrictions;
-    private HashSet<String> _allNotes;
-
     public static final ShelterDatabaseFilter SHOW_ALL_FILTER = new ShelterDatabaseFilter() {
         @Override
         public boolean keepShelter(Shelter s) {
@@ -39,10 +34,6 @@ public class ShelterDatabase_local implements ShelterDatabaseInterface{
         this._ShelterList = new SparseArray<Shelter>();
         //this._initTestDatabase();
         this._jsonReadDone = false;
-        this._allRestrictions = new HashSet<>();
-        this._allGenderRestrictions = new HashSet<>();
-        this._allAgeRestrictions = new HashSet<>();
-        this._allNotes = new HashSet<>();
     }
 
     public Shelter getShelterByID(int id){
@@ -54,10 +45,6 @@ public class ShelterDatabase_local implements ShelterDatabaseInterface{
             return false; //duplicate
         }
         _ShelterList.append(s.getUID(), s);
-        this._allRestrictions.add(s.getRestrictions());
-        this._allGenderRestrictions.addAll(s.getGender());
-        this._allAgeRestrictions.addAll(s.getAge());
-        this._allNotes.addAll(s.getNotes());
         return true;
     }
 
@@ -66,25 +53,9 @@ public class ShelterDatabase_local implements ShelterDatabaseInterface{
         return _ShelterList.keyAt(_ShelterList.size()-1) + 1;
     }
 
-    public ArrayList<String> getAllRestrictions(){
-        return new ArrayList<String>(_allRestrictions);
-    }
-    public ArrayList<String> getGenderRestrictions(){
-        return new ArrayList<String>(_allGenderRestrictions);
-    }
-    public ArrayList<String> getAgeRestrictions(){
-        return new ArrayList<String>(_allAgeRestrictions);
-    }
-
-
-    public ArrayList<String> getAllNotes(){
-        return new ArrayList<String>(_allNotes);
-    }
-
     public ArrayList<Shelter> getShelterList(){ //Copy the content of this function for filtering implementations.
         return this.getFilteredShelterList(SHOW_ALL_FILTER);
     }
-
 
     public ArrayList<Shelter> getFilteredShelterList(ShelterDatabaseFilter filt){
         /*
@@ -112,8 +83,30 @@ public class ShelterDatabase_local implements ShelterDatabaseInterface{
     }
 
     public void _initTestDatabase(){
-        this.addShelter(new Shelter(0,"Test Shelter", 20, "blah", new HashSet<String>(){},new HashSet<String>(){}, new HashSet<String>(){}, new double[]{420.0,69.0}, "123 Fake St.\n 42069", "867-5309" ));
-        this.addShelter(new Shelter(1,"Test Shelter 2", 420, "blah", new HashSet<String>(){}, new HashSet<String>(){}, new HashSet<String>(){}, new double[]{123.0,45.0}, "124 Fake St.\n 42069", "531-8008" ));
+        this.addShelter(new ShelterBuilder()
+                .setUID(0)
+                .setName("Test Shelter")
+                .setCapacity(20)
+                .setRestrictions("blah")
+                .setGendersMask(GenderEnum.enum2Mask(GenderEnum.Men, GenderEnum.Women))
+                .setAgeMask(AgeEnum.enum2Mask(AgeEnum.All))
+                .setNotes("bleugh")
+                .setCoord(420.0, 69.0)
+                .setAddr("123 Fake St.\n 42069")
+                .setPhone("867-5309")
+                .createShelter());
+        this.addShelter(new ShelterBuilder()
+                .setUID(1)
+                .setName("Test Shelter 2")
+                .setCapacity(420)
+                .setRestrictions("bleugh")
+                .setGendersMask(GenderEnum.enum2Mask(GenderEnum.Men))
+                .setAgeMask(AgeEnum.enum2Mask(AgeEnum.Children))
+                .setNotes("bleugh")
+                .setCoord(421.0, 69.0)
+                .setAddr("124 Fake St.\n 42069")
+                .setPhone("477-CARS4KIDS")
+                .createShelter());
     }
 
     public void initFromJSON(InputStream f_in)throws IOException {
@@ -135,9 +128,9 @@ public class ShelterDatabase_local implements ShelterDatabaseInterface{
         String addr = "", name = "", phone = "", restriction = "";
         int uid = 0, cap = 0;
         double lat = 0, lon = 0;
-        HashSet<String> notes = new HashSet<>();
-        HashSet<String> genders = new HashSet<>();
-        HashSet<String> age = new HashSet<>();
+        String notes = "";
+        int genderMask = 0;
+        int ageMask = 0;
 
         while(reader.hasNext()){
             String token_name = reader.nextName();
@@ -167,23 +160,19 @@ public class ShelterDatabase_local implements ShelterDatabaseInterface{
                     lon = reader.nextDouble();
                     break;
                 case "Notes":
-                    reader.beginArray();
-                    while(reader.hasNext()){
-                        notes.add(reader.nextString());
-                    }
-                    reader.endArray();
+                    notes = reader.nextString();
                     break;
                 case "GenderRestriction":
                     reader.beginArray();
                     while(reader.hasNext()){
-                        genders.add(reader.nextString());
+                        genderMask = GenderEnum.addToMask(reader.nextString(), genderMask);
                     }
                     reader.endArray();
                     break;
                 case "AgeRestriction":
                     reader.beginArray();
                     while(reader.hasNext()){
-                        age.add(reader.nextString());
+                        ageMask = AgeEnum.addToMask(reader.nextString(), ageMask);
                     }
                     reader.endArray();
                     break;
@@ -192,7 +181,18 @@ public class ShelterDatabase_local implements ShelterDatabaseInterface{
             }
         }
         reader.endObject();
-        this.addShelter(new Shelter(uid, name, cap, restriction, genders, age, notes, lat, lon, addr, phone));
+        this.addShelter(new ShelterBuilder()
+                                .setUID(uid)
+                                .setName(name)
+                                .setCapacity(cap)
+                                .setRestrictions(restriction)
+                                .setGendersMask(genderMask)
+                                .setAgeMask(ageMask)
+                                .setNotes(notes)
+                                .setCoord(lat, lon)
+                                .setAddr(addr)
+                                .setPhone(phone)
+                                .createShelter());
     }
     //TODO: Read CSV/JSON
 }

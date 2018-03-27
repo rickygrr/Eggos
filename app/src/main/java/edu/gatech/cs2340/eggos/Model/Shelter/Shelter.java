@@ -19,27 +19,21 @@ public class Shelter {
     public final String _Name;
     public int _Capacity_max;
     public int _Capacity_current;
-    //private Set<User> _Staying_user;
-    //private int _Staying_nonuser; //_Staying_User+_Staying_Nonuser = occupancy
-    public String _Restrictions; //TODO: Maybe make restrictions their own class?
-    public String _Genders;
-    public String _Age;
+    public int _GenderMask;
+    public int _AgeMask;
     public String _Notes; //TODO: Maybe merge this with restriction?
     public double _lat;
     public double _lon;
     public String _Addr;
     public String _Phone;
 
-    public Shelter(int UID, String name, int capacity, String restrictions, String genders, String age, String notes, double lat, double lon, String addr, String phone){
+    public Shelter(int UID, String name, int capacity, String restrictions, int gendersMask, int ageMask, String notes, double lat, double lon, String addr, String phone){
         this._UID = UID;
         this._Name = name;
         this._Capacity_max = capacity;
-        this._Capacity_current = capacity;
-        //this._Staying_nonuser = 0;
-        //this._Staying_user = new HashSet<User>();
-        this._Restrictions = restrictions;
-        this._Genders = genders;
-        this._Age = age;
+        this._Capacity_current = capacity; //empty beds available
+        this._GenderMask = gendersMask;
+        this._AgeMask = ageMask;
         this._Notes = notes;
         this._lat = lat;
         this._lon = lon;
@@ -80,56 +74,23 @@ public class Shelter {
         }
     }
 
-    public String getRestrictions(){
-        return _Restrictions;
-    }
-    public boolean setRestrictions(String restrictions){
-        this._Restrictions = restrictions;
-        return true;
-    }
-
-    public Set<String> getNotes(){
+    public String getNotes(){
         return _Notes;
     }
-    public boolean setNotes(Set<String> Notes){
+    public boolean setNotes(String Notes){
         this._Notes = Notes;
         return true;
     }
-    public boolean addNote(String res){
-        return this._Notes.add(res);
-    }
-    public boolean removeNote(String res){
-        return this._Notes.remove(res);
-    }
-
-    public Set<String> getGender(){
-        return _Genders;
-    }
-    public boolean addGender(String res){
-        return this._Genders.add(res);
-    }
-    public boolean removeGender(String res){
-        return this._Genders.remove(res);
-    }
-
-    public Set<String> getAge(){
-        return _Age;
-    }
-    public boolean addAge(String res){
-        return this._Age.add(res);
-    }
-    public boolean removeAge(String res){
-        return this._Age.remove(res);
-    }
 
     public double[] getCoord() {
-        return this._coord;
+        return new double[] {this._lat, this._lon};
     }
     public boolean setCoord(double[] coord){
         if (coord.length != 2) {
             return false;
         } else {
-            this._coord = coord;
+            this._lat = coord[0];
+            this._lon = coord[1];
             return true;
         }
     }

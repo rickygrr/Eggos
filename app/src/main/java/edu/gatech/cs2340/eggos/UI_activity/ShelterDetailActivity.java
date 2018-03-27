@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import edu.gatech.cs2340.eggos.Model.Shelter.AgeEnum;
+import edu.gatech.cs2340.eggos.Model.Shelter.GenderEnum;
 import edu.gatech.cs2340.eggos.Model.Shelter.Shelter;
 import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabaseInterface;
 import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase_local;
@@ -48,10 +50,9 @@ public class ShelterDetailActivity extends AppCompatActivity {
             }
             String details = "Name: " + currShelter.toString()
                     + "\n" + "Capacity: " + currShelter.getMaxCap()
-                    + "\n" + "Restrictions: " + currShelter.getRestrictions()
-                    + "\n" + "Gender Restrictions: " + currShelter.getGender().toString()
-                    + "\n" + "Age Restrictions: " + currShelter.getAge().toString()
-                    + "\n" + "Notes: " + currShelter.getNotes().toString()
+                    + "\n" + "Gender Restrictions: " + GenderEnum.mask2Enums(currShelter._GenderMask)
+                    + "\n" + "Age Restrictions: " + AgeEnum.mask2Enums(currShelter._AgeMask)
+                    + "\n" + "Notes: " + currShelter.getNotes()
                     + "\n" + "Coordinates: " + coord
                     + "\n" + "Address " + currShelter.getAddr()
                     + "\n" + "Phone Number " + currShelter.getPhone();
