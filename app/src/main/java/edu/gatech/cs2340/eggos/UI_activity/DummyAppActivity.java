@@ -35,8 +35,8 @@ public class DummyAppActivity extends AppCompatActivity {
     ShelterDatabaseInterface ShelterDBInstance = ShelterDatabase_local.getInstance();
     //ShelterDatabaseFilter filter = ShelterDatabase_local.SHOW_ALL_FILTER;
     String filterName = "";
-    List<String> filterGender = GenderEnum.getGenderList();
-    List<String> filterAge = AgeEnum.getAgeList();
+    List<String> filterGender = null;
+    List<String> filterAge = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,8 +104,8 @@ public class DummyAppActivity extends AppCompatActivity {
             //this.filter = ShelterDatabase_local.SHOW_ALL_FILTER;
 
             String filterName = "";
-            List<String> filterGender = GenderEnum.getGenderList();
-            List<String> filterAge = AgeEnum.getAgeList();
+            List<String> filterGender = null;
+            List<String> filterAge = null;
         }
         //regenerate recyclerview
         //setupRecyclerView((RecyclerView) recyclerView, filter);

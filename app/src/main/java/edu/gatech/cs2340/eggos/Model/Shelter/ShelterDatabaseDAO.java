@@ -19,9 +19,11 @@ public interface ShelterDatabaseDAO {
             "WHERE _UID = :UID")
     List<Shelter> getShelter(int UID);
 
-    @Query("SELECT * FROM Shelters " +
-            "WHERE _Genders LIKE :likeGender")
-    List<Shelter> getShelterByGender(String likeGender);
+    @Query("SELECT * FROM Shelters "
+            + "WHERE _Name like :name "
+            + "AND (:genderMask & _GenderMask) = :genderMask "
+            + "AND (:ageMask & _AgeMask) = :ageMask ")
+    List<Shelter> getFilteredShelterList(String name, int genderMask, int ageMask);
 
     @Insert
     void insertAll(Shelter... shelter);

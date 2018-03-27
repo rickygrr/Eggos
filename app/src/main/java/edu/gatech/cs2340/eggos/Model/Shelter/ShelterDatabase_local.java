@@ -59,22 +59,6 @@ public class ShelterDatabase_local implements ShelterDatabaseInterface{
     public List<Shelter> getShelterList(){ //Copy the content of this function for filtering implementations.
         return this.getFilteredShelterList("", null, null );
     }
-
-    /*public List<Shelter> getFilteredShelterList(ShelterDatabaseFilter filt){
-        /*
-        "Wow, talk about a completely unloved class, conforms to ZERO collection interfaces..."
-             -user166390, https://stackoverflow.com/questions/7999211/how-to-iterate-through-sparsearray
-         *//*
-        //SparseArray<> is now officially my spirit animal. :(
-        //Pls get me in the screenshot for the obligatory /r/me_irl post - W.K.
-        ArrayList<Shelter> outList = new ArrayList<Shelter>();
-        for(int i = 0; i < _ShelterList.size(); i++){
-            if(filt.keepShelter(_ShelterList.valueAt(i))) {
-                outList.add(_ShelterList.valueAt(i));
-            }
-        }
-        return outList;
-    }*/
     public List<Shelter> getFilteredShelterList(String nameFilter, List<String> genderFilter, List<String> ageFilter){
         int genderMask = 0;
         int ageMask = 0;
@@ -84,16 +68,13 @@ public class ShelterDatabase_local implements ShelterDatabaseInterface{
         if(ageFilter != null) {
             ageMask = AgeEnum.enum2Mask(AgeEnum.list2Enums(ageFilter));
         }
-        if (genderMask == 0){
-            genderMask = GenderEnum.ALL_MASK;
-        }
-        if (ageMask == 0){
-            ageMask = AgeEnum.ALL_MASK;
-        }
         ArrayList<Shelter> outList = new ArrayList<Shelter>();
         for(int i = 0; i < _ShelterList.size(); i++){
             if(nameFilter.isEmpty() || (_ShelterList.get(i).getName().toLowerCase().contains(nameFilter.toLowerCase()))) {
-                if(((_ShelterList.get(i)._GenderMask) & genderMask)>0 && (((_ShelterList.get(i)._AgeMask) & ageMask)>0)){
+                int gm = _ShelterList.get(i)._GenderMask;
+                int am = _ShelterList.get(i)._AgeMask;
+                if( ((ageMask & am) == ageMask)
+                        && ((genderMask & gm) == genderMask)){
                     outList.add(_ShelterList.get(i));
                 }
             }
