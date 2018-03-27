@@ -25,13 +25,20 @@ public interface ShelterDatabaseDAO {
             + "AND (:ageMask & _AgeMask) = :ageMask ")
     List<Shelter> getFilteredShelterList(String name, int genderMask, int ageMask);
 
+    @Query("SELECT * FROM Shelters "
+            + "WHERE (:genderMask & _GenderMask) = :genderMask "
+            + "AND (:ageMask & _AgeMask) = :ageMask ")
+    List<Shelter> getFilteredShelterList(int genderMask, int ageMask);
+
     @Insert
     void insertAll(Shelter... shelter);
-
 
     @Delete
     void delete(Shelter shelter);
 
     @Query("SELECT Count(*) FROM Shelters")
     int getRowCount();
+
+    @Query("DELETE FROM Shelters")
+    void clearDatabase();
 }

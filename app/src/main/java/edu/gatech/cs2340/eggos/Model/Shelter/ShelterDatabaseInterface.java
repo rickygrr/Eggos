@@ -18,9 +18,7 @@ public interface ShelterDatabaseInterface {
     };*/
     Shelter getShelterByID(int id);
     boolean addShelter(Shelter s);
-    int getNextShelterID();
     List<Shelter> getShelterList();
-    //List<Shelter> getFilteredShelterList(ShelterDatabaseFilter filt);
     List<Shelter> getFilteredShelterList(String name, List<String> genderList, List<String> ageList);
     void _initTestDatabase();
     void initFromJSON(InputStream f_in)throws IOException;

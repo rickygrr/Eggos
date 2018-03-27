@@ -11,7 +11,8 @@ import edu.gatech.cs2340.eggos.Model.Shelter.AgeEnum;
 import edu.gatech.cs2340.eggos.Model.Shelter.GenderEnum;
 import edu.gatech.cs2340.eggos.Model.Shelter.Shelter;
 import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabaseInterface;
-import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase_local;
+//import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase_local;
+import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase_room;
 import edu.gatech.cs2340.eggos.R;
 
 /**
@@ -26,7 +27,8 @@ public class ShelterDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shelter_detail);
 
-        ShelterDBInstance = ShelterDatabase_local.getInstance();
+        //ShelterDBInstance = ShelterDatabase_local.getInstance();
+        ShelterDBInstance = ShelterDatabase_room.getInstance();
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activityz
         // (e.g. when rotating the screen from portrait to landscape).

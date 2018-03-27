@@ -27,7 +27,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import edu.gatech.cs2340.eggos.Model.Shelter.AgeEnum;
 import edu.gatech.cs2340.eggos.Model.Shelter.GenderEnum;
 import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabaseInterface;
-import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase_local;
+//import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase_local;
+import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase_room;
 import edu.gatech.cs2340.eggos.R;
 
 
@@ -41,7 +42,8 @@ public class ShelterFilterChecklistActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.checklist_filter_layout);
-        ShelterDBInstance = ShelterDatabase_local.getInstance();
+        //ShelterDBInstance = ShelterDatabase_local.getInstance();
+        ShelterDBInstance = ShelterDatabase_room.getInstance();
         textNameSearch = (TextView) findViewById(R.id.textNameSearch);
         //Generate list View from ArrayList
         displayListView();

@@ -75,6 +75,6 @@ public class ShelterBuilder {
     }
 
     public Shelter createShelter() {
-        return new Shelter(uid, name, capacity, restrictions, gendersMask, ageMask, notes, lat, lon, addr, phone);
+        return new Shelter(uid, name, capacity, gendersMask, ageMask, notes, lat, lon, addr, phone);
     }
 }

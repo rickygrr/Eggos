@@ -21,9 +21,10 @@ import java.util.ArrayList;
 import edu.gatech.cs2340.eggos.Model.Shelter.AgeEnum;
 import edu.gatech.cs2340.eggos.Model.Shelter.GenderEnum;
 import edu.gatech.cs2340.eggos.Model.Shelter.Shelter;
-import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase_local;
+//import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase_local;
 //import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabaseFilter;
 import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabaseInterface;
+import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase_room;
 import edu.gatech.cs2340.eggos.Model.User.UserHolder;
 import edu.gatech.cs2340.eggos.R;
 
@@ -32,7 +33,8 @@ public class DummyAppActivity extends AppCompatActivity {
     static final int SELECT_FILTER_REQUEST = 1;
     TextView usrInfoText;
     View recyclerView;
-    ShelterDatabaseInterface ShelterDBInstance = ShelterDatabase_local.getInstance();
+    //ShelterDatabaseInterface ShelterDBInstance = ShelterDatabase_local.getInstance();
+    ShelterDatabaseInterface ShelterDBInstance = ShelterDatabase_room.getInstance();
     //ShelterDatabaseFilter filter = ShelterDatabase_local.SHOW_ALL_FILTER;
     String filterName = "";
     List<String> filterGender = null;

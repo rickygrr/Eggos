@@ -27,18 +27,21 @@ public class Shelter {
     public String _Addr;
     public String _Phone;
 
-    public Shelter(int UID, String name, int capacity, String restrictions, int gendersMask, int ageMask, String notes, double lat, double lon, String addr, String phone){
-        this._UID = UID;
-        this._Name = name;
-        this._Capacity_max = capacity;
-        this._Capacity_current = capacity; //empty beds available
-        this._GenderMask = gendersMask;
-        this._AgeMask = ageMask;
-        this._Notes = notes;
-        this._lat = lat;
-        this._lon = lon;
-        this._Addr = addr;
-        this._Phone = phone;
+    public Shelter(int _UID, final String _Name, int _Capacity_max, int _Capacity_current, int _GenderMask, int _AgeMask, String _Notes, double _lat, double _lon, String _Addr, String _Phone){
+        this._UID = _UID;
+        this._Name = _Name;
+        this._Capacity_max = _Capacity_max;
+        this._Capacity_current = _Capacity_current; //empty beds available
+        this._GenderMask = _GenderMask;
+        this._AgeMask = _AgeMask;
+        this._Notes = _Notes;
+        this._lat = _lat;
+        this._lon = _lon;
+        this._Addr = _Addr;
+        this._Phone = _Phone;
+    }
+    public Shelter(int _UID, String _Name, int _Capacity_max, int _GendersMask, int _AgeMask, String _Notes, double _lat, double _lon, String _Addr, String _Phone){
+        this(_UID, _Name, _Capacity_max, _Capacity_max, _GendersMask, _AgeMask, _Notes, _lat, _lon, _Addr, _Phone);
     }
 
     public int getUID() {
