@@ -4,6 +4,7 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import java.util.List;
 
@@ -32,6 +33,9 @@ public interface ShelterDatabaseDAO {
 
     @Insert
     void insertAll(Shelter... shelter);
+
+    @Update
+    public int update(Shelter... shelters); //return row count
 
     @Delete
     void delete(Shelter shelter);

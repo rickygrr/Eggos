@@ -8,6 +8,7 @@ import android.content.Context;
 
 public interface UserDatabaseInterface {
     boolean addUser(User newUser);
+    boolean updateUser(User user);
     boolean userExists(String username);
     User getUser(String username, String password);
     void _initTestDatabase();

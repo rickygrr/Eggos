@@ -27,6 +27,10 @@ public class UserDatabase_local implements UserDatabaseInterface {
         this._Userlist.add(newUser);
         return true;
     }
+    @Override
+    public boolean updateUser(User s) {
+        return false;
+    }
 
     private User _getUser(String username){
         for(User usr: this._Userlist) {

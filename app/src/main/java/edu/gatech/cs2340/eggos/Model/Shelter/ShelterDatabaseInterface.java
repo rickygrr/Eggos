@@ -18,6 +18,7 @@ public interface ShelterDatabaseInterface {
     };*/
     Shelter getShelterByID(int id);
     boolean addShelter(Shelter s);
+    boolean updateShelter(Shelter s);
     List<Shelter> getShelterList();
     List<Shelter> getFilteredShelterList(String name, List<String> genderList, List<String> ageList);
     void _initTestDatabase();

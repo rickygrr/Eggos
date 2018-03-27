@@ -4,6 +4,7 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import java.util.List;
 
@@ -27,6 +28,9 @@ public interface UserDatabaseDAO {
 
     @Delete
     void delete(User user);
+
+    @Update
+    public int update(User... users); //return row count
 
     @Query("SELECT Count(*) FROM Users")
     int getRowCount();

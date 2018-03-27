@@ -68,6 +68,19 @@ public class ShelterDatabase_room implements ShelterDatabaseInterface {
     }
 
     @Override
+    public boolean updateShelter(Shelter s) {
+        int count = this.dao.update(s);
+        if(count == 0){
+            return false;
+        } else {
+            if(count > 1){
+                throw new IllegalStateException("Shelter update wrote too many rows. Database probably clobbered. Rows: "+count);
+            }
+            return true;
+        }
+    }
+
+    @Override
     public List<Shelter> getShelterList() {
         return getFilteredShelterList("",null,null);
     }

@@ -48,6 +48,19 @@ public class UserDatabase_room implements UserDatabaseInterface {
     }
 
     @Override
+    public boolean updateUser(User s) {
+        int count = this.db.userDBDAO().update(s);
+        if(count == 0){
+            return false;
+        } else {
+            if(count > 1){
+                throw new IllegalStateException("User update wrote too many rows. Database probably clobbered. Rows: "+count);
+            }
+            return true;
+        }
+    }
+
+    @Override
     public boolean userExists(String username) {
         return !this.db.userDBDAO().userExists(username).isEmpty();
     }

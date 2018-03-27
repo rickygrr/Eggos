@@ -50,6 +50,10 @@ public class ShelterDatabase_local implements ShelterDatabaseInterface{
         _ShelterList.append(s.getUID(), s);
         return true;
     }
+    @Override
+    public boolean updateShelter(Shelter s) {
+        return false;
+    }
 
     public int getNextShelterID(){
         //For shelter addition without manual UID
