@@ -22,7 +22,7 @@ import edu.gatech.cs2340.eggos.Model.Shelter.AgeEnum;
 import edu.gatech.cs2340.eggos.Model.Shelter.GenderEnum;
 import edu.gatech.cs2340.eggos.Model.Shelter.Shelter;
 import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase_local;
-import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabaseFilter;
+//import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabaseFilter;
 import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabaseInterface;
 import edu.gatech.cs2340.eggos.Model.User.UserHolder;
 import edu.gatech.cs2340.eggos.R;
@@ -33,19 +33,22 @@ public class DummyAppActivity extends AppCompatActivity {
     TextView usrInfoText;
     View recyclerView;
     ShelterDatabaseInterface ShelterDBInstance = ShelterDatabase_local.getInstance();
-    ShelterDatabaseFilter filter = ShelterDatabase_local.SHOW_ALL_FILTER;
+    //ShelterDatabaseFilter filter = ShelterDatabase_local.SHOW_ALL_FILTER;
+    String filterName = "";
+    List<String> filterGender = GenderEnum.getGenderList();
+    List<String> filterAge = AgeEnum.getAgeList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.filter = ShelterDBInstance.SHOW_ALL_FILTER;
+        //this.filter = ShelterDBInstance.SHOW_ALL_FILTER;
         setContentView(R.layout.activity_dummy_app);
 
         //Step 1.  Setup the recycler view by getting it from our layout in the main window
         this.recyclerView = findViewById(R.id.shelter_list_dummy);
         assert recyclerView != null;
         //Step 2.  Hook up the adapter to the view
-        setupRecyclerView((RecyclerView) recyclerView, filter);
+        setupRecyclerView((RecyclerView) recyclerView);
 
         Button mLogoutButton = (Button) findViewById(R.id.dummy_button_logout);
         mLogoutButton.setOnClickListener(new View.OnClickListener() {
@@ -78,9 +81,9 @@ public class DummyAppActivity extends AppCompatActivity {
         mRstFilterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            filter = ShelterDatabase_local.SHOW_ALL_FILTER;
+            //filter = ShelterDatabase_local.SHOW_ALL_FILTER;
             //TODO: Re-generate recycler view
-            setupRecyclerView((RecyclerView) recyclerView, filter);
+            setupRecyclerView((RecyclerView) recyclerView);
             }
         });
 
@@ -92,32 +95,21 @@ public class DummyAppActivity extends AppCompatActivity {
             final String name = data.getStringExtra("name");
             final ArrayList<String> gender = data.getStringArrayListExtra("gender");
             final ArrayList<String> age = data.getStringArrayListExtra("age");
-            //TODO: Make ShelterDatabaseFilter a real class
-            this.filter = new ShelterDatabaseFilter() {
-                @Override
-                public boolean keepShelter(Shelter s) {
-                    //check name
-                    if(!s.getName().toLowerCase().contains(name.toLowerCase())){
-                        return false;
-                    }
-                    for (String g: gender){
-                        if(!GenderEnum.maskContains(g, s._GenderMask)) {
-                            return false;
-                        }
-                    }
-                    for (String a: age){
-                        if(!AgeEnum.maskContains(a, s._AgeMask)) {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-            };
+
+            this.filterName = data.getStringExtra("name");
+            this.filterGender = data.getStringArrayListExtra("gender");
+            this.filterAge = data.getStringArrayListExtra("age");
+
         } else {
-            this.filter = ShelterDatabase_local.SHOW_ALL_FILTER;
+            //this.filter = ShelterDatabase_local.SHOW_ALL_FILTER;
+
+            String filterName = "";
+            List<String> filterGender = GenderEnum.getGenderList();
+            List<String> filterAge = AgeEnum.getAgeList();
         }
         //regenerate recyclerview
-        setupRecyclerView((RecyclerView) recyclerView, filter);
+        //setupRecyclerView((RecyclerView) recyclerView, filter);
+        setupRecyclerView((RecyclerView) recyclerView);
     }
 
 
@@ -126,9 +118,9 @@ public class DummyAppActivity extends AppCompatActivity {
      * Set up an adapter and hook it to the provided view
      * @param recyclerView  the view that needs this adapter
      */
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView, ShelterDatabaseFilter filter) {
+    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         //ShelterDatabase model = ShelterDatabase.getInstance();
-        recyclerView.setAdapter(new SimpleShelterRecyclerViewAdapter(ShelterDBInstance.getFilteredShelterList(filter)));
+        recyclerView.setAdapter(new SimpleShelterRecyclerViewAdapter(ShelterDBInstance.getFilteredShelterList(this.filterName,this.filterGender, this.filterAge)));
     }
 
     /**

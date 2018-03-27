@@ -15,9 +15,17 @@ public enum AgeEnum {
 
     public final int mask_val;
     public final String repr;
+    public static final int ALL_MASK = 0b1111;
     AgeEnum(int num, String repr){
         this.mask_val = num;
         this.repr = repr;
+    }
+    public static int enum2Mask(List<AgeEnum> gEnum){
+        int out = 0;
+        for(AgeEnum g: gEnum){
+            out = out | g.mask_val;
+        }
+        return out;
     }
     public static int enum2Mask(AgeEnum... gEnum){
         int out = 0;
@@ -60,6 +68,14 @@ public enum AgeEnum {
             }
         }
         return null;
+    }
+    public static List<AgeEnum> list2Enums(List<String> in){
+        List<AgeEnum> out = new ArrayList<AgeEnum>();
+        for(String s: in){
+            AgeEnum g = AgeEnum.toEnum(s);
+            out.add(g);
+        }
+        return out;
     }
 
     public static boolean maskContains(AgeEnum g, int m){

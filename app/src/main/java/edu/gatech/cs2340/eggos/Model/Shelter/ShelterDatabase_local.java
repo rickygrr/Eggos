@@ -8,6 +8,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashSet;
 import java.util.ArrayList;
+import java.util.List;
+
+import static edu.gatech.cs2340.eggos.Model.Shelter.AgeEnum.enum2Mask;
 
 /**
  * Created by chateau86 on 26-Feb-18.
@@ -19,12 +22,12 @@ public class ShelterDatabase_local implements ShelterDatabaseInterface{
 
     private SparseArray<Shelter> _ShelterList;
     private boolean _jsonReadDone;
-    public static final ShelterDatabaseFilter SHOW_ALL_FILTER = new ShelterDatabaseFilter() {
+    /*public static final ShelterDatabaseFilter SHOW_ALL_FILTER = new ShelterDatabaseFilter() {
         @Override
         public boolean keepShelter(Shelter s) {
             return true;
         }
-    };
+    };*/
 
     public static ShelterDatabase_local getInstance() {
         return ourInstance;
@@ -53,15 +56,15 @@ public class ShelterDatabase_local implements ShelterDatabaseInterface{
         return _ShelterList.keyAt(_ShelterList.size()-1) + 1;
     }
 
-    public ArrayList<Shelter> getShelterList(){ //Copy the content of this function for filtering implementations.
-        return this.getFilteredShelterList(SHOW_ALL_FILTER);
+    public List<Shelter> getShelterList(){ //Copy the content of this function for filtering implementations.
+        return this.getFilteredShelterList("", null, null );
     }
 
-    public ArrayList<Shelter> getFilteredShelterList(ShelterDatabaseFilter filt){
+    /*public List<Shelter> getFilteredShelterList(ShelterDatabaseFilter filt){
         /*
         "Wow, talk about a completely unloved class, conforms to ZERO collection interfaces..."
              -user166390, https://stackoverflow.com/questions/7999211/how-to-iterate-through-sparsearray
-         */
+         *//*
         //SparseArray<> is now officially my spirit animal. :(
         //Pls get me in the screenshot for the obligatory /r/me_irl post - W.K.
         ArrayList<Shelter> outList = new ArrayList<Shelter>();
@@ -71,7 +74,33 @@ public class ShelterDatabase_local implements ShelterDatabaseInterface{
             }
         }
         return outList;
+    }*/
+    public List<Shelter> getFilteredShelterList(String nameFilter, List<String> genderFilter, List<String> ageFilter){
+        int genderMask = 0;
+        int ageMask = 0;
+        if(genderFilter != null) {
+            genderMask = GenderEnum.enum2Mask(GenderEnum.list2Enums(genderFilter));
+        }
+        if(ageFilter != null) {
+            ageMask = AgeEnum.enum2Mask(AgeEnum.list2Enums(ageFilter));
+        }
+        if (genderMask == 0){
+            genderMask = GenderEnum.ALL_MASK;
+        }
+        if (ageMask == 0){
+            ageMask = AgeEnum.ALL_MASK;
+        }
+        ArrayList<Shelter> outList = new ArrayList<Shelter>();
+        for(int i = 0; i < _ShelterList.size(); i++){
+            if(nameFilter.isEmpty() || (_ShelterList.get(i).getName().toLowerCase().contains(nameFilter.toLowerCase()))) {
+                if(((_ShelterList.get(i)._GenderMask) & genderMask)>0 && (((_ShelterList.get(i)._AgeMask) & ageMask)>0)){
+                    outList.add(_ShelterList.get(i));
+                }
+            }
+        }
+        return outList;
     }
+
 
     private static ArrayList<Shelter> SparseArrToArrayList(SparseArray<Shelter> sp){
         if(sp==null){ return null;}
@@ -89,7 +118,7 @@ public class ShelterDatabase_local implements ShelterDatabaseInterface{
                 .setCapacity(20)
                 .setRestrictions("blah")
                 .setGendersMask(GenderEnum.enum2Mask(GenderEnum.Men, GenderEnum.Women))
-                .setAgeMask(AgeEnum.enum2Mask(AgeEnum.All))
+                .setAgeMask(enum2Mask(AgeEnum.All))
                 .setNotes("bleugh")
                 .setCoord(420.0, 69.0)
                 .setAddr("123 Fake St.\n 42069")
@@ -101,7 +130,7 @@ public class ShelterDatabase_local implements ShelterDatabaseInterface{
                 .setCapacity(420)
                 .setRestrictions("bleugh")
                 .setGendersMask(GenderEnum.enum2Mask(GenderEnum.Men))
-                .setAgeMask(AgeEnum.enum2Mask(AgeEnum.Children))
+                .setAgeMask(enum2Mask(AgeEnum.Children))
                 .setNotes("bleugh")
                 .setCoord(421.0, 69.0)
                 .setAddr("124 Fake St.\n 42069")

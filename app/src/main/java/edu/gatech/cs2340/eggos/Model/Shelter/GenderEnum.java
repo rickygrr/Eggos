@@ -16,9 +16,17 @@ public enum GenderEnum {
 
     public final int mask_val;
     public final String repr;
+    public static final int ALL_MASK = 0b11;
     GenderEnum(int num, String repr){
         this.mask_val = num;
         this.repr = repr;
+    }
+    public static int enum2Mask(List<GenderEnum> gEnum){
+        int out = 0;
+        for(GenderEnum g: gEnum){
+            out = out | g.mask_val;
+        }
+        return out;
     }
     public static int enum2Mask(GenderEnum... gEnum){
         int out = 0;
@@ -52,6 +60,15 @@ public enum GenderEnum {
             if((g.mask_val & mask) > 0){
                 out.add(g);
             }
+        }
+        return out;
+    }
+
+    public static List<GenderEnum> list2Enums(List<String> in){
+        List<GenderEnum> out = new ArrayList<GenderEnum>();
+        for(String s: in){
+            GenderEnum g = GenderEnum.toEnum(s);
+            out.add(g);
         }
         return out;
     }
