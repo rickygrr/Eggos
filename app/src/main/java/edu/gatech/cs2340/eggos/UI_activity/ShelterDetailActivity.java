@@ -5,7 +5,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.view.View.OnClickListener;
 
 import edu.gatech.cs2340.eggos.Model.Shelter.AgeEnum;
 import edu.gatech.cs2340.eggos.Model.Shelter.GenderEnum;
@@ -39,9 +43,13 @@ public class ShelterDetailActivity extends AppCompatActivity {
         // http://developer.android.com/guide/components/fragments.html
         //
         if (savedInstanceState == null) {
-            Log.d("hi", "Reached Top of no savedInstance STate");
+            Log.d("hi", "Reached Top of no savedInstance State");
             Bundle b = getIntent().getExtras();
             int uid = b.getInt("uid");
+            Button reserveButton = (Button) findViewById(R.id.reserveButton);
+            final Button applyButton = (Button) findViewById(R.id.applyButton);
+            final EditText numBedsEditText = (EditText) findViewById(R.id.numBedsEditText);
+            final TextView numBedsText = (TextView) findViewById(R.id.numBedsText);
 
             Shelter currShelter = ShelterDBInstance.getShelterByID(uid);
 
@@ -61,15 +69,25 @@ public class ShelterDetailActivity extends AppCompatActivity {
 
             ShelterDetails.setText(details);
 
-            /* arguments.putInt(ShelterDetailFragment.SHELTER_UID,
-                    getIntent().getIntExtra(ShelterDetailFragment.SHELTER_UID, 0)); */
+            reserveButton.setOnClickListener(new OnClickListener() {
 
-            /*ShelterDetailFragment fragment = new ShelterDetailFragment();
-            fragment.setArguments(arguments);
-            Log.d("hi", "Reached Bottom of no savedInstance STate");
-            getSupportFragmentManager().beginTransaction()
-                    .add(fragment, "blah")
-                    .commit(); */
+                public void onClick(View v) {
+                    numBedsEditText.setVisibility(View.VISIBLE);
+                    numBedsText.setVisibility(View.VISIBLE);
+                    applyButton.setVisibility(View.VISIBLE);
+                }
+            });
+
+            applyButton.setOnClickListener(new OnClickListener() {
+
+                public void onClick(View v) {
+                    //TODO Set User with this shelter and remove beds from shelter
+                    int numBeds = Integer.parseInt(numBedsEditText.getText().toString());
+                    //User.setShelter(currShelter)
+                    //currShelter.removeBeds(numBeds)
+
+                }
+            });
         }
 
 
