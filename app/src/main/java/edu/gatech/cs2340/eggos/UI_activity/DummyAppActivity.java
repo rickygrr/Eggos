@@ -85,6 +85,9 @@ public class DummyAppActivity extends AppCompatActivity {
             public void onClick(View view) {
             //filter = ShelterDatabase_local.SHOW_ALL_FILTER;
             //TODO: Re-generate recycler view
+            filterName = "";
+            filterGender = null;
+            filterAge = null;
             setupRecyclerView((RecyclerView) recyclerView);
             }
         });

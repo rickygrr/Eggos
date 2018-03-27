@@ -15,7 +15,7 @@ import java.util.List;
 public interface UserDatabaseDAO {
 
     @Query("SELECT * FROM Users " +
-            "WHERE _Username = :username " +
+            "WHERE UPPER(_Username) = UPPER(:username) " +
             "AND _Password = :password ")
     List<User> getUser(String username, String password);
 
@@ -23,7 +23,7 @@ public interface UserDatabaseDAO {
     void insertAll(User... user);
 
     @Query("SELECT * FROM Users " +
-            "WHERE _Username = :username ")
+            "WHERE UPPER(_Username) = UPPER(:username) ")
     List<User> userExists(String username);
 
     @Delete

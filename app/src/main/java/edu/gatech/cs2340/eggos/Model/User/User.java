@@ -100,19 +100,6 @@ public class User {
     public int getCurrentOccupancy(){
         return this._currentOccupancy;
     }
-    public boolean setCurrentOccupancy(int newOccupancy){
-        if(newOccupancy < 0){
-            return false;
-        } else {
-            this._currentOccupancy = newOccupancy;
-            if (newOccupancy == 0) {
-                this._currentShelterID = -1;
-            }
-            //TODO notify shelter
-            //TODO notify db update
-            return true;
-        }
 
-    }
 
 }
