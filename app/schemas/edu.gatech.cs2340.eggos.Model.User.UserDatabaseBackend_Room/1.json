@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "795e6d4f39b711eb55aba4b70854f86c",
+    "identityHash": "1a3123bb6d9ce23f77dbceca86e3387c",
     "entities": [
       {
         "tableName": "Users",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_Username` TEXT NOT NULL, `_Password` TEXT, `_UserType` TEXT, `_currentShelterID` INTEGER NOT NULL, PRIMARY KEY(`_Username`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_Username` TEXT NOT NULL, `_Password` TEXT, `_UserType` TEXT, `_currentShelterID` INTEGER NOT NULL, `_currentOccupancy` INTEGER NOT NULL, PRIMARY KEY(`_Username`))",
         "fields": [
           {
             "fieldPath": "_Username",
@@ -31,6 +31,12 @@
             "columnName": "_currentShelterID",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "_currentOccupancy",
+            "columnName": "_currentOccupancy",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -45,7 +51,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"795e6d4f39b711eb55aba4b70854f86c\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"1a3123bb6d9ce23f77dbceca86e3387c\")"
     ]
   }
 }

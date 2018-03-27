@@ -25,15 +25,17 @@ public class User {
     public String _Password;
     public String _UserType;
     public int _currentShelterID;
+    public int _currentOccupancy;
 
     public User(String username, String password, String type){
-        this(username, password, type, -1);
+        this(username, password, type, -1, 0);
     }
-    public User(String _Username, String _Password, String _UserType, int _currentShelterID){
+    public User(String _Username, String _Password, String _UserType, int _currentShelterID, int _currentOccupancy){
         this._Username = _Username;
         this._Password = _Password;
         this._UserType = _UserType;
         this._currentShelterID = _currentShelterID;
+        this._currentOccupancy = _currentOccupancy;
     }
 
     public String getUsername(){
@@ -78,6 +80,39 @@ public class User {
 
     public int getShelterID(){
         return _currentShelterID;
+    }
+    public boolean setShelterID(int shelterID){
+        if(this._currentOccupancy > 0){
+            return false;
+        } else {
+            this._currentShelterID = shelterID;
+            return true;
+        }
+
+    }
+    public boolean freeShelter(){
+        //TODO: notify shelter
+        this._currentOccupancy = 0;
+        this._currentShelterID = -1;
+        return true;
+    }
+
+    public int getCurrentOccupancy(){
+        return this._currentOccupancy;
+    }
+    public boolean setCurrentOccupancy(int newOccupancy){
+        if(newOccupancy < 0){
+            return false;
+        } else {
+            this._currentOccupancy = newOccupancy;
+            if (newOccupancy == 0) {
+                this._currentShelterID = -1;
+            }
+            //TODO notify shelter
+            //TODO notify db update
+            return true;
+        }
+
     }
 
 }
