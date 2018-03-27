@@ -117,6 +117,11 @@ public class DummyAppActivity extends AppCompatActivity {
         setupRecyclerView((RecyclerView) recyclerView);
     }
 
+    protected void onResume() {
+        super.onResume();
+        setupRecyclerView((RecyclerView) recyclerView);
+    }
+
 
 
     /**
@@ -181,7 +186,12 @@ public class DummyAppActivity extends AppCompatActivity {
               Now we bind the data to the widgets.  In this case, pretty simple, put the id in one
               textview and the string rep of a course in the other.
              */
-            holder.mIdView.setText(Integer.toString(mShelters.get(position).getUID()));
+            if (UserHolder.getInstance().getUser()._currentShelterID == holder.mShelter.getUID()){
+                holder.mIdView.setText(Integer.toString(mShelters.get(position).getUID())+" *");
+            } else {
+                holder.mIdView.setText(Integer.toString(mShelters.get(position).getUID()));
+            }
+
             holder.mContentView.setText(mShelters.get(position).toString());
 
             /*

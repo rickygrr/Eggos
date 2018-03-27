@@ -56,25 +56,6 @@ public class ShelterDetailActivity extends AppCompatActivity {
             final EditText numBedsEditText = (EditText) findViewById(R.id.numBedsEditText);
             final TextView numBedsText = (TextView) findViewById(R.id.numBedsText);
 
-            /*Shelter currShelter = ShelterDBInstance.getShelterByID(shelterID);
-
-            TextView ShelterDetails = (TextView) findViewById(R.id.shelterDetailsTextView);
-            String coord = "";
-            for(int i = 0; i < currShelter.getCoord().length; i++) {
-                coord += currShelter.getCoord()[i] + ", ";
-            }
-            String details = "Name: " + currShelter.toString()
-                    + "\n" + "Capacity: " + currShelter.getMaxCap()
-                    + "\n" + "Gender Restrictions: " + GenderEnum.mask2Enums(currShelter._GenderMask)
-                    + "\n" + "Age Restrictions: " + AgeEnum.mask2Enums(currShelter._AgeMask)
-                    + "\n" + "Notes: " + currShelter.getNotes()
-                    + "\n" + "Coordinates: " + coord
-                    + "\n" + "Address " + currShelter.getAddr()
-                    + "\n" + "Phone Number " + currShelter.getPhone()
-                    + "\n" + "Total Capacity:" + currShelter._Capacity_max
-                    + "\n" + "Available Capacity:" + currShelter._Capacity_current;
-
-            ShelterDetails.setText(details);*/
             updateShelterNumber();
 
             reserveButton.setOnClickListener(new OnClickListener() {
@@ -91,14 +72,14 @@ public class ShelterDetailActivity extends AppCompatActivity {
             applyButton.setOnClickListener(new OnClickListener() {
 
                 public void onClick(View v) {
-                    //TODO Set User with this shelter and remove beds from shelter
+                    //Set User with this shelter and remove beds from shelter
                     int numBeds = Integer.parseInt(numBedsEditText.getText().toString());
                     Log.e("ShelterDetailActivity","Bed update clicked with shelter: "+shelterID+" Bedcount: "+numBeds);
                     Shelter currShelter = ShelterDBInstance.getShelterByID(shelterID);
                     if(!currShelter.haveRoomFor(numBeds)){
                         Log.e("ShelterDetailActivity","Not enough room: Want :"+numBeds+" have: "+currShelter._Capacity_current);
                         numBedsEditText.setError("Insufficient bed availability");
-                        //TODO Error bubble or something
+                        //Error bubble or something
                     } else {
                         //Have the room
                         UserHolder.getInstance().setCurrentOccupancy(shelterID, numBeds);
