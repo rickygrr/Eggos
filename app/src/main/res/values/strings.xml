@@ -17,4 +17,5 @@
     <string name="register_button">Register</string>
     <string name="dummy_back_logout">Logout</string>
     <string name="dummy_screen_text">Dummy app main screen. To be replaced with actual app.</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

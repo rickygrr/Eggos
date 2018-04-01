@@ -39,6 +39,7 @@ public class DummyAppActivity extends AppCompatActivity {
     String filterName = "";
     List<String> filterGender = null;
     List<String> filterAge = null;
+    List<Shelter> shelterList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,22 @@ public class DummyAppActivity extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(intent);
                 finish();
+            }
+        });
+
+        Button mMapButton = (Button) findViewById(R.id.dummy_button_map);
+        mMapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //fire an intent to go to login page
+                //UserHolder.getInstance().logout();
+                Context context = view.getContext();
+                Intent intent = new Intent(context, MapsActivity.class);
+                Bundle b = new Bundle();
+                b.putIntegerArrayList("ShelterUIDList",ShelterDBInstance.packShelterList(shelterList));
+                intent.putExtras(b);
+                context.startActivity(intent);
+                //finish();
             }
         });
 
@@ -130,7 +147,8 @@ public class DummyAppActivity extends AppCompatActivity {
      */
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         //ShelterDatabase model = ShelterDatabase.getInstance();
-        recyclerView.setAdapter(new SimpleShelterRecyclerViewAdapter(ShelterDBInstance.getFilteredShelterList(this.filterName,this.filterGender, this.filterAge)));
+        shelterList = ShelterDBInstance.getFilteredShelterList(this.filterName,this.filterGender, this.filterAge);
+        recyclerView.setAdapter(new SimpleShelterRecyclerViewAdapter(shelterList));
     }
 
     /**

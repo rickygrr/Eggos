@@ -8,6 +8,7 @@ import android.util.Log;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.gatech.cs2340.eggos.Model.User.UserDatabaseBackend_Room;
@@ -100,6 +101,24 @@ public class ShelterDatabase_room implements ShelterDatabaseInterface {
         }else {
             return dao.getFilteredShelterList("%"+name+"%", genderMask, ageMask);
         }
+    }
+
+    @Override
+    public ArrayList<Integer> packShelterList(List<Shelter> shelterList) {
+        ArrayList<Integer> out = new ArrayList<>();
+        for(Shelter s: shelterList){
+            out.add(s.getUID());
+        }
+        return out;
+    }
+
+    @Override
+    public List<Shelter> unpackShelterList(ArrayList<Integer> shelterIndexList) {
+        List<Shelter> out = new ArrayList<>();
+        for(int s: shelterIndexList){
+            out.add(getShelterByID(s));
+        }
+        return out;
     }
 
     @Override

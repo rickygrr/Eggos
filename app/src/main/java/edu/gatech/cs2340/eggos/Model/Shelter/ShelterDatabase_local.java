@@ -96,6 +96,24 @@ public class ShelterDatabase_local implements ShelterDatabaseInterface{
         return ar;
     }
 
+    @Override
+    public ArrayList<Integer> packShelterList(List<Shelter> shelterList) {
+        ArrayList<Integer> out = new ArrayList<>();
+        for(Shelter s: shelterList){
+            out.add(s.getUID());
+        }
+        return out;
+    }
+
+    @Override
+    public List<Shelter> unpackShelterList(ArrayList<Integer> shelterIndexList) {
+        List<Shelter> out = new ArrayList<>();
+        for(int s: shelterIndexList){
+            out.add(getShelterByID(s));
+        }
+        return out;
+    }
+
     public void _initTestDatabase(){
         this.addShelter(new ShelterBuilder()
                 .setUID(0)

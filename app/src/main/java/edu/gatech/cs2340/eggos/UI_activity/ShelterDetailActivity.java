@@ -76,7 +76,15 @@ public class ShelterDetailActivity extends AppCompatActivity {
                     int numBeds = Integer.parseInt(numBedsEditText.getText().toString());
                     Log.e("ShelterDetailActivity","Bed update clicked with shelter: "+shelterID+" Bedcount: "+numBeds);
                     Shelter currShelter = ShelterDBInstance.getShelterByID(shelterID);
-                    if(!currShelter.haveRoomFor(numBeds)){
+                    User u = UserHolder.getInstance().getUser();
+                    boolean avail = false;
+                    if(u._currentShelterID == shelterID){
+                        //same shelter
+                        avail = currShelter.haveRoomFor(numBeds - u._currentOccupancy);
+                    } else {
+                        avail = currShelter.haveRoomFor(numBeds);
+                    }
+                    if(!avail){
                         Log.e("ShelterDetailActivity","Not enough room: Want :"+numBeds+" have: "+currShelter._Capacity_current);
                         numBedsEditText.setError("Insufficient bed availability");
                         //Error bubble or something
