@@ -1,5 +1,7 @@
 package edu.gatech.cs2340.eggos.Model.User;
 
+import android.support.annotation.Nullable;
+
 import edu.gatech.cs2340.eggos.Model.Shelter.Shelter;
 import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabaseInterface;
 import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase_room;
@@ -9,7 +11,7 @@ import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase_room;
  * Created by chateau86 on 14-Feb-18.
  */
 
-public class UserHolder {
+public final class UserHolder {
     private static final UserHolder ourInstance = new UserHolder();
     public static UserHolder getInstance() {
         return ourInstance;
@@ -17,6 +19,7 @@ public class UserHolder {
     private UserDatabaseInterface _UserDBInstance;
     private ShelterDatabaseInterface _ShelterDBInstance;
 
+    @Nullable
     private User _currentUser;
     private UserHolder() {
         this._currentUser = null; //Might default to guest when we implement guest.
@@ -56,7 +59,6 @@ public class UserHolder {
         if(newOccupancy < 0){
             return false;
         } else {
-            //TODO notify shelter
             if(_currentUser._currentShelterID != -1) {
                 //return beds
                 Shelter s = _ShelterDBInstance.getShelterByID(_currentUser._currentShelterID);

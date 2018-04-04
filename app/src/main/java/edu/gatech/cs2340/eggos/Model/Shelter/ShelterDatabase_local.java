@@ -6,7 +6,6 @@ import android.util.SparseArray;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.HashSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +15,8 @@ import static edu.gatech.cs2340.eggos.Model.Shelter.AgeEnum.enum2Mask;
  * Created by chateau86 on 26-Feb-18.
  */
 
-public class ShelterDatabase_local implements ShelterDatabaseInterface{
+@SuppressWarnings("MagicNumber")
+public final class ShelterDatabase_local implements ShelterDatabaseInterface{
 
     private static final ShelterDatabase_local ourInstance = new ShelterDatabase_local();
 
@@ -34,15 +34,17 @@ public class ShelterDatabase_local implements ShelterDatabaseInterface{
     }
 
     private ShelterDatabase_local() {
-        this._ShelterList = new SparseArray<Shelter>();
+        this._ShelterList = new SparseArray<>();
         //this._initTestDatabase();
         this._jsonReadDone = false;
     }
 
+    @Override
     public Shelter getShelterByID(int id){
         return _ShelterList.get(id);
     }
 
+    @Override
     public boolean addShelter(Shelter s){
         if(_ShelterList.get(s.getUID()) != null){
             return false; //duplicate
@@ -60,9 +62,11 @@ public class ShelterDatabase_local implements ShelterDatabaseInterface{
         return _ShelterList.keyAt(_ShelterList.size()-1) + 1;
     }
 
+    @Override
     public List<Shelter> getShelterList(){ //Copy the content of this function for filtering implementations.
         return this.getFilteredShelterList("", null, null );
     }
+    @Override
     public List<Shelter> getFilteredShelterList(String nameFilter, List<String> genderFilter, List<String> ageFilter){
         int genderMask = 0;
         int ageMask = 0;
@@ -72,7 +76,7 @@ public class ShelterDatabase_local implements ShelterDatabaseInterface{
         if(ageFilter != null) {
             ageMask = AgeEnum.enum2Mask(AgeEnum.list2Enums(ageFilter));
         }
-        ArrayList<Shelter> outList = new ArrayList<Shelter>();
+        List<Shelter> outList = new ArrayList<>();
         for(int i = 0; i < _ShelterList.size(); i++){
             if(nameFilter.isEmpty() || (_ShelterList.get(i).getName().toLowerCase().contains(nameFilter.toLowerCase()))) {
                 int gm = _ShelterList.get(i)._GenderMask;
@@ -97,8 +101,8 @@ public class ShelterDatabase_local implements ShelterDatabaseInterface{
     }
 
     @Override
-    public ArrayList<Integer> packShelterList(List<Shelter> shelterList) {
-        ArrayList<Integer> out = new ArrayList<>();
+    public List<Integer> packShelterList(Iterable<Shelter> shelterList) {
+        List<Integer> out = new ArrayList<>();
         for(Shelter s: shelterList){
             out.add(s.getUID());
         }
@@ -106,7 +110,7 @@ public class ShelterDatabase_local implements ShelterDatabaseInterface{
     }
 
     @Override
-    public List<Shelter> unpackShelterList(ArrayList<Integer> shelterIndexList) {
+    public List<Shelter> unpackShelterList(Iterable<Integer> shelterIndexList) {
         List<Shelter> out = new ArrayList<>();
         for(int s: shelterIndexList){
             out.add(getShelterByID(s));
@@ -114,12 +118,14 @@ public class ShelterDatabase_local implements ShelterDatabaseInterface{
         return out;
     }
 
+    @SuppressWarnings("MagicNumber") //It's a test database. OF COURSE it will have magic numbers.
+    @Override
     public void _initTestDatabase(){
         this.addShelter(new ShelterBuilder()
                 .setUID(0)
                 .setName("Test Shelter")
                 .setCapacity(20)
-                .setRestrictions("blah")
+                //.setRestrictions("blah")
                 .setGendersMask(GenderEnum.enum2Mask(GenderEnum.Men, GenderEnum.Women))
                 .setAgeMask(enum2Mask(AgeEnum.All))
                 .setNotes("bleugh")
@@ -131,7 +137,7 @@ public class ShelterDatabase_local implements ShelterDatabaseInterface{
                 .setUID(1)
                 .setName("Test Shelter 2")
                 .setCapacity(420)
-                .setRestrictions("bleugh")
+                //.setRestrictions("bleugh")
                 .setGendersMask(GenderEnum.enum2Mask(GenderEnum.Men))
                 .setAgeMask(enum2Mask(AgeEnum.Children))
                 .setNotes("bleugh")
@@ -141,6 +147,7 @@ public class ShelterDatabase_local implements ShelterDatabaseInterface{
                 .createShelter());
     }
 
+    @Override
     public void initFromJSON(InputStream f_in)throws IOException {
         if (_jsonReadDone){
             return;
@@ -217,7 +224,7 @@ public class ShelterDatabase_local implements ShelterDatabaseInterface{
                                 .setUID(uid)
                                 .setName(name)
                                 .setCapacity(cap)
-                                .setRestrictions(restriction)
+                                //.setRestrictions(restriction)
                                 .setGendersMask(genderMask)
                                 .setAgeMask(ageMask)
                                 .setNotes(notes)
@@ -226,5 +233,4 @@ public class ShelterDatabase_local implements ShelterDatabaseInterface{
                                 .setPhone(phone)
                                 .createShelter());
     }
-    //TODO: Read CSV/JSON
 }

@@ -31,8 +31,8 @@ public class SplashScreenActivity extends AppCompatActivity {
         ShelterDBInstance = ShelterDatabase_room.getFirstInstance(getApplicationContext());
 
 
-        Button mSignInButton = (Button) findViewById(R.id.splash_login_button);
-        Button mRegisterButton = (Button) findViewById(R.id.splash_register_button);
+        Button mSignInButton = findViewById(R.id.splash_login_button);
+        Button mRegisterButton = findViewById(R.id.splash_register_button);
         mSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,6 +64,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             alertDialog.setMessage("Debug data loaded instead.");
             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                     new DialogInterface.OnClickListener() {
+                        @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
                         }

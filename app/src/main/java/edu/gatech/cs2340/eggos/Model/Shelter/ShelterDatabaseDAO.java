@@ -8,8 +8,6 @@ import android.arch.persistence.room.Update;
 
 import java.util.List;
 
-import edu.gatech.cs2340.eggos.Model.User.User;
-
 /**
  * Created by chateau86 on 26-Mar-18.
  */
@@ -35,7 +33,7 @@ public interface ShelterDatabaseDAO {
     void insertAll(Shelter... shelter);
 
     @Update
-    public int update(Shelter... shelters); //return row count
+    int update(Shelter... shelters); //return row count
 
     @Delete
     void delete(Shelter shelter);

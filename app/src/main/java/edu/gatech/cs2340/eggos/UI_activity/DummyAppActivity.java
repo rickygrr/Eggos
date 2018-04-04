@@ -2,6 +2,7 @@ package edu.gatech.cs2340.eggos.UI_activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -18,8 +19,6 @@ import android.widget.Filterable;
 import java.util.List;
 import java.util.ArrayList;
 
-import edu.gatech.cs2340.eggos.Model.Shelter.AgeEnum;
-import edu.gatech.cs2340.eggos.Model.Shelter.GenderEnum;
 import edu.gatech.cs2340.eggos.Model.Shelter.Shelter;
 //import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase_local;
 //import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabaseFilter;
@@ -37,7 +36,9 @@ public class DummyAppActivity extends AppCompatActivity {
     ShelterDatabaseInterface ShelterDBInstance = ShelterDatabase_room.getInstance();
     //ShelterDatabaseFilter filter = ShelterDatabase_local.SHOW_ALL_FILTER;
     String filterName = "";
+    @Nullable
     List<String> filterGender = null;
+    @Nullable
     List<String> filterAge = null;
     List<Shelter> shelterList = new ArrayList<>();
 
@@ -53,7 +54,7 @@ public class DummyAppActivity extends AppCompatActivity {
         //Step 2.  Hook up the adapter to the view
         setupRecyclerView((RecyclerView) recyclerView);
 
-        Button mLogoutButton = (Button) findViewById(R.id.dummy_button_logout);
+        Button mLogoutButton = findViewById(R.id.dummy_button_logout);
         mLogoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,7 +68,7 @@ public class DummyAppActivity extends AppCompatActivity {
             }
         });
 
-        Button mMapButton = (Button) findViewById(R.id.dummy_button_map);
+        Button mMapButton = findViewById(R.id.dummy_button_map);
         mMapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,14 +77,14 @@ public class DummyAppActivity extends AppCompatActivity {
                 Context context = view.getContext();
                 Intent intent = new Intent(context, MapsActivity.class);
                 Bundle b = new Bundle();
-                b.putIntegerArrayList("ShelterUIDList",ShelterDBInstance.packShelterList(shelterList));
+                b.putIntegerArrayList("ShelterUIDList", new ArrayList<>(ShelterDBInstance.packShelterList(shelterList)));
                 intent.putExtras(b);
                 context.startActivity(intent);
                 //finish();
             }
         });
 
-        Button mFilterButton = (Button) findViewById(R.id.dummy_button_filter);
+        Button mFilterButton = findViewById(R.id.dummy_button_filter);
         mFilterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,12 +97,11 @@ public class DummyAppActivity extends AppCompatActivity {
             }
         });
 
-        Button mRstFilterButton = (Button) findViewById(R.id.dummy_button_rst_filter);
+        Button mRstFilterButton = findViewById(R.id.dummy_button_rst_filter);
         mRstFilterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
             //filter = ShelterDatabase_local.SHOW_ALL_FILTER;
-            //TODO: Re-generate recycler view
             filterName = "";
             filterGender = null;
             filterAge = null;
@@ -113,7 +113,7 @@ public class DummyAppActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == SELECT_FILTER_REQUEST && resultCode == RESULT_OK) {
+        if ((requestCode == SELECT_FILTER_REQUEST) && (resultCode == RESULT_OK)) {
             final String name = data.getStringExtra("name");
             final ArrayList<String> gender = data.getStringArrayListExtra("gender");
             final ArrayList<String> age = data.getStringArrayListExtra("age");
@@ -134,6 +134,7 @@ public class DummyAppActivity extends AppCompatActivity {
         setupRecyclerView((RecyclerView) recyclerView);
     }
 
+    @Override
     protected void onResume() {
         super.onResume();
         setupRecyclerView((RecyclerView) recyclerView);
@@ -257,7 +258,7 @@ public class DummyAppActivity extends AppCompatActivity {
                         mFiltered = mShelters;
                     } else {
 
-                        List<Shelter> filteredList = new ArrayList<Shelter>();
+                        List<Shelter> filteredList = new ArrayList<>();
 
                         for (Shelter shelter : mShelters) {
 
@@ -298,8 +299,8 @@ public class DummyAppActivity extends AppCompatActivity {
             public ViewHolder(View view) {
                 super(view);
                 mView = view;
-                mIdView = (TextView) view.findViewById(R.id.id);
-                mContentView = (TextView) view.findViewById(R.id.content);
+                mIdView = view.findViewById(R.id.id);
+                mContentView = view.findViewById(R.id.content);
             }
 
             @Override

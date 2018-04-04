@@ -1,8 +1,5 @@
 package edu.gatech.cs2340.eggos.Model.Shelter;
 
-import android.support.annotation.NonNull;
-
-import java.nio.file.FileAlreadyExistsException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +8,7 @@ import java.util.List;
  */
 
 public enum GenderEnum {
-    Men(1<<0, "Men"),
+    Men(1, "Men"),
     Women(1<<1, "Women");
 
     public final int mask_val;
@@ -55,7 +52,7 @@ public enum GenderEnum {
     }
 
     public static List<GenderEnum> mask2Enums(int mask){
-        List<GenderEnum> out = new ArrayList<GenderEnum>();
+        List<GenderEnum> out = new ArrayList<>();
         for(GenderEnum g: GenderEnum.values()){
             if((g.mask_val & mask) > 0){
                 out.add(g);
@@ -65,7 +62,7 @@ public enum GenderEnum {
     }
 
     public static List<GenderEnum> list2Enums(List<String> in){
-        List<GenderEnum> out = new ArrayList<GenderEnum>();
+        List<GenderEnum> out = new ArrayList<>();
         for(String s: in){
             GenderEnum g = GenderEnum.toEnum(s);
             out.add(g);
@@ -77,9 +74,9 @@ public enum GenderEnum {
         return this.repr;
     }
     public static GenderEnum toEnum(String str){
-        str = str.toUpperCase();
+        String _str = str.toUpperCase();
         for(GenderEnum g: GenderEnum.values()){
-            if(str.charAt(0) == g.toString().charAt(0)){
+            if(_str.charAt(0) == g.toString().charAt(0)){
                 return g;
             }
         }
@@ -87,7 +84,7 @@ public enum GenderEnum {
     }
 
     public static List<String> getGenderList(){
-        ArrayList<String> out = new ArrayList<String>();
+        List<String> out = new ArrayList<>();
         for(GenderEnum g: GenderEnum.values()){
             out.add(g.toString());
         }

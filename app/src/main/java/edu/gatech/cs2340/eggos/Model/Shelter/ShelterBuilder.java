@@ -4,7 +4,7 @@ public class ShelterBuilder {
     private int uid;
     private String name;
     private int capacity;
-    private String restrictions;
+    //private String restrictions;
     private int gendersMask;
     private int ageMask;
     private String notes;
@@ -28,10 +28,10 @@ public class ShelterBuilder {
         return this;
     }
 
-    public ShelterBuilder setRestrictions(String restrictions) {
+    /*public ShelterBuilder setRestrictions(String restrictions) {
         this.restrictions = restrictions;
         return this;
-    }
+    }*/
 
     public ShelterBuilder setGendersMask(int gendersMask) {
         this.gendersMask = gendersMask;

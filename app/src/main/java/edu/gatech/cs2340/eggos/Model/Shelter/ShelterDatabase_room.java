@@ -3,7 +3,6 @@ package edu.gatech.cs2340.eggos.Model.Shelter;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.util.JsonReader;
-import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,16 +10,13 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.gatech.cs2340.eggos.Model.User.UserDatabaseBackend_Room;
-import edu.gatech.cs2340.eggos.Model.User.UserDatabase_room;
-
 import static edu.gatech.cs2340.eggos.Model.Shelter.AgeEnum.enum2Mask;
 
 /**
  * Created by chateau86 on 27-Mar-18.
  */
 
-public class ShelterDatabase_room implements ShelterDatabaseInterface {
+public final class ShelterDatabase_room implements ShelterDatabaseInterface {
     private static final ShelterDatabase_room ourInstance = new ShelterDatabase_room();
     private ShelterDatabaseBackend_Room db;
     private ShelterDatabaseDAO dao;
@@ -30,7 +26,7 @@ public class ShelterDatabase_room implements ShelterDatabaseInterface {
     }
 
     public static ShelterDatabase_room getInstance() {
-        if(ourInstance.db == null || ourInstance.dao.getRowCount() == 0){
+        if((ourInstance.db == null) || (ourInstance.dao.getRowCount() == 0)){
             throw new IllegalStateException("Database not initialized");
         }
         //Log.e("ShelterDatabase", "Instance given with row count "+ourInstance.dao.getRowCount());
@@ -104,8 +100,8 @@ public class ShelterDatabase_room implements ShelterDatabaseInterface {
     }
 
     @Override
-    public ArrayList<Integer> packShelterList(List<Shelter> shelterList) {
-        ArrayList<Integer> out = new ArrayList<>();
+    public List<Integer> packShelterList(Iterable<Shelter> shelterList) {
+        List<Integer> out = new ArrayList<>();
         for(Shelter s: shelterList){
             out.add(s.getUID());
         }
@@ -113,7 +109,7 @@ public class ShelterDatabase_room implements ShelterDatabaseInterface {
     }
 
     @Override
-    public List<Shelter> unpackShelterList(ArrayList<Integer> shelterIndexList) {
+    public List<Shelter> unpackShelterList(Iterable<Integer> shelterIndexList) {
         List<Shelter> out = new ArrayList<>();
         for(int s: shelterIndexList){
             out.add(getShelterByID(s));
@@ -121,14 +117,16 @@ public class ShelterDatabase_room implements ShelterDatabaseInterface {
         return out;
     }
 
+    @SuppressWarnings("MagicNumber") //It's a test database. OF COURSE it will have magic numbers.
     @Override
     public void _initTestDatabase() {
         ourInstance._jsonReadDone = true;
+        //noinspection MagicNumber,MagicNumber,MagicNumber
         this.addShelter(new ShelterBuilder()
                 .setUID(0)
                 .setName("Test Shelter")
                 .setCapacity(20)
-                .setRestrictions("blah")
+                //.setRestrictions("blah")
                 .setGendersMask(GenderEnum.enum2Mask(GenderEnum.Men, GenderEnum.Women))
                 .setAgeMask(enum2Mask(AgeEnum.All))
                 .setNotes("bleugh")
@@ -136,11 +134,12 @@ public class ShelterDatabase_room implements ShelterDatabaseInterface {
                 .setAddr("123 Fake St.\n 42069")
                 .setPhone("867-5309")
                 .createShelter());
+        //noinspection MagicNumber,MagicNumber,MagicNumber
         this.addShelter(new ShelterBuilder()
                 .setUID(1)
                 .setName("Test Shelter 2")
                 .setCapacity(420)
-                .setRestrictions("bleugh")
+                //.setRestrictions("bleugh")
                 .setGendersMask(GenderEnum.enum2Mask(GenderEnum.Men))
                 .setAgeMask(enum2Mask(AgeEnum.Children))
                 .setNotes("bleugh")
@@ -228,7 +227,7 @@ public class ShelterDatabase_room implements ShelterDatabaseInterface {
                 .setUID(uid)
                 .setName(name)
                 .setCapacity(cap)
-                .setRestrictions(restriction)
+                //.setRestrictions(restriction)
                 .setGendersMask(genderMask)
                 .setAgeMask(ageMask)
                 .setNotes(notes)

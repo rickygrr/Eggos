@@ -8,7 +8,7 @@ import java.util.List;
  */
 
 public enum AgeEnum {
-    Newborn(1<<0, "Family with newborns"),
+    Newborn(1, "Family with newborns"),
     Children(1<<1, "Children"),
     YoungAdult(1<<2, "Young adult"),
     All(1<<3,"All");
@@ -35,7 +35,7 @@ public enum AgeEnum {
         return out;
     }
     public static List<AgeEnum> mask2Enums(int mask){
-        List<AgeEnum> out = new ArrayList<AgeEnum>();
+        List<AgeEnum> out = new ArrayList<>();
         for(AgeEnum g: AgeEnum.values()){
             if((g.mask_val & mask) > 0){
                 out.add(g);
@@ -61,16 +61,16 @@ public enum AgeEnum {
     }
 
     public static AgeEnum toEnum(String str){
-        str = str.toUpperCase();
+        String _str = str.toUpperCase();
         for(AgeEnum g: AgeEnum.values()){
-            if(str.charAt(0) == g.toString().charAt(0)){
+            if(_str.charAt(0) == g.toString().charAt(0)){
                 return g;
             }
         }
         return null;
     }
     public static List<AgeEnum> list2Enums(List<String> in){
-        List<AgeEnum> out = new ArrayList<AgeEnum>();
+        List<AgeEnum> out = new ArrayList<>();
         for(String s: in){
             AgeEnum g = AgeEnum.toEnum(s);
             out.add(g);
@@ -86,7 +86,7 @@ public enum AgeEnum {
     }
 
     public static List<String> getAgeList(){
-        ArrayList<String> out = new ArrayList<String>();
+        List<String> out = new ArrayList<>();
         for(AgeEnum g: AgeEnum.values()){
             out.add(g.toString());
         }

@@ -1,12 +1,7 @@
 package edu.gatech.cs2340.eggos.Model.User;
 
-import edu.gatech.cs2340.eggos.Model.Shelter.Shelter;
-import android.arch.persistence.room.Dao;
-import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.PrimaryKey;
-import android.arch.persistence.room.Query;
 import android.support.annotation.NonNull;
 
 /**
@@ -78,7 +73,7 @@ public class User {
         return true;
     }
 
-    public int getShelterID(){
+   /* public int getShelterID(){
         return _currentShelterID;
     }
     public boolean setShelterID(int shelterID){
@@ -89,17 +84,5 @@ public class User {
             return true;
         }
 
-    }
-    public boolean freeShelter(){
-        //TODO: notify shelter
-        this._currentOccupancy = 0;
-        this._currentShelterID = -1;
-        return true;
-    }
-
-    public int getCurrentOccupancy(){
-        return this._currentOccupancy;
-    }
-
-
+    }*/
 }

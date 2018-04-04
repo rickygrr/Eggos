@@ -3,9 +3,6 @@ package edu.gatech.cs2340.eggos.Model.Shelter;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
 
-import edu.gatech.cs2340.eggos.Model.User.User;
-import edu.gatech.cs2340.eggos.Model.User.UserDatabaseDAO;
-
 /**
  * Created by chateau86 on 26-Mar-18.
  */

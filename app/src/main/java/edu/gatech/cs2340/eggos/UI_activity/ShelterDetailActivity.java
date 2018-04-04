@@ -2,7 +2,6 @@ package edu.gatech.cs2340.eggos.UI_activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.UserHandle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -28,7 +27,7 @@ import edu.gatech.cs2340.eggos.R;
 
 public class ShelterDetailActivity extends AppCompatActivity {
     //public static final String SHELTER_UID = "shelter_uid";
-    private ShelterDatabaseInterface ShelterDBInstance;;
+    private ShelterDatabaseInterface ShelterDBInstance;
     private int shelterID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,15 +50,16 @@ public class ShelterDetailActivity extends AppCompatActivity {
             Bundle b = getIntent().getExtras();
             //int uid = b.getInt("uid");
             shelterID = b.getInt("uid");
-            final Button reserveButton = (Button) findViewById(R.id.reserveButton);
-            final Button applyButton = (Button) findViewById(R.id.applyButton);
-            final EditText numBedsEditText = (EditText) findViewById(R.id.numBedsEditText);
-            final TextView numBedsText = (TextView) findViewById(R.id.numBedsText);
+            final Button reserveButton = findViewById(R.id.reserveButton);
+            final Button applyButton = findViewById(R.id.applyButton);
+            final EditText numBedsEditText = findViewById(R.id.numBedsEditText);
+            final TextView numBedsText = findViewById(R.id.numBedsText);
 
             updateShelterNumber();
 
             reserveButton.setOnClickListener(new OnClickListener() {
 
+                @Override
                 public void onClick(View v) {
                     updateShelterNumber();
                     numBedsEditText.setVisibility(View.VISIBLE);
@@ -71,6 +71,7 @@ public class ShelterDetailActivity extends AppCompatActivity {
 
             applyButton.setOnClickListener(new OnClickListener() {
 
+                @Override
                 public void onClick(View v) {
                     //Set User with this shelter and remove beds from shelter
                     int numBeds = Integer.parseInt(numBedsEditText.getText().toString());
@@ -118,8 +119,8 @@ public class ShelterDetailActivity extends AppCompatActivity {
     }
 
     private void updateShelterNumber(){
-        EditText numBedsEditText = (EditText) findViewById(R.id.numBedsEditText);
-        TextView ShelterDetails = (TextView) findViewById(R.id.shelterDetailsTextView);
+        EditText numBedsEditText = findViewById(R.id.numBedsEditText);
+        TextView ShelterDetails = findViewById(R.id.shelterDetailsTextView);
         User usr = UserHolder.getInstance().getUser();
         Shelter currShelter = ShelterDBInstance.getShelterByID(shelterID);
         String coord = "";

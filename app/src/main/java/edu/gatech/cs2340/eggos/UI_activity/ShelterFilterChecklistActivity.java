@@ -44,7 +44,7 @@ public class ShelterFilterChecklistActivity extends Activity {
         setContentView(R.layout.checklist_filter_layout);
         //ShelterDBInstance = ShelterDatabase_local.getInstance();
         ShelterDBInstance = ShelterDatabase_room.getInstance();
-        textNameSearch = (TextView) findViewById(R.id.textNameSearch);
+        textNameSearch = findViewById(R.id.textNameSearch);
         //Generate list View from ArrayList
         displayListView();
         checkButtonClick();
@@ -55,10 +55,11 @@ public class ShelterFilterChecklistActivity extends Activity {
         //create an ArrayAdaptar from the String Array
         genderAdapter = new MyCustomAdapter(this,
                 R.layout.shelter_info, str2list(GenderEnum.getGenderList()));
-        ListView listViewGender = (ListView) findViewById(R.id.listViewGenderRestrictions);
+        ListView listViewGender = findViewById(R.id.listViewGenderRestrictions);
         // Assign adapter to ListView
         listViewGender.setAdapter(genderAdapter);
         listViewGender.setOnItemClickListener(new OnItemClickListener() {
+            @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 // When clicked, log a message
@@ -69,10 +70,11 @@ public class ShelterFilterChecklistActivity extends Activity {
 
         ageAdapter = new MyCustomAdapter(this,
                 R.layout.shelter_info, str2list(AgeEnum.getAgeList()));
-        ListView listViewAge = (ListView) findViewById(R.id.listViewAgeRestrictions);
+        ListView listViewAge = findViewById(R.id.listViewAgeRestrictions);
         // Assign adapter to ListView
         listViewAge.setAdapter(ageAdapter);
         listViewAge.setOnItemClickListener(new OnItemClickListener() {
+            @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 // When clicked, log a message
@@ -110,11 +112,11 @@ public class ShelterFilterChecklistActivity extends Activity {
     }
 
     private class MyCustomAdapter extends ArrayAdapter<ListItem> {
-        private ArrayList<ListItem> restrictionList;
+        private List<ListItem> restrictionList;
         public MyCustomAdapter(Context context, int textViewResourceId,
-                               ArrayList<ListItem> restrictionList) {
+                               List<ListItem> restrictionList) {
             super(context, textViewResourceId, restrictionList);
-            this.restrictionList = new ArrayList<ListItem>();
+            this.restrictionList = new ArrayList<>();
             this.restrictionList.addAll(restrictionList);
         }
 
@@ -126,19 +128,21 @@ public class ShelterFilterChecklistActivity extends Activity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
+            View _convertView = convertView;
             ViewHolder holder = null;
             Log.v("ConvertView", String.valueOf(position));
 
-            if (convertView == null) {
+            if (_convertView == null) {
                 LayoutInflater vi = (LayoutInflater)getSystemService(
                         Context.LAYOUT_INFLATER_SERVICE);
-                convertView = vi.inflate(R.layout.shelter_info, null);
+                _convertView = vi.inflate(R.layout.shelter_info, null);
 
                 holder = new ViewHolder();
                 //holder.code = (TextView) convertView.findViewById(R.id.code);
-                holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
-                convertView.setTag(holder);
+                holder.name = _convertView.findViewById(R.id.checkBox1);
+                _convertView.setTag(holder);
                 holder.name.setOnClickListener( new View.OnClickListener() {
+                    @Override
                     public void onClick(View v) {
                         CheckBox cb = (CheckBox) v ;
                         ListItem restriction = (ListItem) cb.getTag();
@@ -147,7 +151,7 @@ public class ShelterFilterChecklistActivity extends Activity {
                 });
             }
             else {
-                holder = (ViewHolder) convertView.getTag();
+                holder = (ViewHolder) _convertView.getTag();
             }
 
             ListItem restriction = restrictionList.get(position);
@@ -156,21 +160,21 @@ public class ShelterFilterChecklistActivity extends Activity {
            // holder.name.setChecked(country.isSelected());
             holder.name.setTag(restriction);
 
-            return convertView;
+            return _convertView;
 
         }
 
     }
 
     private void checkButtonClick() {
-        Button myButton = (Button) findViewById(R.id.findSelected);
+        Button myButton = findViewById(R.id.findSelected);
         myButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                StringBuffer responseText = new StringBuffer();
+                StringBuilder responseText = new StringBuilder();
                 responseText.append("The following gender were selected...");
 
-                ArrayList<ListItem> genderList = genderAdapter.restrictionList;
+                List<ListItem> genderList = genderAdapter.restrictionList;
                 ArrayList<String> selectedGender = new ArrayList<>();
                 for(int i=0;i<genderList.size();i++){
                     ListItem g = genderList.get(i);
@@ -182,7 +186,7 @@ public class ShelterFilterChecklistActivity extends Activity {
 
                 responseText.append("\nThe following age were selected...");
 
-                ArrayList<ListItem> ageList = ageAdapter.restrictionList;
+                List<ListItem> ageList = ageAdapter.restrictionList;
                 ArrayList<String> selectedAge = new ArrayList<>();
                 for(int i=0;i<ageList.size();i++){
                     ListItem a = ageList.get(i);

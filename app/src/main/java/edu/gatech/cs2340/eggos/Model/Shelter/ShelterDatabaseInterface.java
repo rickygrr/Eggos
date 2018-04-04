@@ -2,7 +2,6 @@ package edu.gatech.cs2340.eggos.Model.Shelter;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,8 +20,8 @@ public interface ShelterDatabaseInterface {
     boolean updateShelter(Shelter s);
     List<Shelter> getShelterList();
     List<Shelter> getFilteredShelterList(String name, List<String> genderList, List<String> ageList);
-    ArrayList<Integer> packShelterList(List<Shelter> shelterList);
-    List<Shelter> unpackShelterList(ArrayList<Integer> shelterIndexList);
+    List<Integer> packShelterList(Iterable<Shelter> shelterList);
+    List<Shelter> unpackShelterList(Iterable<Integer> shelterIndexList);
     void _initTestDatabase();
     void initFromJSON(InputStream f_in)throws IOException;
 

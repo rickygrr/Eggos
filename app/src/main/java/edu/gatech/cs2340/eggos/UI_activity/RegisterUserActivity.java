@@ -25,7 +25,7 @@ public class RegisterUserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register_user);
         //UserDBInstance = UserDatabase_local.getInstance();
         UserDBInstance = UserDatabase_room.getInstance();
-        Button mRegisterButton = (Button) findViewById(R.id.register_register_button);
+        Button mRegisterButton = findViewById(R.id.register_register_button);
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -39,7 +39,7 @@ public class RegisterUserActivity extends AppCompatActivity {
                 }
             }
         });
-        Button mCancelButton = (Button) findViewById(R.id.register_cancel_button);
+        Button mCancelButton = findViewById(R.id.register_cancel_button);
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,20 +50,20 @@ public class RegisterUserActivity extends AppCompatActivity {
                 finish();
             }
         });
-        Spinner mUserType = (Spinner) findViewById(R.id.register_usertype_spinner);
+        Spinner mUserType = findViewById(R.id.register_usertype_spinner);
         //now populate spinner
-        ArrayAdapter<UserTypeEnum> type_adapter = new ArrayAdapter<UserTypeEnum>(this, android.R.layout.simple_spinner_item, UserTypeEnum.getRegisterableEnum());
+        ArrayAdapter<UserTypeEnum> type_adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, UserTypeEnum.getRegisterableEnum());
         type_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mUserType.setAdapter(type_adapter);
         mUserType.setSelection(UserTypeEnum.USER.ordinal());
     }
 
     private boolean attemptRegister(){
-        EditText mUsername = (EditText) findViewById(R.id.register_username);
-        EditText mPassword = (EditText) findViewById(R.id.register_password);
-        EditText mPasswordConfirm = (EditText) findViewById(R.id.register_password_confirm);
-        Spinner mUserType = (Spinner) findViewById(R.id.register_usertype_spinner);
-        Button mRegisterButton = (Button) findViewById(R.id.register_register_button);
+        EditText mUsername = findViewById(R.id.register_username);
+        EditText mPassword = findViewById(R.id.register_password);
+        EditText mPasswordConfirm = findViewById(R.id.register_password_confirm);
+        Spinner mUserType = findViewById(R.id.register_usertype_spinner);
+        Button mRegisterButton = findViewById(R.id.register_register_button);
 
         String username = mUsername.getText().toString();
         String password = mPassword.getText().toString();

@@ -1,24 +1,26 @@
 package edu.gatech.cs2340.eggos.Model.User;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by chateau86 on 14-Feb-18.
  */
 
-public class UserDatabase_local implements UserDatabaseInterface {
+public final class UserDatabase_local implements UserDatabaseInterface {
     private static final UserDatabase_local ourInstance = new UserDatabase_local();
     public static UserDatabase_local getInstance() {
         return ourInstance;
     }
 
-    private ArrayList<User> _Userlist;
+    private List<User> _Userlist;
 
     private UserDatabase_local() {
-       this. _Userlist = new ArrayList<User>();
-       this._initTestDatabase(); //TODO: Replace with database read or something
+       this. _Userlist = new ArrayList<>();
+       this._initTestDatabase();
     }
 
+    @Override
     public boolean addUser(User newUser){
         if (userExists(newUser.getUsername())){
             //duplicate user
@@ -41,20 +43,23 @@ public class UserDatabase_local implements UserDatabaseInterface {
         return null;
     }
 
+    @Override
     public boolean userExists(String username){
         return _getUser(username) != null;
     }
 
+    @Override
     public User getUser(String username, String password){
         //Only return user if password matches, null otherwise
         User usr = this._getUser(username);
-        if(usr != null && usr.checkPassword(password)){
+        if((usr != null) && usr.checkPassword(password)){
             return usr;
         } else {
             return null;
         }
     }
 
+    @Override
     public void _initTestDatabase(){ //Fake database for debugging only
         this.addUser(new User("Monika","JustMonika",UserTypeEnum.ADMIN.toString()));// Just Monika [ok]
         this.addUser(new User("a","b",UserTypeEnum.ADMIN.toString()));

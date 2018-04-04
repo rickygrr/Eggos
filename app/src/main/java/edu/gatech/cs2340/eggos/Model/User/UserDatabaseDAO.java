@@ -30,7 +30,7 @@ public interface UserDatabaseDAO {
     void delete(User user);
 
     @Update
-    public int update(User... users); //return row count
+    int update(User... users); //return row count
 
     @Query("SELECT Count(*) FROM Users")
     int getRowCount();

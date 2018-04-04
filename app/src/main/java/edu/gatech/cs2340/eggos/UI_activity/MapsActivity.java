@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -17,8 +16,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,8 +29,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private List<Shelter> shelterList;
-    private ArrayList<Integer> shelterUIDList;
-    private LinkedList<Marker> markerList = new LinkedList<>();
+    private Iterable<Integer> shelterUIDList;
+    private Deque<Marker> markerList = new LinkedList<>();
     ShelterDatabaseInterface ShelterDBInstance = ShelterDatabase_room.getInstance();
 
     @Override
@@ -87,25 +85,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void regenMarker(){
+        final double YELLOW_FRACTION_LIMIT = 0.75;
+        final int YELLOW_BED_LIMIT = 10;
+        final double RED_FRACTION_LIMIT = 0.99;
+        final int RED_BED_LIMIT = 5;
+        final int ZOOM_LEVEL = 12;
         if (mMap == null){
             return;
         }
         //Cleanup old markers
-        while(markerList.size() > 0) {
+        while(!markerList.isEmpty()) {
             markerList.pop().remove();
         }
         //add new markers
         double avgLat = 0;
         double avgLon = 0;
+
         for(Shelter s: shelterList){
             LatLng loc = new LatLng(s._lat, s._lon);
             avgLat += s._lat;
             avgLon += s._lon;
             double fracUsed = 1 - (s.getAvailCap()/(double)s._Capacity_max);
             BitmapDescriptor icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
-            if(fracUsed >= 0.99 || (s.getAvailCap() < 5)){
+
+            if((fracUsed >= RED_FRACTION_LIMIT) || (s.getAvailCap() < RED_BED_LIMIT)){
                 icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
-            } else if (fracUsed >= 0.75 || (s.getAvailCap() < 10)) {
+            } else if ((fracUsed >= YELLOW_FRACTION_LIMIT) || (s.getAvailCap() < YELLOW_BED_LIMIT)) {
                 icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
             }
             Marker m = mMap.addMarker(new MarkerOptions()
@@ -119,7 +124,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         avgLat /= shelterList.size();
         avgLon /= shelterList.size();
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(avgLat, avgLon), 12));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(avgLat, avgLon), ZOOM_LEVEL));
     }
 
     @Override

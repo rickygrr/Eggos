@@ -9,7 +9,7 @@ import java.util.List;
  * Created by chateau86 on 26-Mar-18.
  */
 
-public class UserDatabase_room implements UserDatabaseInterface {
+public final class UserDatabase_room implements UserDatabaseInterface {
     private static final UserDatabase_room ourInstance = new UserDatabase_room();
     private UserDatabaseBackend_Room db;
 
@@ -38,7 +38,6 @@ public class UserDatabase_room implements UserDatabaseInterface {
 
     @Override
     public boolean addUser(User newUser) {
-        //TODO: check for duplicate
         if(userExists(newUser.getUsername())){
             return false;
         } else {

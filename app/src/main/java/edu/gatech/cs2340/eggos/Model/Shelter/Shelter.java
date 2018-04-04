@@ -3,11 +3,6 @@ package edu.gatech.cs2340.eggos.Model.Shelter;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import edu.gatech.cs2340.eggos.Model.User.User;
-
 /**
  * Created by chateau86 on 26-Feb-18.
  */
@@ -21,7 +16,7 @@ public class Shelter {
     public int _Capacity_current;
     public int _GenderMask;
     public int _AgeMask;
-    public String _Notes; //TODO: Maybe merge this with restriction?
+    public String _Notes;
     public double _lat;
     public double _lon;
     public String _Addr;
@@ -60,7 +55,7 @@ public class Shelter {
         return (this._Capacity_current >= cap);
     }
     public boolean requestRoom(int cap){
-        if(cap >= 0 && this.haveRoomFor(cap)){
+        if((cap >= 0) && this.haveRoomFor(cap)){
             this._Capacity_current -= cap;
             return true;
         } else {
@@ -69,7 +64,7 @@ public class Shelter {
     }
 
     public boolean freeRoom(int cap){
-        if(cap >= 0 && cap <= (this._Capacity_max-this._Capacity_current)){
+        if((cap >= 0) && (cap <= (this._Capacity_max - this._Capacity_current))){
             this._Capacity_current += cap;
             return true;
         } else {

@@ -1,7 +1,5 @@
 package edu.gatech.cs2340.eggos.Model.User;
 
-import android.content.Context;
-
 /**
  * Created by chateau86 on 21-Mar-18.
  */
