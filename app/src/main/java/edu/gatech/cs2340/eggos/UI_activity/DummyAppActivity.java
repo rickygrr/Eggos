@@ -1,5 +1,6 @@
 package edu.gatech.cs2340.eggos.UI_activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
@@ -77,7 +78,8 @@ public class DummyAppActivity extends AppCompatActivity {
                 Context context = view.getContext();
                 Intent intent = new Intent(context, MapsActivity.class);
                 Bundle b = new Bundle();
-                b.putIntegerArrayList("ShelterUIDList", new ArrayList<>(ShelterDBInstance.packShelterList(shelterList)));
+                b.putIntegerArrayList("ShelterUIDList",
+                        new ArrayList<>(ShelterDBInstance.packShelterList(shelterList)));
                 intent.putExtras(b);
                 context.startActivity(intent);
                 //finish();
@@ -148,7 +150,8 @@ public class DummyAppActivity extends AppCompatActivity {
      */
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         //ShelterDatabase model = ShelterDatabase.getInstance();
-        shelterList = ShelterDBInstance.getFilteredShelterList(this.filterName,this.filterGender, this.filterAge);
+        shelterList = ShelterDBInstance.getFilteredShelterList(this.filterName,this.filterGender,
+                this.filterAge);
         recyclerView.setAdapter(new SimpleShelterRecyclerViewAdapter(shelterList));
     }
 
@@ -159,7 +162,8 @@ public class DummyAppActivity extends AppCompatActivity {
      * In this case, we are just mapping the toString of the Course object to a text field.
      */
     public class SimpleShelterRecyclerViewAdapter
-            extends RecyclerView.Adapter<SimpleShelterRecyclerViewAdapter.ViewHolder> implements Filterable {
+            extends RecyclerView.Adapter<SimpleShelterRecyclerViewAdapter.ViewHolder>
+            implements Filterable {
 
         /**
          * Collection of the items to be shown in this list.
@@ -191,12 +195,13 @@ public class DummyAppActivity extends AppCompatActivity {
             return new ViewHolder(view);
         }
 
+        @SuppressLint("SetTextI18n")
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
 
             //final ShelterDatabase model = ShelterDBInstance;
             /*
-            This is where we have to bind each data element in the list (given by position parameter)
+            This is where we have to bind each data element in list (given by position parameter)
             to an element in the view (which is one of our two TextView widgets
              */
             //start by getting the element at the correct position
@@ -262,7 +267,8 @@ public class DummyAppActivity extends AppCompatActivity {
 
                         for (Shelter shelter : mShelters) {
 
-                            if (shelter.getName().toLowerCase().contains(charString) || shelter.getName().toLowerCase().contains(charString)) {
+                            if (shelter.getName().toLowerCase().contains(charString)
+                                    || shelter.getName().toLowerCase().contains(charString)) {
 
                                 filteredList.add(shelter);
                             }
@@ -277,7 +283,8 @@ public class DummyAppActivity extends AppCompatActivity {
                 }
 
                 @Override
-                protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                protected void publishResults(CharSequence charSequence,
+                                              FilterResults filterResults) {
                     mFiltered = (ArrayList<Shelter>) filterResults.values;
                     notifyDataSetChanged();
                 }

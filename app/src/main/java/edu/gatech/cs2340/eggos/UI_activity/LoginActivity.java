@@ -155,7 +155,7 @@ public class LoginActivity extends AppCompatActivity{
         }
     }
 
-    private boolean isPasswordValid(String password) {
+    private boolean isPasswordValid(CharSequence password) {
         return password.length() > 0;
     }
 }

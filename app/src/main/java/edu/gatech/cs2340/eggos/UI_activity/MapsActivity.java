@@ -106,11 +106,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             avgLat += s._lat;
             avgLon += s._lon;
             double fracUsed = 1 - (s.getAvailCap()/(double)s._Capacity_max);
-            BitmapDescriptor icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+            BitmapDescriptor icon = BitmapDescriptorFactory.defaultMarker(
+                    BitmapDescriptorFactory.HUE_GREEN);
 
             if((fracUsed >= RED_FRACTION_LIMIT) || (s.getAvailCap() < RED_BED_LIMIT)){
                 icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
-            } else if ((fracUsed >= YELLOW_FRACTION_LIMIT) || (s.getAvailCap() < YELLOW_BED_LIMIT)) {
+            } else if ((fracUsed >= YELLOW_FRACTION_LIMIT)
+                    || (s.getAvailCap() < YELLOW_BED_LIMIT)) {
                 icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
             }
             Marker m = mMap.addMarker(new MarkerOptions()

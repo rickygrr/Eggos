@@ -72,7 +72,9 @@ public final class ShelterDatabase_room implements ShelterDatabaseInterface {
         if(count == 0){
         } else {
             if(count > 1){
-                throw new IllegalStateException("Shelter update wrote too many rows. Database probably clobbered. Rows: "+count);
+                throw new IllegalStateException(
+                    "Shelter update wrote too many rows. Database probably clobbered. Rows: "+count
+                );
             }
         }
     }
@@ -83,7 +85,10 @@ public final class ShelterDatabase_room implements ShelterDatabaseInterface {
     }
 
     @Override
-    public List<Shelter> getFilteredShelterList(String name, List<String> genderFilter, List<String> ageFilter) {
+    public List<Shelter> getFilteredShelterList(
+                String name,
+                List<String> genderFilter,
+                List<String> ageFilter) {
         int genderMask = 0;
         int ageMask = 0;
         if(genderFilter != null) {

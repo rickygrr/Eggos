@@ -62,11 +62,15 @@ public final class ShelterDatabase_local implements ShelterDatabaseInterface{
     }
 
     @Override
-    public List<Shelter> getShelterList(){ //Copy the content of this function for filtering implementations.
+    public List<Shelter> getShelterList(){
+        //Copy the content of this function for filtering implementations.
         return this.getFilteredShelterList("", null, null );
     }
     @Override
-    public List<Shelter> getFilteredShelterList(String nameFilter, List<String> genderFilter, List<String> ageFilter){
+    public List<Shelter> getFilteredShelterList(
+            String nameFilter,
+            List<String> genderFilter,
+            List<String> ageFilter){
         int genderMask = 0;
         int ageMask = 0;
         if(genderFilter != null) {
@@ -77,7 +81,8 @@ public final class ShelterDatabase_local implements ShelterDatabaseInterface{
         }
         List<Shelter> outList = new ArrayList<>();
         for(int i = 0; i < _ShelterList.size(); i++){
-            if(nameFilter.isEmpty() || (_ShelterList.get(i).getName().toLowerCase().contains(nameFilter.toLowerCase()))) {
+            if(nameFilter.isEmpty() ||
+                (_ShelterList.get(i).getName().toLowerCase().contains(nameFilter.toLowerCase()))) {
                 int gm = _ShelterList.get(i)._GenderMask;
                 int am = _ShelterList.get(i)._AgeMask;
                 if( ((ageMask & am) == ageMask)
@@ -117,7 +122,7 @@ public final class ShelterDatabase_local implements ShelterDatabaseInterface{
         return out;
     }
 
-    @SuppressWarnings({"MagicNumber", "FeatureEnvy", "LawOfDemeter"})
+    @SuppressWarnings({"MagicNumber", "FeatureEnvy", "LawOfDemeter", "ChainedMethodCall"})
     //It's a test database. OF COURSE it will have magic numbers.
     //It's a shelter*BUILDER*. Of course we will access it a bunch to *BUILD* the shelter object.
     //There goes FeatureEnvy and LawOfDemeter.
@@ -165,7 +170,7 @@ public final class ShelterDatabase_local implements ShelterDatabaseInterface{
         reader.endArray();
     }
 
-    @SuppressWarnings({"FeatureEnvy", "LawOfDemeter"})
+    @SuppressWarnings({"FeatureEnvy", "LawOfDemeter", "ChainedMethodCall"})
     //It's a shelter*BUILDER*. Of course we will access it a bunch to *BUILD* the shelter object.
     //There goes FeatureEnvy and LawOfDemeter.
     //It's 2018: Builder pattern should be common knowledge by now.

@@ -9,6 +9,9 @@ import android.support.annotation.NonNull;
  * Setters will return true if successful, false if failed.
  * Created by chateau86 on 14-Feb-18.
  */
+@SuppressWarnings("PublicField")
+//Because otherwise Room requires all the getters/setters with *very specific* naming scheme
+//that just breaks everything.
 @Entity(tableName = "Users")
 public class User {
     public static final int MIN_USERNAME_LENGTH = 3;
@@ -25,7 +28,11 @@ public class User {
     public User(String username, String password, String type){
         this(username, password, type, -1, 0);
     }
-    public User(String _Username, String _Password, String _UserType, int _currentShelterID, int _currentOccupancy){
+    public User(String _Username,
+                String _Password,
+                String _UserType,
+                int _currentShelterID,
+                int _currentOccupancy){
         this._Username = _Username;
         this._Password = _Password;
         this._UserType = _UserType;

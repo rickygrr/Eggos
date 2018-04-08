@@ -60,9 +60,13 @@ public final class UserDatabase_local implements UserDatabaseInterface {
 
     @Override
     public void _initTestDatabase(){ //Fake database for debugging only
-        this.addUser(new User("Monika","JustMonika",UserTypeEnum.ADMIN.toString()));// Just Monika [ok]
-        this.addUser(new User("a","b",UserTypeEnum.ADMIN.toString()));
-        this.addUser(new User("homelessdude","password",UserTypeEnum.USER.toString()));
-        this.addUser(new User("shelterguy","gimmeshelter",UserTypeEnum.EMPLOYEE.toString())); //Denzel Washington rolling over an MD-80 not included.
+        this.addUser(new User("Monika","JustMonika",
+                UserTypeEnum.ADMIN.toString()));// Just Monika [ok]
+        this.addUser(new User("a","b",
+                UserTypeEnum.ADMIN.toString()));
+        this.addUser(new User("homelessdude","password",
+                UserTypeEnum.USER.toString()));
+        this.addUser(new User("shelterguy","gimmeshelter",
+                UserTypeEnum.EMPLOYEE.toString()));
     }
 }

@@ -52,7 +52,8 @@ public class RegisterUserActivity extends AppCompatActivity {
         });
         Spinner mUserType = findViewById(R.id.register_usertype_spinner);
         //now populate spinner
-        ArrayAdapter<UserTypeEnum> type_adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, UserTypeEnum.getRegisterableEnum());
+        ArrayAdapter<UserTypeEnum> type_adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, UserTypeEnum.getRegisterableEnum());
         type_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mUserType.setAdapter(type_adapter);
         mUserType.setSelection(UserTypeEnum.USER.ordinal());

@@ -1,5 +1,6 @@
 package edu.gatech.cs2340.eggos.UI_activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -75,7 +76,8 @@ public class ShelterDetailActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     //Set User with this shelter and remove beds from shelter
                     int numBeds = Integer.parseInt(numBedsEditText.getText().toString());
-                    Log.e("ShelterDetailActivity","Bed update clicked with shelter: "+shelterID+" Bedcount: "+numBeds);
+                    Log.e("ShelterDetailActivity",
+                        "Bed update clicked with shelter: "+shelterID+" Bedcount: "+numBeds);
                     Shelter currShelter = ShelterDBInstance.getShelterByID(shelterID);
                     User u = UserHolder.getInstance().getUser();
                     boolean avail = false;
@@ -86,7 +88,9 @@ public class ShelterDetailActivity extends AppCompatActivity {
                         avail = currShelter.haveRoomFor(numBeds);
                     }
                     if(!avail){
-                        Log.e("ShelterDetailActivity","Not enough room: Want :"+numBeds+" have: "+currShelter._Capacity_current);
+                        Log.e("ShelterDetailActivity",
+                                "Not enough room: Want :"+numBeds
+                                        +" have: "+currShelter._Capacity_current);
                         numBedsEditText.setError("Insufficient bed availability");
                         //Error bubble or something
                     } else {
@@ -118,6 +122,7 @@ public class ShelterDetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @SuppressLint("SetTextI18n")
     private void updateShelterNumber(){
         EditText numBedsEditText = findViewById(R.id.numBedsEditText);
         TextView ShelterDetails = findViewById(R.id.shelterDetailsTextView);

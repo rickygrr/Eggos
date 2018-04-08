@@ -55,7 +55,9 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         //Now run ShelterDatabase_local load trigger
         try {
-            InputStream f_in = this.getApplicationContext().getResources().openRawResource(R.raw.shelter);
+            InputStream f_in = this.getApplicationContext()
+                    .getResources()
+                    .openRawResource(R.raw.shelter);
             ShelterDBInstance.initFromJSON(f_in);
         } catch (IOException e){
             ShelterDBInstance._initTestDatabase();

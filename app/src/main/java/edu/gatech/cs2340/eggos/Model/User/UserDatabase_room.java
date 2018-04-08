@@ -12,6 +12,7 @@ import java.util.List;
 public final class UserDatabase_room implements UserDatabaseInterface {
     private static final UserDatabase_room ourInstance = new UserDatabase_room();
     private UserDatabaseBackend_Room db;
+    UserDatabaseDAO dbDAO;
 
     private UserDatabase_room() {
     }
@@ -23,6 +24,8 @@ public final class UserDatabase_room implements UserDatabaseInterface {
         return ourInstance;
     }
 
+    @SuppressWarnings("ChainedMethodCall")
+    //Builder pattern strikes again.
     public static UserDatabaseInterface getFirstInstance(Context cont) {
         if(ourInstance.db == null){
             //throw new IllegalStateException("Database not initialized");
@@ -32,6 +35,7 @@ public final class UserDatabase_room implements UserDatabaseInterface {
             if(ourInstance.db.userDBDAO().getRowCount() == 0){
                 ourInstance._initTestDatabase();
             }
+            ourInstance.dbDAO = ourInstance.db.userDBDAO();
         }
         return ourInstance;
     }
@@ -41,30 +45,32 @@ public final class UserDatabase_room implements UserDatabaseInterface {
         if(userExists(newUser.getUsername())){
             return false;
         } else {
-            this.db.userDBDAO().insertAll(newUser);
+            this.dbDAO.insertAll(newUser);
             return true;
         }
     }
 
     @Override
     public void updateUser(User s) {
-        int count = this.db.userDBDAO().update(s);
+        int count = this.dbDAO.update(s);
         if(count == 0){
         } else {
             if(count > 1){
-                throw new IllegalStateException("User update wrote too many rows. Database probably clobbered. Rows: "+count);
+                throw new IllegalStateException(
+                    "User update wrote too many rows. Database probably clobbered. Rows: "+count
+                );
             }
         }
     }
 
     @Override
     public boolean userExists(String username) {
-        return !this.db.userDBDAO().userExists(username).isEmpty();
+        return this.dbDAO.userExistsCount(username) > 0;
     }
 
     @Override
     public User getUser(String username, String password) {
-        List<User> user = this.db.userDBDAO().getUser(username, password);
+        List<User> user = this.dbDAO.getUser(username, password);
         //Log.e("Room DB","User list is this long: "+user.size());
         if(user.isEmpty()) {
             return null;
@@ -76,9 +82,13 @@ public final class UserDatabase_room implements UserDatabaseInterface {
     @Override
     public void _initTestDatabase() {
 
-        this.addUser(new User("Monika","JustMonika",UserTypeEnum.ADMIN.toString()));// Just Monika [ok]
-        this.addUser(new User("a","b",UserTypeEnum.ADMIN.toString()));
-        this.addUser(new User("homelessdude","password",UserTypeEnum.USER.toString()));
-        this.addUser(new User("shelterguy","gimmeshelter",UserTypeEnum.EMPLOYEE.toString())); //Denzel Washington rolling over an MD-80 not included.
+        this.addUser(new User("Monika","JustMonika",
+                                UserTypeEnum.ADMIN.toString()));// Just Monika [ok]
+        this.addUser(new User("a","b",
+                                UserTypeEnum.ADMIN.toString()));
+        this.addUser(new User("homelessdude","password",
+                                UserTypeEnum.USER.toString()));
+        this.addUser(new User("shelterguy","gimmeshelter",
+                                UserTypeEnum.EMPLOYEE.toString()));
     }
 }

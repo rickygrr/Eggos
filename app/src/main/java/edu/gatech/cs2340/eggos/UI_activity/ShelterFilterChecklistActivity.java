@@ -86,9 +86,9 @@ public class ShelterFilterChecklistActivity extends Activity {
     }
 
     private class ListItem {
-        public String str;
-        public boolean selected;
-        public ListItem(String str){
+        String str;
+        boolean selected;
+        ListItem(String str){
             this.str = str;
             this.selected = false;
         }
@@ -171,31 +171,31 @@ public class ShelterFilterChecklistActivity extends Activity {
         myButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                StringBuilder responseText = new StringBuilder();
-                responseText.append("The following gender were selected...");
+                //StringBuilder responseText = new StringBuilder();
+                //responseText.append("The following gender were selected...");
 
                 List<ListItem> genderList = genderAdapter.restrictionList;
                 ArrayList<String> selectedGender = new ArrayList<>();
                 for(int i=0;i<genderList.size();i++){
                     ListItem g = genderList.get(i);
                     if(g.isSelected()){
-                        responseText.append("\n" + g.toString());
+                        //responseText.append("\n" + g.toString());
                         selectedGender.add(g.toString());
                     }
                 }
 
-                responseText.append("\nThe following age were selected...");
+                //responseText.append("\nThe following age were selected...");
 
                 List<ListItem> ageList = ageAdapter.restrictionList;
                 ArrayList<String> selectedAge = new ArrayList<>();
                 for(int i=0;i<ageList.size();i++){
                     ListItem a = ageList.get(i);
                     if(a.isSelected()){
-                        responseText.append("\n" + a.toString());
+                        //responseText.append("\n" + a.toString());
                         selectedAge.add(a.toString());
                     }
                 }
-                Log.d("call", "Clicked on " + responseText);
+                //Log.d("call", "Clicked on " + responseText);
 
                 Intent intent = new Intent();
                 intent.putExtra("name", textNameSearch.getText().toString());

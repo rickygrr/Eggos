@@ -26,6 +26,10 @@ public interface UserDatabaseDAO {
             "WHERE UPPER(_Username) = UPPER(:username) ")
     List<User> userExists(String username);
 
+    @Query("SELECT Count(*) FROM Users " +
+            "WHERE UPPER(_Username) = UPPER(:username) ")
+    int userExistsCount(String username);
+
     @Delete
     void delete(User user);
 
