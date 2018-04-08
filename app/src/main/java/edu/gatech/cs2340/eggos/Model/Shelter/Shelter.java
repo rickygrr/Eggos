@@ -54,60 +54,61 @@ public class Shelter {
     public boolean haveRoomFor(int cap){
         return (this._Capacity_current >= cap);
     }
-    public boolean requestRoom(int cap){
+    public void requestRoom(int cap){
         if((cap >= 0) && this.haveRoomFor(cap)){
             this._Capacity_current -= cap;
-            return true;
         } else {
-            return false;
         }
     }
 
-    public boolean freeRoom(int cap){
+    public void freeRoom(int cap){
         if((cap >= 0) && (cap <= (this._Capacity_max - this._Capacity_current))){
             this._Capacity_current += cap;
-            return true;
         } else {
-            return false;
         }
     }
 
     public String getNotes(){
         return _Notes;
     }
-    public boolean setNotes(String Notes){
-        this._Notes = Notes;
-        return true;
-    }
+// --Commented out by Inspection START (08-Apr-18 15:57):
+//    public void setNotes(String Notes){
+//        this._Notes = Notes;
+//    }
+// --Commented out by Inspection STOP (08-Apr-18 15:57)
 
     public double[] getCoord() {
         return new double[] {this._lat, this._lon};
     }
-    public boolean setCoord(double[] coord){
-        if (coord.length != 2) {
-            return false;
-        } else {
-            this._lat = coord[0];
-            this._lon = coord[1];
-            return true;
-        }
-    }
+// --Commented out by Inspection START (08-Apr-18 15:57):
+//    public boolean setCoord(double[] coord){
+//        if (coord.length != 2) {
+//            return false;
+//        } else {
+//            this._lat = coord[0];
+//            this._lon = coord[1];
+//            return true;
+//        }
+//    }
+// --Commented out by Inspection STOP (08-Apr-18 15:57)
 
     public String getAddr(){
         return this._Addr;
     }
-    public boolean setAddr(String addr){
-        this._Addr = addr;
-        return true;
-    }
+// --Commented out by Inspection START (08-Apr-18 15:57):
+//    public void setAddr(String addr){
+//        this._Addr = addr;
+//    }
+// --Commented out by Inspection STOP (08-Apr-18 15:57)
 
     public String getPhone(){
         return this._Phone;
     }
-    public boolean setPhone(String phone){
-        this._Phone = phone;
-        return true;
-    }
+// --Commented out by Inspection START (08-Apr-18 15:57):
+//    public void setPhone(String phone){
+//        this._Phone = phone;
+//    }
+// --Commented out by Inspection STOP (08-Apr-18 15:57)
 
     public String toString(){
         return this._Name;

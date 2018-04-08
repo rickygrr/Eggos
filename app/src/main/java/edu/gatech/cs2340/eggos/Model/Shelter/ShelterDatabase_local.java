@@ -53,8 +53,7 @@ public final class ShelterDatabase_local implements ShelterDatabaseInterface{
         return true;
     }
     @Override
-    public boolean updateShelter(Shelter s) {
-        return false;
+    public void updateShelter(Shelter s) {
     }
 
     public int getNextShelterID(){
@@ -118,7 +117,11 @@ public final class ShelterDatabase_local implements ShelterDatabaseInterface{
         return out;
     }
 
-    @SuppressWarnings("MagicNumber") //It's a test database. OF COURSE it will have magic numbers.
+    @SuppressWarnings({"MagicNumber", "FeatureEnvy", "LawOfDemeter"})
+    //It's a test database. OF COURSE it will have magic numbers.
+    //It's a shelter*BUILDER*. Of course we will access it a bunch to *BUILD* the shelter object.
+    //There goes FeatureEnvy and LawOfDemeter.
+    //It's 2018: Builder pattern should be common knowledge by now.
     @Override
     public void _initTestDatabase(){
         this.addShelter(new ShelterBuilder()
@@ -162,6 +165,10 @@ public final class ShelterDatabase_local implements ShelterDatabaseInterface{
         reader.endArray();
     }
 
+    @SuppressWarnings({"FeatureEnvy", "LawOfDemeter"})
+    //It's a shelter*BUILDER*. Of course we will access it a bunch to *BUILD* the shelter object.
+    //There goes FeatureEnvy and LawOfDemeter.
+    //It's 2018: Builder pattern should be common knowledge by now.
     private void _readShelter(JsonReader reader) throws IOException{
         reader.beginObject();
         String addr = "", name = "", phone = "", restriction = "";

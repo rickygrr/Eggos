@@ -6,7 +6,7 @@ package edu.gatech.cs2340.eggos.Model.User;
  */
 
 public enum UserTypeEnum {
-    ADMIN, EMPLOYEE, USER, GUEST;
+    ADMIN, EMPLOYEE, USER; // --Commented out by Inspection (08-Apr-18 15:57):GUEST;
     public static UserTypeEnum[] getRegisterableEnum() {
         return new UserTypeEnum[]{ADMIN, EMPLOYEE, USER};
     }

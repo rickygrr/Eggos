@@ -36,28 +36,35 @@ public class User {
     public String getUsername(){
         return this._Username;
     }
-    public String get_Password(){
-        return this._Password;
-    }
+// --Commented out by Inspection START (08-Apr-18 15:57):
+//    public String get_Password(){
+//        return this._Password;
+//    }
+// --Commented out by Inspection STOP (08-Apr-18 15:57)
     public boolean checkPassword(String pass){
         //No string getter provided for obvious reason
         return this._Password.equals(pass);
     }
-    public boolean changePassword(String oldPass, String newPass){
-        if (this.checkPassword(oldPass)){
-            this._Password = newPass;
-            return true;
-        } else {
-            return false;
-        }
-    }
-    public String getUserType(){
-        return this._UserType;
-    }
-    public boolean setUserType(String newType){
-        this._UserType = newType;
-        return true;
-    }
+// --Commented out by Inspection START (08-Apr-18 15:57):
+//    public boolean changePassword(String oldPass, String newPass){
+//        if (this.checkPassword(oldPass)){
+//            this._Password = newPass;
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
+// --Commented out by Inspection STOP (08-Apr-18 15:57)
+// --Commented out by Inspection START (08-Apr-18 15:57):
+//    public String getUserType(){
+//        return this._UserType;
+//    }
+// --Commented out by Inspection STOP (08-Apr-18 15:57)
+// --Commented out by Inspection START (08-Apr-18 15:57):
+//    public void setUserType(String newType){
+//        this._UserType = newType;
+//    }
+// --Commented out by Inspection STOP (08-Apr-18 15:57)
 
     public String toString(){
         return "User name: "+this._Username+"\nType: "+this._UserType;
@@ -68,10 +75,11 @@ public class User {
         return this._Username.hashCode();
     }
 
-    public boolean setShelter(int s) {
-        this._currentShelterID = s;
-        return true;
-    }
+// --Commented out by Inspection START (08-Apr-18 15:57):
+//    public void setShelter(int s) {
+//        this._currentShelterID = s;
+//    }
+// --Commented out by Inspection STOP (08-Apr-18 15:57)
 
    /* public int getShelterID(){
         return _currentShelterID;

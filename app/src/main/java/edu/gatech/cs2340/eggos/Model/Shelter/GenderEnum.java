@@ -1,6 +1,7 @@
 package edu.gatech.cs2340.eggos.Model.Shelter;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -18,7 +19,7 @@ public enum GenderEnum {
         this.mask_val = num;
         this.repr = repr;
     }
-    public static int enum2Mask(List<GenderEnum> gEnum){
+    public static int enum2Mask(Iterable<GenderEnum> gEnum){
         int out = 0;
         for(GenderEnum g: gEnum){
             out = out | g.mask_val;
@@ -61,8 +62,8 @@ public enum GenderEnum {
         return out;
     }
 
-    public static List<GenderEnum> list2Enums(List<String> in){
-        List<GenderEnum> out = new ArrayList<>();
+    public static Iterable<GenderEnum> list2Enums(Iterable<String> in){
+        Collection<GenderEnum> out = new ArrayList<>();
         for(String s: in){
             GenderEnum g = GenderEnum.toEnum(s);
             out.add(g);
@@ -83,8 +84,8 @@ public enum GenderEnum {
         return null;
     }
 
-    public static List<String> getGenderList(){
-        List<String> out = new ArrayList<>();
+    public static Iterable<String> getGenderList(){
+        Collection<String> out = new ArrayList<>();
         for(GenderEnum g: GenderEnum.values()){
             out.add(g.toString());
         }

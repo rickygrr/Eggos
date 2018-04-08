@@ -25,7 +25,7 @@ public final class ShelterDatabase_room implements ShelterDatabaseInterface {
     private ShelterDatabase_room() {
     }
 
-    public static ShelterDatabase_room getInstance() {
+    public static ShelterDatabaseInterface getInstance() {
         if((ourInstance.db == null) || (ourInstance.dao.getRowCount() == 0)){
             throw new IllegalStateException("Database not initialized");
         }
@@ -33,7 +33,9 @@ public final class ShelterDatabase_room implements ShelterDatabaseInterface {
         return ourInstance;
     }
 
-    public static ShelterDatabase_room getFirstInstance(Context cont) {
+    @SuppressWarnings("ChainedMethodCall")
+    //Builder pattern strikes again.
+    public static ShelterDatabaseInterface getFirstInstance(Context cont) {
         if(ourInstance.db == null){
             //throw new IllegalStateException("Database not initialized");
             ourInstance.db = Room.databaseBuilder(cont,
@@ -65,15 +67,13 @@ public final class ShelterDatabase_room implements ShelterDatabaseInterface {
     }
 
     @Override
-    public boolean updateShelter(Shelter s) {
+    public void updateShelter(Shelter s) {
         int count = this.dao.update(s);
         if(count == 0){
-            return false;
         } else {
             if(count > 1){
                 throw new IllegalStateException("Shelter update wrote too many rows. Database probably clobbered. Rows: "+count);
             }
-            return true;
         }
     }
 
@@ -117,7 +117,11 @@ public final class ShelterDatabase_room implements ShelterDatabaseInterface {
         return out;
     }
 
-    @SuppressWarnings("MagicNumber") //It's a test database. OF COURSE it will have magic numbers.
+    @SuppressWarnings({"MagicNumber", "FeatureEnvy", "LawOfDemeter", "ChainedMethodCall"})
+    //It's a test database. OF COURSE it will have magic numbers.
+    //It's a shelter*BUILDER*. Of course we will access it a bunch to *BUILD* the shelter object.
+    //There goes FeatureEnvy, LawOfDemeter, and ChainedMethodCall.
+    //It's 2018: Builder pattern should be common knowledge by now.
     @Override
     public void _initTestDatabase() {
         ourInstance._jsonReadDone = true;
@@ -165,6 +169,10 @@ public final class ShelterDatabase_room implements ShelterDatabaseInterface {
         reader.endArray();
     }
 
+    @SuppressWarnings({"FeatureEnvy", "LawOfDemeter", "ChainedMethodCall"})
+    //It's a shelter*BUILDER*. Of course we will access it a bunch to *BUILD* the shelter object.
+    //There goes FeatureEnvy and LawOfDemeter.
+    //It's 2018: Builder pattern should be common knowledge by now.
     private void _readShelter(JsonReader reader) throws IOException{
         reader.beginObject();
         String addr = "", name = "", phone = "", restriction = "";

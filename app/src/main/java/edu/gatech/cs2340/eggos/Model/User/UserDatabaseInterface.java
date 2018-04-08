@@ -6,7 +6,7 @@ package edu.gatech.cs2340.eggos.Model.User;
 
 public interface UserDatabaseInterface {
     boolean addUser(User newUser);
-    boolean updateUser(User user);
+    void updateUser(User user);
     boolean userExists(String username);
     User getUser(String username, String password);
     void _initTestDatabase();

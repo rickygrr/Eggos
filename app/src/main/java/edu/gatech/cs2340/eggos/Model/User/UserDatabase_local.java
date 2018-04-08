@@ -30,8 +30,7 @@ public final class UserDatabase_local implements UserDatabaseInterface {
         return true;
     }
     @Override
-    public boolean updateUser(User s) {
-        return false;
+    public void updateUser(User s) {
     }
 
     private User _getUser(String username){

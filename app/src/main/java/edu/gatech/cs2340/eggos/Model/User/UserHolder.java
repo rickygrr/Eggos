@@ -28,10 +28,11 @@ public final class UserHolder {
         this._ShelterDBInstance = ShelterDatabase_room.getInstance();
     }
 
-    private boolean _setUser(User usr){
-        this._currentUser = usr;
-        return true;
-    }
+// --Commented out by Inspection START (08-Apr-18 15:57):
+//    private void _setUser(User usr){
+//        this._currentUser = usr;
+//    }
+// --Commented out by Inspection STOP (08-Apr-18 15:57)
 
     public User getUser(){
         return this._currentUser;
@@ -47,17 +48,15 @@ public final class UserHolder {
         }
     }
 
-    public boolean logout(){
+    public void logout(){
         this._currentUser = null;
-        return true;
     }
 
-    public boolean setCurrentOccupancy(int newShelterID, int newOccupancy){
+    public void setCurrentOccupancy(int newShelterID, int newOccupancy){
         if (_currentUser == null) {
-            return false;
+            return;
         }
         if(newOccupancy < 0){
-            return false;
         } else {
             if(_currentUser._currentShelterID != -1) {
                 //return beds
@@ -80,7 +79,6 @@ public final class UserHolder {
             _UserDBInstance.updateUser(_currentUser);
 
 
-            return true;
         }
 
     }

@@ -103,7 +103,7 @@ public class ShelterFilterChecklistActivity extends Activity {
         }
     }
 
-    private ArrayList<ListItem> str2list (List<String> strArr){
+    private ArrayList<ListItem> str2list (Iterable<String> strArr){
         ArrayList<ListItem> out = new ArrayList<>();
         for (String s: strArr){
             out.add(new ListItem(s));

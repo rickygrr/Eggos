@@ -16,14 +16,14 @@ public final class UserDatabase_room implements UserDatabaseInterface {
     private UserDatabase_room() {
     }
 
-    public static UserDatabase_room getInstance() {
+    public static UserDatabaseInterface getInstance() {
         if(ourInstance.db == null){
             throw new IllegalStateException("Database not initialized");
         }
         return ourInstance;
     }
 
-    public static UserDatabase_room getFirstInstance(Context cont) {
+    public static UserDatabaseInterface getFirstInstance(Context cont) {
         if(ourInstance.db == null){
             //throw new IllegalStateException("Database not initialized");
             ourInstance.db = Room.databaseBuilder(cont,
@@ -47,15 +47,13 @@ public final class UserDatabase_room implements UserDatabaseInterface {
     }
 
     @Override
-    public boolean updateUser(User s) {
+    public void updateUser(User s) {
         int count = this.db.userDBDAO().update(s);
         if(count == 0){
-            return false;
         } else {
             if(count > 1){
                 throw new IllegalStateException("User update wrote too many rows. Database probably clobbered. Rows: "+count);
             }
-            return true;
         }
     }
 
