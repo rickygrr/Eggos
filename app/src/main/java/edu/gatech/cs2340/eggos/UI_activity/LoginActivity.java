@@ -75,6 +75,9 @@ public class LoginActivity extends AppCompatActivity{
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
+    @SuppressWarnings("ChainedMethodCall")
+    //ChainedMethodCall: More EditText insanity.
+    //"Android API: Best marketing for QT and tkinter (and even Electron at this point) since 20xx."
     private void attemptLogin() {
         // Reset errors.
         mUserView.setError(null);
@@ -88,7 +91,7 @@ public class LoginActivity extends AppCompatActivity{
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        if (TextUtils.isEmpty(password) && isPasswordNotValid(password)) {
             mPasswordView.setError(getString(R.string.error_incorrect_password));
             focusView = mPasswordView;
             cancel = true;
@@ -120,7 +123,7 @@ public class LoginActivity extends AppCompatActivity{
             cancel = true;
         }
 
-        if (!TextUtils.isEmpty(user) && !isPasswordValid(password)) {
+        if (!TextUtils.isEmpty(user) && isPasswordNotValid(password)) {
             mPasswordView.setError(getString(R.string.error_incorrect_password));
             focusView = mPasswordView;
             cancel = true;
@@ -155,8 +158,8 @@ public class LoginActivity extends AppCompatActivity{
         }
     }
 
-    private boolean isPasswordValid(CharSequence password) {
-        return password.length() > 0;
+    private boolean isPasswordNotValid(CharSequence password) {
+        return password.length() <= 0;
     }
 }
 

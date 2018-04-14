@@ -32,6 +32,8 @@ import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase_room;
 import edu.gatech.cs2340.eggos.R;
 
 
+@SuppressWarnings("ChainedMethodCall")
+//Insert yet another TextView.getText() rant here.
 public class ShelterFilterChecklistActivity extends Activity {
 
     MyCustomAdapter genderAdapter = null;
@@ -112,7 +114,7 @@ public class ShelterFilterChecklistActivity extends Activity {
     }
 
     private class MyCustomAdapter extends ArrayAdapter<ListItem> {
-        private List<ListItem> restrictionList;
+        private final List<ListItem> restrictionList;
         public MyCustomAdapter(Context context, int textViewResourceId,
                                List<ListItem> restrictionList) {
             super(context, textViewResourceId, restrictionList);
@@ -166,41 +168,34 @@ public class ShelterFilterChecklistActivity extends Activity {
 
     }
 
+    @SuppressWarnings({"TypeMayBeWeakened", "CollectionDeclaredAsConcreteClass"})
+    //ArrayList<String> required for downstream Intent unpacking.
+    //Why can't the API allows unpacking out Object? Nobody knows.
+    private ArrayList<String> ListItemToString(List<ListItem> listIn){
+        ArrayList<String> selectedItem = new ArrayList<>();
+        for(int i=0;i<listIn.size();i++){
+            ListItem g = listIn.get(i);
+            if(g.isSelected()){
+                //responseText.append("\n" + g.toString());
+                selectedItem.add(g.toString());
+            }
+        }
+        return selectedItem;
+    }
+
     private void checkButtonClick() {
         Button myButton = findViewById(R.id.findSelected);
         myButton.setOnClickListener(new OnClickListener() {
+            @SuppressWarnings("ChainedMethodCall")
             @Override
             public void onClick(View v) {
                 //StringBuilder responseText = new StringBuilder();
                 //responseText.append("The following gender were selected...");
 
-                List<ListItem> genderList = genderAdapter.restrictionList;
-                ArrayList<String> selectedGender = new ArrayList<>();
-                for(int i=0;i<genderList.size();i++){
-                    ListItem g = genderList.get(i);
-                    if(g.isSelected()){
-                        //responseText.append("\n" + g.toString());
-                        selectedGender.add(g.toString());
-                    }
-                }
-
-                //responseText.append("\nThe following age were selected...");
-
-                List<ListItem> ageList = ageAdapter.restrictionList;
-                ArrayList<String> selectedAge = new ArrayList<>();
-                for(int i=0;i<ageList.size();i++){
-                    ListItem a = ageList.get(i);
-                    if(a.isSelected()){
-                        //responseText.append("\n" + a.toString());
-                        selectedAge.add(a.toString());
-                    }
-                }
-                //Log.d("call", "Clicked on " + responseText);
-
                 Intent intent = new Intent();
                 intent.putExtra("name", textNameSearch.getText().toString());
-                intent.putExtra("gender", selectedGender);
-                intent.putExtra("age", selectedAge);
+                intent.putExtra("gender", ListItemToString(genderAdapter.restrictionList));
+                intent.putExtra("age", ListItemToString(ageAdapter.restrictionList));
                 setResult(RESULT_OK, intent);
                 finish();
 

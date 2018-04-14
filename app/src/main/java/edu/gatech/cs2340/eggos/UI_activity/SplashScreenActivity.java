@@ -22,6 +22,8 @@ import edu.gatech.cs2340.eggos.R;
 public class SplashScreenActivity extends AppCompatActivity {
     ShelterDatabaseInterface ShelterDBInstance;
     UserDatabaseInterface UserDBInstance;
+    @SuppressWarnings("ChainedMethodCall")
+    //ChainedMethodCall: Raw resource API is downright cancer compared to open() in Python.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

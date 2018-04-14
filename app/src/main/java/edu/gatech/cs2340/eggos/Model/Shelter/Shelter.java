@@ -12,7 +12,7 @@ import android.arch.persistence.room.PrimaryKey;
 @Entity(tableName = "Shelters")
 public class Shelter {
     @PrimaryKey
-    private int _UID;
+    private final int _UID;
     public final String _Name;
     public int _Capacity_max;
     public int _Capacity_current;
@@ -108,10 +108,28 @@ public class Shelter {
         return this._Name;
     }
 
+    public String toDetailedString(){
+        String coord = "";
+        for(int i = 0; i < this.getCoord().length; i++) {
+            coord += this.getCoord()[i] + ", ";
+        }
+        return "Name: " + this.toString()
+                + "\n" + "Capacity: " + this.getMaxCap()
+                + "\n" + "Gender Restrictions: " + GenderEnum.mask2Enums(this._GenderMask)
+                + "\n" + "Age Restrictions: " + AgeEnum.mask2Enums(this._AgeMask)
+                + "\n" + "Notes: " + this.getNotes()
+                + "\n" + "Coordinates: " + coord
+                + "\n" + "Address " + this.getAddr()
+                + "\n" + "Phone Number " + this.getPhone()
+                + "\n" + "Total Capacity:" + this._Capacity_max
+                + "\n" + "Available Capacity:" + this._Capacity_current;
+    }
 
     @Override
     public int hashCode() {
         return this._UID;
     }
+
+
 
 }

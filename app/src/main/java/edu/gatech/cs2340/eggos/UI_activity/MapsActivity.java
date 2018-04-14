@@ -30,9 +30,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private List<Shelter> shelterList;
     private Iterable<Integer> shelterUIDList;
-    private Deque<Marker> markerList = new LinkedList<>();
+    private final Deque<Marker> markerList = new LinkedList<>();
     ShelterDatabaseInterface ShelterDBInstance = ShelterDatabase_room.getInstance();
 
+    @SuppressWarnings("ChainedMethodCall")
+    //ChainedMethodCall: Android Activity Class being a mess? Who'd have thought.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +86,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    @SuppressWarnings({"FeatureEnvy", "ChainedMethodCall"})
+    //FeatureEnvy: Shelter is an information holder that happens to hold 5 things,
+    // more than the 3 access limit for this check.
+    //ChainedMethodCall: "Builder pattern considered harmful."-Linter (probably)
     private void regenMarker(){
         final double YELLOW_FRACTION_LIMIT = 0.75;
         final int YELLOW_BED_LIMIT = 10;
@@ -103,9 +109,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         for(Shelter s: shelterList){
             LatLng loc = new LatLng(s._lat, s._lon);
-            avgLat += s._lat;
-            avgLon += s._lon;
-            double fracUsed = 1 - (s.getAvailCap()/(double)s._Capacity_max);
+            avgLat += loc.latitude;
+            avgLon += loc.longitude;
+            int availCap = s.getAvailCap();
+            int capMax = s._Capacity_max;
+            double fracUsed = 1 - (availCap/(double)capMax);
             BitmapDescriptor icon = BitmapDescriptorFactory.defaultMarker(
                     BitmapDescriptorFactory.HUE_GREEN);
 
@@ -118,7 +126,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Marker m = mMap.addMarker(new MarkerOptions()
                     .position(loc)
                     .title(s.getName())
-                    .snippet(s.getAvailCap()+"/"+s._Capacity_max)
+                    .snippet(availCap+"/"+capMax)
                     .icon(icon)
             );
             m.setTag(s);

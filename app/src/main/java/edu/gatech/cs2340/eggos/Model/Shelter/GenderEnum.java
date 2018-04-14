@@ -77,7 +77,7 @@ public enum GenderEnum {
     public static GenderEnum toEnum(String str){
         String _str = str.toUpperCase();
         for(GenderEnum g: GenderEnum.values()){
-            if(_str.charAt(0) == g.toString().charAt(0)){
+            if(_str.charAt(0) == g.repr.charAt(0)){
                 return g;
             }
         }

@@ -64,7 +64,7 @@ public enum AgeEnum {
     public static AgeEnum toEnum(String str){
         String _str = str.toUpperCase();
         for(AgeEnum g: AgeEnum.values()){
-            if(_str.charAt(0) == g.toString().charAt(0)){
+            if(_str.charAt(0) == g.repr.charAt(0)){
                 return g;
             }
         }

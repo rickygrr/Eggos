@@ -42,10 +42,13 @@ public class DummyAppActivity extends AppCompatActivity {
     @Nullable
     List<String> filterAge = null;
     List<Shelter> shelterList = new ArrayList<>();
+    UserHolder usrHolder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        usrHolder = UserHolder.getInstance();
         //this.filter = ShelterDBInstance.SHOW_ALL_FILTER;
         setContentView(R.layout.activity_dummy_app);
 
@@ -60,7 +63,7 @@ public class DummyAppActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //fire an intent to go to login page
-                UserHolder.getInstance().logout();
+                usrHolder.logout();
                 Context context = view.getContext();
                 Intent intent = new Intent(context, SplashScreenActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -182,6 +185,8 @@ public class DummyAppActivity extends AppCompatActivity {
             mFiltered = items;
         }
 
+        @SuppressWarnings("ChainedMethodCall")
+        //LayoutInflater API required this.
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             /*
@@ -195,11 +200,12 @@ public class DummyAppActivity extends AppCompatActivity {
             return new ViewHolder(view);
         }
 
+        @SuppressWarnings("FeatureEnvy")
+        //OnClickListener effectively causes Shelter operations to be double-counted.
         @SuppressLint("SetTextI18n")
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
 
-            //final ShelterDatabase model = ShelterDBInstance;
             /*
             This is where we have to bind each data element in list (given by position parameter)
             to an element in the view (which is one of our two TextView widgets
@@ -210,13 +216,15 @@ public class DummyAppActivity extends AppCompatActivity {
               Now we bind the data to the widgets.  In this case, pretty simple, put the id in one
               textview and the string rep of a course in the other.
              */
-            if (UserHolder.getInstance().getUser()._currentShelterID == holder.mShelter.getUID()){
-                holder.mIdView.setText(Integer.toString(mShelters.get(position).getUID())+" *");
+            int UID = holder.mShelter.getUID();
+            String idViewString = Integer.toString(UID);
+            if (usrHolder.getUser()._currentShelterID == UID){
+                holder.mIdView.setText(idViewString+" *");
             } else {
-                holder.mIdView.setText(Integer.toString(mShelters.get(position).getUID()));
+                holder.mIdView.setText(idViewString);
             }
 
-            holder.mContentView.setText(mShelters.get(position).toString());
+            holder.mContentView.setText(holder.mShelter.toString());
 
             /*
              * set up a listener to handle if the user clicks on this list item, what should happen?
@@ -266,9 +274,10 @@ public class DummyAppActivity extends AppCompatActivity {
                         List<Shelter> filteredList = new ArrayList<>();
 
                         for (Shelter shelter : mShelters) {
-
-                            if (shelter.getName().toLowerCase().contains(charString)
-                                    || shelter.getName().toLowerCase().contains(charString)) {
+                            String name = shelter.getName();
+                            name = name.toLowerCase();
+                            if (name.contains(charString)
+                                    || name.contains(charString)) {
 
                                 filteredList.add(shelter);
                             }

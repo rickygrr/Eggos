@@ -26,5 +26,6 @@ public interface ShelterDatabaseInterface {
     List<Shelter> unpackShelterList(Iterable<Integer> shelterIndexList);
     void _initTestDatabase();
     void initFromJSON(InputStream f_in)throws IOException;
+    void transferReservation(int oldOccupancy, int oldShelterID, int newOccupancy, int newShelterID);
 
 }

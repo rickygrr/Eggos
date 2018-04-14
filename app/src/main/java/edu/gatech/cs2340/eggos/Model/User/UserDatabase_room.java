@@ -32,7 +32,7 @@ public final class UserDatabase_room implements UserDatabaseInterface {
             ourInstance.db = Room.databaseBuilder(cont,
                     UserDatabaseBackend_Room.class, "Users").allowMainThreadQueries().build();
 
-            if(ourInstance.db.userDBDAO().getRowCount() == 0){
+            if(ourInstance.dbDAO.getRowCount() == 0){
                 ourInstance._initTestDatabase();
             }
             ourInstance.dbDAO = ourInstance.db.userDBDAO();

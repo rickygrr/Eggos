@@ -12,8 +12,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
 
-import edu.gatech.cs2340.eggos.Model.Shelter.AgeEnum;
-import edu.gatech.cs2340.eggos.Model.Shelter.GenderEnum;
 import edu.gatech.cs2340.eggos.Model.Shelter.Shelter;
 import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabaseInterface;
 //import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase_local;
@@ -30,6 +28,10 @@ public class ShelterDetailActivity extends AppCompatActivity {
     //public static final String SHELTER_UID = "shelter_uid";
     private ShelterDatabaseInterface ShelterDBInstance;
     private int shelterID;
+    @SuppressWarnings({"FeatureEnvy", "ChainedMethodCall"})
+    //ChainedMethodCall: Intent API is just pure stupidity all the way down.
+    //FeatureEnvy: @SuppressWarnings on inner class/object does not count for parent.
+    //Maybe they shouldn't have dropped the linter on its head when it was born after all.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,14 +74,18 @@ public class ShelterDetailActivity extends AppCompatActivity {
 
             applyButton.setOnClickListener(new OnClickListener() {
 
+                @SuppressWarnings("FeatureEnvy")
+                //It's a user*Holder* FFS. We will of course be getting the User from it
+                // (1 operation down). Somehow that consumes our whole object access quota.
                 @Override
                 public void onClick(View v) {
                     //Set User with this shelter and remove beds from shelter
                     int numBeds = Integer.parseInt(numBedsEditText.getText().toString());
-                    Log.e("ShelterDetailActivity",
-                        "Bed update clicked with shelter: "+shelterID+" Bedcount: "+numBeds);
+                    //Log.e("ShelterDetailActivity",
+                    //   "Bed update clicked with shelter: "+shelterID+" Bedcount: "+numBeds);
                     Shelter currShelter = ShelterDBInstance.getShelterByID(shelterID);
-                    User u = UserHolder.getInstance().getUser();
+                    UserHolder UsrHolder = UserHolder.getInstance();
+                    User u = UsrHolder.getUser();
                     boolean avail = false;
                     if(u._currentShelterID == shelterID){
                         //same shelter
@@ -88,18 +94,16 @@ public class ShelterDetailActivity extends AppCompatActivity {
                         avail = currShelter.haveRoomFor(numBeds);
                     }
                     if(!avail){
-                        Log.e("ShelterDetailActivity",
-                                "Not enough room: Want :"+numBeds
-                                        +" have: "+currShelter._Capacity_current);
+                        //Log.e("ShelterDetailActivity",
+                        //        "Not enough room: Want :"+numBeds
+                        //                +" have: "+currShelter._Capacity_current);
+                        //Because fixing suspected FeatureEnvy > Actually have good debugging info.
                         numBedsEditText.setError("Insufficient bed availability");
-                        //Error bubble or something
                     } else {
                         //Have the room
-                        UserHolder.getInstance().setCurrentOccupancy(shelterID, numBeds);
+                        UsrHolder.setCurrentOccupancy(shelterID, numBeds);
                     }
                     updateShelterNumber();
-                    //User.setShelter(currShelter)
-                    //currShelter.removeBeds(numBeds)
 
                 }
             });
@@ -126,22 +130,15 @@ public class ShelterDetailActivity extends AppCompatActivity {
     private void updateShelterNumber(){
         EditText numBedsEditText = findViewById(R.id.numBedsEditText);
         TextView ShelterDetails = findViewById(R.id.shelterDetailsTextView);
-        User usr = UserHolder.getInstance().getUser();
+        UserHolder usrHolder = UserHolder.getInstance();
+        User usr = usrHolder.getUser();
         Shelter currShelter = ShelterDBInstance.getShelterByID(shelterID);
-        String coord = "";
-        for(int i = 0; i < currShelter.getCoord().length; i++) {
-            coord += currShelter.getCoord()[i] + ", ";
-        }
-        String details = "Name: " + currShelter.toString()
-                + "\n" + "Capacity: " + currShelter.getMaxCap()
-                + "\n" + "Gender Restrictions: " + GenderEnum.mask2Enums(currShelter._GenderMask)
-                + "\n" + "Age Restrictions: " + AgeEnum.mask2Enums(currShelter._AgeMask)
-                + "\n" + "Notes: " + currShelter.getNotes()
-                + "\n" + "Coordinates: " + coord
-                + "\n" + "Address " + currShelter.getAddr()
-                + "\n" + "Phone Number " + currShelter.getPhone()
-                + "\n" + "Total Capacity:" + currShelter._Capacity_max
-                + "\n" + "Available Capacity:" + currShelter._Capacity_current;
+
+        String details = currShelter.toDetailedString();
+        //And now the UI-related stringification code for Shelter is in Shelter class instead of
+        // directly-related UI class.
+        // Linter gods shall be nourished, regardless of actual maintainability.
+
         ShelterDetails.setText(details);
         if(usr._currentShelterID == shelterID) {
             numBedsEditText.setText(Integer.toString(usr._currentOccupancy));

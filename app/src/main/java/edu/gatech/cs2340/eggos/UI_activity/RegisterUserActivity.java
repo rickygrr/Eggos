@@ -59,6 +59,10 @@ public class RegisterUserActivity extends AppCompatActivity {
         mUserType.setSelection(UserTypeEnum.USER.ordinal());
     }
 
+    @SuppressWarnings("ChainedMethodCall")
+    //Because EditText.getText() does not return a String.
+    // This is some JavaScript "[Object Object]"-level insanity.
+    // Whoever thought this was a good idea should be immediately removed from the gene pool.
     private boolean attemptRegister(){
         EditText mUsername = findViewById(R.id.register_username);
         EditText mPassword = findViewById(R.id.register_password);

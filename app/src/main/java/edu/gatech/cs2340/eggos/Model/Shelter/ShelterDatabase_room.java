@@ -122,6 +122,24 @@ public final class ShelterDatabase_room implements ShelterDatabaseInterface {
         return out;
     }
 
+    public void transferReservation(int oldOccupancy, int oldShelterID, int newOccupancy, int newShelterID){
+        if(oldShelterID != -1) {
+            //return beds
+            Shelter s = this.getShelterByID(oldShelterID);
+            if(s != null) {
+                s.freeRoom(oldOccupancy);
+                this.updateShelter(s);
+            }
+        }
+        if (newOccupancy > 0) {
+            Shelter s = this.getShelterByID(newShelterID);
+            if(s != null) {
+                s.requestRoom(newOccupancy);
+                this.updateShelter(s);
+            }
+        }
+    }
+
     @SuppressWarnings({"MagicNumber", "FeatureEnvy", "LawOfDemeter", "ChainedMethodCall"})
     //It's a test database. OF COURSE it will have magic numbers.
     //It's a shelter*BUILDER*. Of course we will access it a bunch to *BUILD* the shelter object.
@@ -180,9 +198,14 @@ public final class ShelterDatabase_room implements ShelterDatabaseInterface {
     //It's 2018: Builder pattern should be common knowledge by now.
     private void _readShelter(JsonReader reader) throws IOException{
         reader.beginObject();
-        String addr = "", name = "", phone = "", restriction = "";
-        int uid = 0, cap = 0;
-        double lat = 0, lon = 0;
+        String addr = "";
+        String name = "";
+        String phone = "";
+        String restriction = "";
+        int uid = 0;
+        int cap = 0;
+        double lat = 0;
+        double lon = 0;
         String notes = "";
         int genderMask = 0;
         int ageMask = 0;

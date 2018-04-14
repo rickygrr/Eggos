@@ -2,7 +2,6 @@ package edu.gatech.cs2340.eggos.Model.User;
 
 import android.support.annotation.Nullable;
 
-import edu.gatech.cs2340.eggos.Model.Shelter.Shelter;
 import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabaseInterface;
 import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase_room;
 
@@ -16,8 +15,8 @@ public final class UserHolder {
     public static UserHolder getInstance() {
         return ourInstance;
     }
-    private UserDatabaseInterface _UserDBInstance;
-    private ShelterDatabaseInterface _ShelterDBInstance;
+    private final UserDatabaseInterface _UserDBInstance;
+    private final ShelterDatabaseInterface _ShelterDBInstance;
 
     @Nullable
     private User _currentUser;
@@ -56,29 +55,19 @@ public final class UserHolder {
         if (_currentUser == null) {
             return;
         }
-        if(newOccupancy < 0){
-        } else {
-            if(_currentUser._currentShelterID != -1) {
-                //return beds
-                Shelter s = _ShelterDBInstance.getShelterByID(_currentUser._currentShelterID);
-                s.freeRoom(_currentUser._currentOccupancy);
-                _ShelterDBInstance.updateShelter(s);
-            }
+        if(newOccupancy >= 0){
+            int oldShelterID = _currentUser._currentShelterID;
+            int oldOccupancy = _currentUser._currentOccupancy;
 
             _currentUser._currentOccupancy = newOccupancy;
             _currentUser._currentShelterID = newShelterID;
-
             if (newOccupancy == 0) {
                 _currentUser._currentShelterID = -1;
-            } else {
-                Shelter s = _ShelterDBInstance.getShelterByID(_currentUser._currentShelterID);
-                s.requestRoom(_currentUser._currentOccupancy);
-                _ShelterDBInstance.updateShelter(s);
             }
-            //notify db update
             _UserDBInstance.updateUser(_currentUser);
 
-
+            _ShelterDBInstance.transferReservation(oldOccupancy, oldShelterID,
+                                                   newOccupancy, newShelterID);
         }
 
     }
