@@ -26,7 +26,7 @@ public final class ShelterDatabase_room implements ShelterDatabaseInterface {
     }
 
     public static ShelterDatabaseInterface getInstance() {
-        if((ourInstance.db == null) || (ourInstance.dao.getRowCount() == 0)){
+        if((ourInstance.dao == null) || (ourInstance.dao.getRowCount() == 0)){
             throw new IllegalStateException("Database not initialized");
         }
         //Log.e("ShelterDatabase", "Instance given with row count "+ourInstance.dao.getRowCount());
@@ -41,6 +41,16 @@ public final class ShelterDatabase_room implements ShelterDatabaseInterface {
             ourInstance.db = Room.databaseBuilder(cont,
                     ShelterDatabaseBackend_Room.class, "Shelters").allowMainThreadQueries().build();
             ourInstance.dao = ourInstance.db.shelterDBDAO();
+            ourInstance._jsonReadDone = (ourInstance.getRowCount() > 5);
+        }
+        return ourInstance;
+    }
+
+    public static ShelterDatabaseInterface getFirstInstance(ShelterDatabaseDAO ext_dao) {
+        if(ourInstance.db == null){
+            //throw new IllegalStateException("Database not initialized");
+            ourInstance.db = null;
+            ourInstance.dao = ext_dao;
             ourInstance._jsonReadDone = (ourInstance.getRowCount() > 5);
         }
         return ourInstance;
