@@ -2,18 +2,23 @@ package edu.gatech.cs2340.eggos.UI_activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBar;
+import android.os.UserHandle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.view.View.OnClickListener;
 
+import edu.gatech.cs2340.eggos.Model.Shelter.AgeEnum;
+import edu.gatech.cs2340.eggos.Model.Shelter.GenderEnum;
 import edu.gatech.cs2340.eggos.Model.Shelter.Shelter;
-import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase;
+import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabaseInterface;
+//import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase_local;
+import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase_room;
+import edu.gatech.cs2340.eggos.Model.User.User;
 import edu.gatech.cs2340.eggos.Model.User.UserHolder;
 import edu.gatech.cs2340.eggos.R;
 
@@ -23,12 +28,15 @@ import edu.gatech.cs2340.eggos.R;
 
 public class ShelterDetailActivity extends AppCompatActivity {
     //public static final String SHELTER_UID = "shelter_uid";
+    private ShelterDatabaseInterface ShelterDBInstance;;
+    private int shelterID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shelter_detail);
 
-
+        //ShelterDBInstance = ShelterDatabase_local.getInstance();
+        ShelterDBInstance = ShelterDatabase_room.getInstance();
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activityz
         // (e.g. when rotating the screen from portrait to landscape).
@@ -39,41 +47,50 @@ public class ShelterDetailActivity extends AppCompatActivity {
         // http://developer.android.com/guide/components/fragments.html
         //
         if (savedInstanceState == null) {
-            Log.d("hi", "Reached Top of no savedInstance STate");
+            Log.d("hi", "Reached Top of no savedInstance State");
             Bundle b = getIntent().getExtras();
-            int uid = b.getInt("uid");
+            //int uid = b.getInt("uid");
+            shelterID = b.getInt("uid");
+            final Button reserveButton = (Button) findViewById(R.id.reserveButton);
+            final Button applyButton = (Button) findViewById(R.id.applyButton);
+            final EditText numBedsEditText = (EditText) findViewById(R.id.numBedsEditText);
+            final TextView numBedsText = (TextView) findViewById(R.id.numBedsText);
 
-            Shelter currShelter = ShelterDatabase.getInstance().getShelterByID(uid);
+            updateShelterNumber();
 
-            TextView ShelterDetails = (TextView) findViewById(R.id.shelterDetailsTextView);
-            String coord = "";
-            for(int i = 0; i < currShelter.getCoord().length; i++) {
-                coord += currShelter.getCoord()[i] + ", ";
-            }
-            String details = "Name: " + currShelter.toString()
-                    + "\n" + "Capacity: " + currShelter.getMaxCap()
-                    + "\n" + "Restrictions: " + currShelter.getRestrictions()
-                    + "\n" + "Gender Restrictions: " + currShelter.getGender().toString()
-                    + "\n" + "Age Restrictions: " + currShelter.getAge().toString()
-                    + "\n" + "Notes: " + currShelter.getNotes().toString()
-                    + "\n" + "Coordinates: " + coord
-                    + "\n" + "Address " + currShelter.getAddr()
-                    + "\n" + "Phone Number " + currShelter.getPhone();
+            reserveButton.setOnClickListener(new OnClickListener() {
 
-            ShelterDetails.setText(details);
+                public void onClick(View v) {
+                    updateShelterNumber();
+                    numBedsEditText.setVisibility(View.VISIBLE);
+                    numBedsText.setVisibility(View.VISIBLE);
+                    applyButton.setVisibility(View.VISIBLE);
+                    reserveButton.setVisibility(View.INVISIBLE);
+                }
+            });
 
-            /* arguments.putInt(ShelterDetailFragment.SHELTER_UID,
-                    getIntent().getIntExtra(ShelterDetailFragment.SHELTER_UID, 0)); */
+            applyButton.setOnClickListener(new OnClickListener() {
 
-            /*ShelterDetailFragment fragment = new ShelterDetailFragment();
-            fragment.setArguments(arguments);
-            Log.d("hi", "Reached Bottom of no savedInstance STate");
-            getSupportFragmentManager().beginTransaction()
-                    .add(fragment, "blah")
-                    .commit(); */
+                public void onClick(View v) {
+                    //Set User with this shelter and remove beds from shelter
+                    int numBeds = Integer.parseInt(numBedsEditText.getText().toString());
+                    Log.e("ShelterDetailActivity","Bed update clicked with shelter: "+shelterID+" Bedcount: "+numBeds);
+                    Shelter currShelter = ShelterDBInstance.getShelterByID(shelterID);
+                    if(!currShelter.haveRoomFor(numBeds)){
+                        Log.e("ShelterDetailActivity","Not enough room: Want :"+numBeds+" have: "+currShelter._Capacity_current);
+                        numBedsEditText.setError("Insufficient bed availability");
+                        //Error bubble or something
+                    } else {
+                        //Have the room
+                        UserHolder.getInstance().setCurrentOccupancy(shelterID, numBeds);
+                    }
+                    updateShelterNumber();
+                    //User.setShelter(currShelter)
+                    //currShelter.removeBeds(numBeds)
+
+                }
+            });
         }
-
-
     }
 
     @Override
@@ -90,5 +107,38 @@ public class ShelterDetailActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void updateShelterNumber(){
+        EditText numBedsEditText = (EditText) findViewById(R.id.numBedsEditText);
+        TextView ShelterDetails = (TextView) findViewById(R.id.shelterDetailsTextView);
+        User usr = UserHolder.getInstance().getUser();
+        Shelter currShelter = ShelterDBInstance.getShelterByID(shelterID);
+        String coord = "";
+        for(int i = 0; i < currShelter.getCoord().length; i++) {
+            coord += currShelter.getCoord()[i] + ", ";
+        }
+        String details = "Name: " + currShelter.toString()
+                + "\n" + "Capacity: " + currShelter.getMaxCap()
+                + "\n" + "Gender Restrictions: " + GenderEnum.mask2Enums(currShelter._GenderMask)
+                + "\n" + "Age Restrictions: " + AgeEnum.mask2Enums(currShelter._AgeMask)
+                + "\n" + "Notes: " + currShelter.getNotes()
+                + "\n" + "Coordinates: " + coord
+                + "\n" + "Address " + currShelter.getAddr()
+                + "\n" + "Phone Number " + currShelter.getPhone()
+                + "\n" + "Total Capacity:" + currShelter._Capacity_max
+                + "\n" + "Available Capacity:" + currShelter._Capacity_current;
+        ShelterDetails.setText(details);
+        if(usr._currentShelterID == shelterID) {
+            numBedsEditText.setText(Integer.toString(usr._currentOccupancy));
+        } else {
+            numBedsEditText.setText("0");
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateShelterNumber();
     }
 }

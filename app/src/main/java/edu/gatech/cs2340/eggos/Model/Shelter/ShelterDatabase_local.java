@@ -1,79 +1,58 @@
 package edu.gatech.cs2340.eggos.Model.Shelter;
 
 import android.util.JsonReader;
-import android.util.JsonToken;
 import android.util.SparseArray;
-import android.content.res.Resources;
-import android.content.Context;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.List;
 
-import edu.gatech.cs2340.eggos.R;
+import static edu.gatech.cs2340.eggos.Model.Shelter.AgeEnum.enum2Mask;
 
 /**
  * Created by chateau86 on 26-Feb-18.
  */
 
-public class ShelterDatabase {
-    private static final ShelterDatabase ourInstance = new ShelterDatabase();
+public class ShelterDatabase_local implements ShelterDatabaseInterface{
+
+    private static final ShelterDatabase_local ourInstance = new ShelterDatabase_local();
 
     private SparseArray<Shelter> _ShelterList;
-    private Shelter _currentShelter;
     private boolean _jsonReadDone;
-    private HashSet<String> _allRestrictions;
-    private HashSet<String> _allGenderRestrictions;
-    private HashSet<String> _allAgeRestrictions;
-    private HashSet<String> _allNotes;
-
-    public static final ShelterDatabaseFilter SHOW_ALL_FILTER = new ShelterDatabaseFilter() {
+    /*public static final ShelterDatabaseFilter SHOW_ALL_FILTER = new ShelterDatabaseFilter() {
         @Override
         public boolean keepShelter(Shelter s) {
             return true;
         }
-    };
+    };*/
 
-    public static ShelterDatabase getInstance() {
+    public static ShelterDatabase_local getInstance() {
         return ourInstance;
     }
 
-    private ShelterDatabase() {
+    private ShelterDatabase_local() {
         this._ShelterList = new SparseArray<Shelter>();
         //this._initTestDatabase();
         this._jsonReadDone = false;
-        this._allRestrictions = new HashSet<>();
-        this._allGenderRestrictions = new HashSet<>();
-        this._allAgeRestrictions = new HashSet<>();
-        this._allNotes = new HashSet<>();
     }
-
-    /**
-     *
-     * @return  the currently selected course
-     */
-    public Shelter getCurrentShelter() { return _currentShelter;}
 
     public Shelter getShelterByID(int id){
         return _ShelterList.get(id);
     }
-
-    public void setCurrentShelter(Shelter shelter) { _currentShelter = shelter; }
 
     public boolean addShelter(Shelter s){
         if(_ShelterList.get(s.getUID()) != null){
             return false; //duplicate
         }
         _ShelterList.append(s.getUID(), s);
-        this._allRestrictions.add(s.getRestrictions());
-        this._allGenderRestrictions.addAll(s.getGender());
-        this._allAgeRestrictions.addAll(s.getAge());
-        this._allNotes.addAll(s.getNotes());
         return true;
+    }
+    @Override
+    public boolean updateShelter(Shelter s) {
+        return false;
     }
 
     public int getNextShelterID(){
@@ -81,41 +60,32 @@ public class ShelterDatabase {
         return _ShelterList.keyAt(_ShelterList.size()-1) + 1;
     }
 
-    public ArrayList<String> getAllRestrictions(){
-        return new ArrayList<String>(_allRestrictions);
+    public List<Shelter> getShelterList(){ //Copy the content of this function for filtering implementations.
+        return this.getFilteredShelterList("", null, null );
     }
-    public ArrayList<String> getGenderRestrictions(){
-        return new ArrayList<String>(_allGenderRestrictions);
-    }
-    public ArrayList<String> getAgeRestrictions(){
-        return new ArrayList<String>(_allAgeRestrictions);
-    }
-
-
-    public ArrayList<String> getAllNotes(){
-        return new ArrayList<String>(_allNotes);
-    }
-
-    public ArrayList<Shelter> getShelterList(){ //Copy the content of this function for filtering implementations.
-        return this.getFilteredShelterList(SHOW_ALL_FILTER);
-    }
-
-
-    public ArrayList<Shelter> getFilteredShelterList(ShelterDatabaseFilter filt){
-        /*
-        "Wow, talk about a completely unloved class, conforms to ZERO collection interfaces..."
-             -user166390, https://stackoverflow.com/questions/7999211/how-to-iterate-through-sparsearray
-         */
-        //SparseArray<> is now officially my spirit animal. :(
-        //Pls get me in the screenshot for the obligatory /r/me_irl post - W.K.
+    public List<Shelter> getFilteredShelterList(String nameFilter, List<String> genderFilter, List<String> ageFilter){
+        int genderMask = 0;
+        int ageMask = 0;
+        if(genderFilter != null) {
+            genderMask = GenderEnum.enum2Mask(GenderEnum.list2Enums(genderFilter));
+        }
+        if(ageFilter != null) {
+            ageMask = AgeEnum.enum2Mask(AgeEnum.list2Enums(ageFilter));
+        }
         ArrayList<Shelter> outList = new ArrayList<Shelter>();
         for(int i = 0; i < _ShelterList.size(); i++){
-            if(filt.keepShelter(_ShelterList.valueAt(i))) {
-                outList.add(_ShelterList.valueAt(i));
+            if(nameFilter.isEmpty() || (_ShelterList.get(i).getName().toLowerCase().contains(nameFilter.toLowerCase()))) {
+                int gm = _ShelterList.get(i)._GenderMask;
+                int am = _ShelterList.get(i)._AgeMask;
+                if( ((ageMask & am) == ageMask)
+                        && ((genderMask & gm) == genderMask)){
+                    outList.add(_ShelterList.get(i));
+                }
             }
         }
         return outList;
     }
+
 
     private static ArrayList<Shelter> SparseArrToArrayList(SparseArray<Shelter> sp){
         if(sp==null){ return null;}
@@ -127,16 +97,38 @@ public class ShelterDatabase {
     }
 
     public void _initTestDatabase(){
-        this.addShelter(new Shelter(0,"Test Shelter", 20, "blah", new HashSet<String>(){},new HashSet<String>(){}, new HashSet<String>(){}, new double[]{420.0,69.0}, "123 Fake St.\n 42069", "867-5309" ));
-        this.addShelter(new Shelter(1,"Test Shelter 2", 420, "blah", new HashSet<String>(){}, new HashSet<String>(){}, new HashSet<String>(){}, new double[]{123.0,45.0}, "124 Fake St.\n 42069", "531-8008" ));
+        this.addShelter(new ShelterBuilder()
+                .setUID(0)
+                .setName("Test Shelter")
+                .setCapacity(20)
+                .setRestrictions("blah")
+                .setGendersMask(GenderEnum.enum2Mask(GenderEnum.Men, GenderEnum.Women))
+                .setAgeMask(enum2Mask(AgeEnum.All))
+                .setNotes("bleugh")
+                .setCoord(420.0, 69.0)
+                .setAddr("123 Fake St.\n 42069")
+                .setPhone("867-5309")
+                .createShelter());
+        this.addShelter(new ShelterBuilder()
+                .setUID(1)
+                .setName("Test Shelter 2")
+                .setCapacity(420)
+                .setRestrictions("bleugh")
+                .setGendersMask(GenderEnum.enum2Mask(GenderEnum.Men))
+                .setAgeMask(enum2Mask(AgeEnum.Children))
+                .setNotes("bleugh")
+                .setCoord(421.0, 69.0)
+                .setAddr("124 Fake St.\n 42069")
+                .setPhone("477-CARS4KIDS")
+                .createShelter());
     }
 
-    public void initFromJSON(Context cont)throws IOException {
+    public void initFromJSON(InputStream f_in)throws IOException {
         if (_jsonReadDone){
             return;
         }
         _jsonReadDone = true;
-        InputStream f_in = cont.getResources().openRawResource(R.raw.shelter);
+        //InputStream f_in = cont.getResources().openRawResource(R.raw.shelter);
         JsonReader reader = new JsonReader(new InputStreamReader(f_in, "UTF-8"));
         reader.beginArray();
         while(reader.hasNext()){
@@ -150,9 +142,9 @@ public class ShelterDatabase {
         String addr = "", name = "", phone = "", restriction = "";
         int uid = 0, cap = 0;
         double lat = 0, lon = 0;
-        HashSet<String> notes = new HashSet<>();
-        HashSet<String> genders = new HashSet<>();
-        HashSet<String> age = new HashSet<>();
+        String notes = "";
+        int genderMask = 0;
+        int ageMask = 0;
 
         while(reader.hasNext()){
             String token_name = reader.nextName();
@@ -182,23 +174,19 @@ public class ShelterDatabase {
                     lon = reader.nextDouble();
                     break;
                 case "Notes":
-                    reader.beginArray();
-                    while(reader.hasNext()){
-                        notes.add(reader.nextString());
-                    }
-                    reader.endArray();
+                    notes = reader.nextString();
                     break;
                 case "GenderRestriction":
                     reader.beginArray();
                     while(reader.hasNext()){
-                        genders.add(reader.nextString());
+                        genderMask = GenderEnum.addToMask(reader.nextString(), genderMask);
                     }
                     reader.endArray();
                     break;
                 case "AgeRestriction":
                     reader.beginArray();
                     while(reader.hasNext()){
-                        age.add(reader.nextString());
+                        ageMask = AgeEnum.addToMask(reader.nextString(), ageMask);
                     }
                     reader.endArray();
                     break;
@@ -207,7 +195,18 @@ public class ShelterDatabase {
             }
         }
         reader.endObject();
-        this.addShelter(new Shelter(uid, name, cap, restriction, genders, age, notes, new double[]{lat, lon}, addr, phone));
+        this.addShelter(new ShelterBuilder()
+                                .setUID(uid)
+                                .setName(name)
+                                .setCapacity(cap)
+                                .setRestrictions(restriction)
+                                .setGendersMask(genderMask)
+                                .setAgeMask(ageMask)
+                                .setNotes(notes)
+                                .setCoord(lat, lon)
+                                .setAddr(addr)
+                                .setPhone(phone)
+                                .createShelter());
     }
     //TODO: Read CSV/JSON
 }

@@ -9,10 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Filter;
@@ -21,9 +18,13 @@ import android.widget.Filterable;
 import java.util.List;
 import java.util.ArrayList;
 
+import edu.gatech.cs2340.eggos.Model.Shelter.AgeEnum;
+import edu.gatech.cs2340.eggos.Model.Shelter.GenderEnum;
 import edu.gatech.cs2340.eggos.Model.Shelter.Shelter;
-import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase;
-import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabaseFilter;
+//import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase_local;
+//import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabaseFilter;
+import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabaseInterface;
+import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase_room;
 import edu.gatech.cs2340.eggos.Model.User.UserHolder;
 import edu.gatech.cs2340.eggos.R;
 
@@ -32,19 +33,24 @@ public class DummyAppActivity extends AppCompatActivity {
     static final int SELECT_FILTER_REQUEST = 1;
     TextView usrInfoText;
     View recyclerView;
-    ShelterDatabaseFilter filter = ShelterDatabase.SHOW_ALL_FILTER;
+    //ShelterDatabaseInterface ShelterDBInstance = ShelterDatabase_local.getInstance();
+    ShelterDatabaseInterface ShelterDBInstance = ShelterDatabase_room.getInstance();
+    //ShelterDatabaseFilter filter = ShelterDatabase_local.SHOW_ALL_FILTER;
+    String filterName = "";
+    List<String> filterGender = null;
+    List<String> filterAge = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.filter = ShelterDatabase.SHOW_ALL_FILTER;
+        //this.filter = ShelterDBInstance.SHOW_ALL_FILTER;
         setContentView(R.layout.activity_dummy_app);
 
         //Step 1.  Setup the recycler view by getting it from our layout in the main window
         this.recyclerView = findViewById(R.id.shelter_list_dummy);
         assert recyclerView != null;
         //Step 2.  Hook up the adapter to the view
-        setupRecyclerView((RecyclerView) recyclerView, filter);
+        setupRecyclerView((RecyclerView) recyclerView);
 
         Button mLogoutButton = (Button) findViewById(R.id.dummy_button_logout);
         mLogoutButton.setOnClickListener(new View.OnClickListener() {
@@ -77,9 +83,12 @@ public class DummyAppActivity extends AppCompatActivity {
         mRstFilterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            filter = ShelterDatabase.SHOW_ALL_FILTER;
+            //filter = ShelterDatabase_local.SHOW_ALL_FILTER;
             //TODO: Re-generate recycler view
-            setupRecyclerView((RecyclerView) recyclerView, filter);
+            filterName = "";
+            filterGender = null;
+            filterAge = null;
+            setupRecyclerView((RecyclerView) recyclerView);
             }
         });
 
@@ -91,32 +100,26 @@ public class DummyAppActivity extends AppCompatActivity {
             final String name = data.getStringExtra("name");
             final ArrayList<String> gender = data.getStringArrayListExtra("gender");
             final ArrayList<String> age = data.getStringArrayListExtra("age");
-            //TODO: Make ShelterDatabaseFilter a real class
-            this.filter = new ShelterDatabaseFilter() {
-                @Override
-                public boolean keepShelter(Shelter s) {
-                    //check name
-                    if(!s.getName().toLowerCase().contains(name.toLowerCase())){
-                        return false;
-                    }
-                    for (String g: gender){
-                        if(!s.getGender().contains(g)) {
-                            return false;
-                        }
-                    }
-                    for (String a: age){
-                        if(!s.getAge().contains(a)) {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-            };
+
+            this.filterName = data.getStringExtra("name");
+            this.filterGender = data.getStringArrayListExtra("gender");
+            this.filterAge = data.getStringArrayListExtra("age");
+
         } else {
-            this.filter = ShelterDatabase.SHOW_ALL_FILTER;
+            //this.filter = ShelterDatabase_local.SHOW_ALL_FILTER;
+
+            String filterName = "";
+            List<String> filterGender = null;
+            List<String> filterAge = null;
         }
         //regenerate recyclerview
-        setupRecyclerView((RecyclerView) recyclerView, filter);
+        //setupRecyclerView((RecyclerView) recyclerView, filter);
+        setupRecyclerView((RecyclerView) recyclerView);
+    }
+
+    protected void onResume() {
+        super.onResume();
+        setupRecyclerView((RecyclerView) recyclerView);
     }
 
 
@@ -125,9 +128,9 @@ public class DummyAppActivity extends AppCompatActivity {
      * Set up an adapter and hook it to the provided view
      * @param recyclerView  the view that needs this adapter
      */
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView, ShelterDatabaseFilter filter) {
-        ShelterDatabase model = ShelterDatabase.getInstance();
-        recyclerView.setAdapter(new SimpleShelterRecyclerViewAdapter(model.getFilteredShelterList(filter)));
+    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+        //ShelterDatabase model = ShelterDatabase.getInstance();
+        recyclerView.setAdapter(new SimpleShelterRecyclerViewAdapter(ShelterDBInstance.getFilteredShelterList(this.filterName,this.filterGender, this.filterAge)));
     }
 
     /**
@@ -172,7 +175,7 @@ public class DummyAppActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
 
-            final ShelterDatabase model = ShelterDatabase.getInstance();
+            //final ShelterDatabase model = ShelterDBInstance;
             /*
             This is where we have to bind each data element in the list (given by position parameter)
             to an element in the view (which is one of our two TextView widgets
@@ -183,7 +186,12 @@ public class DummyAppActivity extends AppCompatActivity {
               Now we bind the data to the widgets.  In this case, pretty simple, put the id in one
               textview and the string rep of a course in the other.
              */
-            holder.mIdView.setText(Integer.toString(mShelters.get(position).getUID()));
+            if (UserHolder.getInstance().getUser()._currentShelterID == holder.mShelter.getUID()){
+                holder.mIdView.setText(Integer.toString(mShelters.get(position).getUID())+" *");
+            } else {
+                holder.mIdView.setText(Integer.toString(mShelters.get(position).getUID()));
+            }
+
             holder.mContentView.setText(mShelters.get(position).toString());
 
             /*
@@ -206,7 +214,7 @@ public class DummyAppActivity extends AppCompatActivity {
                 b.putInt("uid", holder.mShelter.getUID());
                 intent.putExtras(b);
 
-                model.setCurrentShelter(holder.mShelter);
+                //model.setCurrentShelter(holder.mShelter);
                 //now just display the new window
                 context.startActivity(intent);
                 }

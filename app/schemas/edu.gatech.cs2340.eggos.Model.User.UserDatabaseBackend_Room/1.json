@@ -1,0 +1,57 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "1a3123bb6d9ce23f77dbceca86e3387c",
+    "entities": [
+      {
+        "tableName": "Users",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_Username` TEXT NOT NULL, `_Password` TEXT, `_UserType` TEXT, `_currentShelterID` INTEGER NOT NULL, `_currentOccupancy` INTEGER NOT NULL, PRIMARY KEY(`_Username`))",
+        "fields": [
+          {
+            "fieldPath": "_Username",
+            "columnName": "_Username",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "_Password",
+            "columnName": "_Password",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "_UserType",
+            "columnName": "_UserType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "_currentShelterID",
+            "columnName": "_currentShelterID",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "_currentOccupancy",
+            "columnName": "_currentOccupancy",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "_Username"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"1a3123bb6d9ce23f77dbceca86e3387c\")"
+    ]
+  }
+}

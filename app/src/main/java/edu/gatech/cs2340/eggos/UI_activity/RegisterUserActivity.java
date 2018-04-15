@@ -11,16 +11,20 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import edu.gatech.cs2340.eggos.Model.User.User;
-import edu.gatech.cs2340.eggos.Model.User.UserDatabase;
+import edu.gatech.cs2340.eggos.Model.User.UserDatabaseInterface;
+import edu.gatech.cs2340.eggos.Model.User.UserDatabase_room;
 import edu.gatech.cs2340.eggos.Model.User.UserTypeEnum;
 import edu.gatech.cs2340.eggos.R;
 
 public class RegisterUserActivity extends AppCompatActivity {
 
+    UserDatabaseInterface UserDBInstance;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_user);
+        //UserDBInstance = UserDatabase_local.getInstance();
+        UserDBInstance = UserDatabase_room.getInstance();
         Button mRegisterButton = (Button) findViewById(R.id.register_register_button);
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +75,7 @@ public class RegisterUserActivity extends AppCompatActivity {
             mUsername.setError("Username too short.");
             valid_user = false;
             focusView = mUsername;
-        }else if (UserDatabase.getInstance().userExists(username)){
+        }else if (UserDBInstance.userExists(username)){
             mUsername.setError("User already exists.");
             valid_user = false;
             focusView = mUsername;
@@ -86,7 +90,7 @@ public class RegisterUserActivity extends AppCompatActivity {
         }
         //Now add user
         if (valid_user) {
-            if (!UserDatabase.getInstance().addUser(new User(username, password, usertype))) {
+            if (!UserDBInstance.addUser(new User(username, password, usertype.toString()))) {
                 mRegisterButton.setError("User addition failed. Please try again.");
                 focusView = mRegisterButton;
                 valid_user = false;

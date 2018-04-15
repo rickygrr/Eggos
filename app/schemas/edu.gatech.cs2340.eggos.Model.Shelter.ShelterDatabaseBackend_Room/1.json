@@ -1,0 +1,93 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "66e840b1970adbe32c6f690df41527c3",
+    "entities": [
+      {
+        "tableName": "Shelters",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_UID` INTEGER NOT NULL, `_Name` TEXT, `_Capacity_max` INTEGER NOT NULL, `_Capacity_current` INTEGER NOT NULL, `_GenderMask` INTEGER NOT NULL, `_AgeMask` INTEGER NOT NULL, `_Notes` TEXT, `_lat` REAL NOT NULL, `_lon` REAL NOT NULL, `_Addr` TEXT, `_Phone` TEXT, PRIMARY KEY(`_UID`))",
+        "fields": [
+          {
+            "fieldPath": "_UID",
+            "columnName": "_UID",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "_Name",
+            "columnName": "_Name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "_Capacity_max",
+            "columnName": "_Capacity_max",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "_Capacity_current",
+            "columnName": "_Capacity_current",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "_GenderMask",
+            "columnName": "_GenderMask",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "_AgeMask",
+            "columnName": "_AgeMask",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "_Notes",
+            "columnName": "_Notes",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "_lat",
+            "columnName": "_lat",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "_lon",
+            "columnName": "_lon",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "_Addr",
+            "columnName": "_Addr",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "_Phone",
+            "columnName": "_Phone",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "_UID"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"66e840b1970adbe32c6f690df41527c3\")"
+    ]
+  }
+}

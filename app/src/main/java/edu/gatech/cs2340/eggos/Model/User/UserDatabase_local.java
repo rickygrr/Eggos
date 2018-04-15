@@ -6,15 +6,15 @@ import java.util.ArrayList;
  * Created by chateau86 on 14-Feb-18.
  */
 
-public class UserDatabase {
-    private static final UserDatabase ourInstance = new UserDatabase();
-    public static UserDatabase getInstance() {
+public class UserDatabase_local implements UserDatabaseInterface {
+    private static final UserDatabase_local ourInstance = new UserDatabase_local();
+    public static UserDatabase_local getInstance() {
         return ourInstance;
     }
 
     private ArrayList<User> _Userlist;
 
-    private UserDatabase() {
+    private UserDatabase_local() {
        this. _Userlist = new ArrayList<User>();
        this._initTestDatabase(); //TODO: Replace with database read or something
     }
@@ -26,6 +26,10 @@ public class UserDatabase {
         }
         this._Userlist.add(newUser);
         return true;
+    }
+    @Override
+    public boolean updateUser(User s) {
+        return false;
     }
 
     private User _getUser(String username){
@@ -52,9 +56,9 @@ public class UserDatabase {
     }
 
     public void _initTestDatabase(){ //Fake database for debugging only
-        this.addUser(new User("Monika","JustMonika",UserTypeEnum.ADMIN));// Just Monika [ok]
-        this.addUser(new User("a","b",UserTypeEnum.ADMIN));
-        this.addUser(new User("homelessdude","password",UserTypeEnum.USER));
-        this.addUser(new User("shelterguy","gimmeshelter",UserTypeEnum.EMPLOYEE)); //Denzel Washington rolling over an MD-80 not included.
+        this.addUser(new User("Monika","JustMonika",UserTypeEnum.ADMIN.toString()));// Just Monika [ok]
+        this.addUser(new User("a","b",UserTypeEnum.ADMIN.toString()));
+        this.addUser(new User("homelessdude","password",UserTypeEnum.USER.toString()));
+        this.addUser(new User("shelterguy","gimmeshelter",UserTypeEnum.EMPLOYEE.toString())); //Denzel Washington rolling over an MD-80 not included.
     }
 }

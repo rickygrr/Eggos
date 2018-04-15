@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1069387200006",
+    "firebase_url": "https://cs2340-eggos.firebaseio.com",
+    "project_id": "cs2340-eggos",
+    "storage_bucket": "cs2340-eggos.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1069387200006:android:495fc8c829102138",
+        "android_client_info": {
+          "package_name": "edu.gatech.cs2340.eggos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1069387200006-e8q42of9s4sbd2e44tjkr04uqjm7b0dl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASG08IXj2GPkDKS2R8V6MGQQHUUZiVfeU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -29,7 +29,7 @@ csv_col = {
     'Lon': (6, float),
     'Lat': (7, float),
     'Address': (8, str),
-    'Notes': (9, parse_notes),
+    'Notes': (9, str),
     'Phone': (10, str)
 }
 shelter_list = []
