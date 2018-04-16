@@ -75,8 +75,10 @@ public class LoginActivity extends AppCompatActivity{
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    @SuppressWarnings("ChainedMethodCall")
+    @SuppressWarnings({"ChainedMethodCall", "LawOfDemeter"})
     //ChainedMethodCall: More EditText insanity.
+    //LawOfDemeter: UserHolder class is just a Singleton full of other variables.
+    //A global would have satiated the Law of Demeter fetish but actually *hurts* maintainability.
     //"Android API: Best marketing for QT and tkinter (and even Electron at this point) since 20xx."
     private void attemptLogin() {
         // Reset errors.

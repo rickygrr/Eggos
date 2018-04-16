@@ -5,6 +5,8 @@ package edu.gatech.cs2340.eggos;
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
+import android.support.annotation.Nullable;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,6 +24,7 @@ import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase_room;
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.*;
 
+@SuppressWarnings("ALL")
 public class ShelterDatabaseRoom_getFilteredShelterList_test {
     //Woradorn K.
     ShelterDatabase_MockDAO mockDAO;
@@ -95,10 +98,13 @@ public class ShelterDatabaseRoom_getFilteredShelterList_test {
 
 }
 
+@SuppressWarnings("ALL")
+//This is just a temporary mock class.
 class ShelterDatabase_MockDAO implements ShelterDatabaseDAO{
     //Haunted mock DAO that records your method calls and calls you gay.
     //100% Astolfo plushie free
 
+    @Nullable
     String filter_name;
     int genderMask;
     int ageMask;

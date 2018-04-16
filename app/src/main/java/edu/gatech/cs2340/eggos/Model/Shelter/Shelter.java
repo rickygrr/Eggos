@@ -6,7 +6,7 @@ import android.arch.persistence.room.PrimaryKey;
 /**
  * Created by chateau86 on 26-Feb-18.
  */
-@SuppressWarnings("PublicField")
+@SuppressWarnings({"PublicField", "WeakerAccess"})
 //Because otherwise Room requires all the getters/setters with *very specific* naming scheme
 //that just breaks everything.
 @Entity(tableName = "Shelters")

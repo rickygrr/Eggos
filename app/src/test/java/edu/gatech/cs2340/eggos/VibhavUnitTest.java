@@ -14,6 +14,7 @@ import static org.junit.Assert.*;
  *
  */
 
+@SuppressWarnings("ALL")
 public class VibhavUnitTest {
 
     Shelter testShelter = new Shelter(0, "test", 100, 0,

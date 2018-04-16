@@ -32,6 +32,7 @@ public class ShelterDetailActivity extends AppCompatActivity {
     //ChainedMethodCall: Intent API is just pure stupidity all the way down.
     //FeatureEnvy: @SuppressWarnings on inner class/object does not count for parent.
     //Maybe they shouldn't have dropped the linter on its head when it was born after all.
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +75,7 @@ public class ShelterDetailActivity extends AppCompatActivity {
 
             applyButton.setOnClickListener(new OnClickListener() {
 
-                @SuppressWarnings("FeatureEnvy")
+                @SuppressWarnings({"FeatureEnvy", "LawOfDemeter"})
                 //It's a user*Holder* FFS. We will of course be getting the User from it
                 // (1 operation down). Somehow that consumes our whole object access quota.
                 @Override
@@ -126,6 +127,9 @@ public class ShelterDetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @SuppressWarnings("LawOfDemeter")
+    //LawOfDemeter: UserHolder class is just a Singleton full of other variables.
+    //A global would have satiated the Law of Demeter fetish but actually *hurts* maintainability.
     @SuppressLint("SetTextI18n")
     private void updateShelterNumber(){
         EditText numBedsEditText = findViewById(R.id.numBedsEditText);

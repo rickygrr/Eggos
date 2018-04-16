@@ -8,6 +8,7 @@ import edu.gatech.cs2340.eggos.Model.Shelter.Shelter;
 
 import static org.junit.Assert.*;
 
+@SuppressWarnings("MagicNumber")
 public class UnitTestRicardoGomez {
 
     // Trivial unit test for checking user.getUsername() - just to understand how Junits work

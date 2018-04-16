@@ -60,6 +60,8 @@ public final class ShelterDatabase_room implements ShelterDatabaseInterface {
      * @param ext_dao external data access object
      * @return instance of shelter database interface
      */
+    @SuppressWarnings("AssignmentToNull")
+    //Null is ok as this method is for testing/mocking only.
     public static ShelterDatabaseInterface getFirstInstance(ShelterDatabaseDAO ext_dao) {
         if(ourInstance.db == null){
             //throw new IllegalStateException("Database not initialized");
