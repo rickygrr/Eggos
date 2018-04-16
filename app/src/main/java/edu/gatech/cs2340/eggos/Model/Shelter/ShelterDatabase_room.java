@@ -26,8 +26,8 @@ public final class ShelterDatabase_room implements ShelterDatabaseInterface {
     }
 
     /**
-     * Get instance of shelter database
-     * @return instance of shelter database
+     * Get instance of shelter database interface
+     * @return instance of shelter database interface
      */
     public static ShelterDatabaseInterface getInstance() {
         if((ourInstance.dao == null) || (ourInstance.dao.getRowCount() == 0)){
@@ -38,9 +38,9 @@ public final class ShelterDatabase_room implements ShelterDatabaseInterface {
     }
 
     /**
-     * Get first instance of shelter database
+     * Get first instance of shelter database interface
      * @param cont context of shelter
-     * @return instance of shelter database
+     * @return instance of shelter database interface
      */
     @SuppressWarnings("ChainedMethodCall")
     //Builder pattern strikes again.
@@ -56,9 +56,9 @@ public final class ShelterDatabase_room implements ShelterDatabaseInterface {
     }
 
     /**
-     * Get first instance of shelter database
+     * Get first instance of shelter database interface
      * @param ext_dao external data access object
-     * @return instance of shelter database
+     * @return instance of shelter database interface
      */
     public static ShelterDatabaseInterface getFirstInstance(ShelterDatabaseDAO ext_dao) {
         if(ourInstance.db == null){
@@ -211,7 +211,7 @@ public final class ShelterDatabase_room implements ShelterDatabaseInterface {
     }
 
     /**
-     * Initialize test database
+     * Initialize test database of shelters
      */
     @SuppressWarnings({"MagicNumber", "FeatureEnvy", "LawOfDemeter", "ChainedMethodCall"})
     //It's a test database. OF COURSE it will have magic numbers.
@@ -249,6 +249,11 @@ public final class ShelterDatabase_room implements ShelterDatabaseInterface {
                 .createShelter());
     }
 
+    /**
+     * Initialize database from json data
+     * @param f_in data in json format
+     * @throws IOException
+     */
     @Override
     public void initFromJSON(InputStream f_in)throws IOException {
         if (_jsonReadDone){
@@ -265,6 +270,11 @@ public final class ShelterDatabase_room implements ShelterDatabaseInterface {
         reader.endArray();
     }
 
+    /**
+     * Read shelter from database
+     * @param reader json reader of database
+     * @throws IOException
+     */
     @SuppressWarnings({"FeatureEnvy", "LawOfDemeter", "ChainedMethodCall"})
     //It's a shelter*BUILDER*. Of course we will access it a bunch to *BUILD* the shelter object.
     //There goes FeatureEnvy and LawOfDemeter.
