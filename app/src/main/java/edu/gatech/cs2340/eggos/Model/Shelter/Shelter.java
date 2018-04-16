@@ -25,7 +25,7 @@ public class Shelter {
     public String _Phone;
 
     /**
-     * Constructor for the object Shelter with given capacities
+     * Detailed constructor for shelter object
      * @param _UID ID of the shelter
      * @param _Name name of the shelter
      * @param _Capacity_max maximum capacity of the shelter
@@ -63,7 +63,7 @@ public class Shelter {
     }
 
     /**
-     * Constructor for initializing the object Shelter
+     * Simple constructor for shelter object
      * @param _UID ID of the shelter
      * @param _Name name of the shelter
      * @param _Capacity_max maximum capacity of the shelter

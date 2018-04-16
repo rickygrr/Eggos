@@ -25,9 +25,24 @@ public class User {
     public int _currentShelterID;
     public int _currentOccupancy;
 
+    /**
+     * Simple constructor for user object
+     * @param username username of user
+     * @param password password of user
+     * @param type type of user
+     */
     public User(String username, String password, String type){
         this(username, password, type, -1, 0);
     }
+
+    /**
+     * Detailed constructor for user object
+     * @param _Username username of user
+     * @param _Password password of user
+     * @param _UserType type of user
+     * @param _currentShelterID current shelter's ID
+     * @param _currentOccupancy current occupancy of shelter
+     */
     public User(String _Username,
                 String _Password,
                 String _UserType,
@@ -40,6 +55,10 @@ public class User {
         this._currentOccupancy = _currentOccupancy;
     }
 
+    /**
+     * Get username of user
+     * @return username of user
+     */
     public String getUsername(){
         return this._Username;
     }
@@ -48,6 +67,12 @@ public class User {
 //        return this._Password;
 //    }
 // --Commented out by Inspection STOP (08-Apr-18 15:57)
+
+    /**
+     * Check password of user
+     * @param pass password of user
+     * @return whether or not the user's password is correct
+     */
     public boolean checkPassword(String pass){
         //No string getter provided for obvious reason
         return this._Password.equals(pass);
@@ -73,10 +98,18 @@ public class User {
 //    }
 // --Commented out by Inspection STOP (08-Apr-18 15:57)
 
+    /**
+     * Simple toString of user
+     * @return the user's username and type
+     */
     public String toString(){
         return "User name: "+this._Username+"\nType: "+this._UserType;
     }
 
+    /**
+     * Hash code of the user's username
+     * @return hashcode username of user
+     */
     @Override
     public int hashCode(){ //For HashSet use
         return this._Username.hashCode();
