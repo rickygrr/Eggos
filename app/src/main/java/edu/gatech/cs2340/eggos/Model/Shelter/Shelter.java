@@ -24,6 +24,20 @@ public class Shelter {
     public String _Addr;
     public String _Phone;
 
+    /**
+     * Constructor for the object Shelter with given capacities
+     * @param _UID ID of the shelter
+     * @param _Name name of the shelter
+     * @param _Capacity_max maximum capacity of the shelter
+     * @param _Capacity_current current capacity of the shelter
+     * @param _GenderMask gender restrictions of the shelter
+     * @param _AgeMask age restrictions of the shelter
+     * @param _Notes notes on the shelter
+     * @param _lat latitude of the shelter
+     * @param _lon longitude of the shelter
+     * @param _Addr address of the shelter
+     * @param _Phone phone of the shelter
+     */
     public Shelter(int _UID,
                    final String _Name,
                    int _Capacity_max,
@@ -47,6 +61,19 @@ public class Shelter {
         this._Addr = _Addr;
         this._Phone = _Phone;
     }
+
+    /**
+     * Constructor for initializing the object Shelter
+     * @param _UID ID of the shelter
+     * @param _Name name of the shelter
+     * @param _Capacity_max maximum capacity of the shelter
+     * @param _AgeMask age restrictions of the shelter
+     * @param _Notes notes on the shelter
+     * @param _lat latitude of the shelter
+     * @param _lon longitude of the shelter
+     * @param _Addr address of the shelter
+     * @param _Phone phone of the shelter
+     */
     public Shelter(int _UID,
                    String _Name,
                    int _Capacity_max,
@@ -61,53 +88,112 @@ public class Shelter {
                 _AgeMask, _Notes, _lat, _lon, _Addr, _Phone);
     }
 
+    /**
+     * Gets the ID of the shelter
+     * @return the ID of the shelter
+     */
     public int getUID() {
         return this._UID;
     }
+
+    /**
+     * Gets the name of the shelter
+     * @return the name of the shelter
+     */
     public String getName(){
         return this._Name;
     }
+
+    /**
+     * Gets the maximum capacity of shelter
+     * @return maximum capacity of shelter
+     */
     public int getMaxCap(){
         return this._Capacity_max;
     }
+
+    /**
+     * Gets the available capacity of shelter
+     * @return current capacity of shelter
+     */
     public int getAvailCap(){
         return (this._Capacity_current);
     }
+
+    /**
+     * Determines if there is enough room for a certain capacity
+     * @param cap capacity to check if there is enough room for
+     * @return whether or not there is enough room for the given capacity
+     */
     public boolean haveRoomFor(int cap){
         return (this._Capacity_current >= cap);
     }
+
+    /**
+     * Requests a room for the given shelter
+     * @param cap the capacity which will occupy the room
+     */
     public void requestRoom(int cap){
         if((cap >= 0) && this.haveRoomFor(cap)){
             this._Capacity_current -= cap;
         }
     }
 
+    /**
+     * Free's room in the shelter
+     * @param cap the capacity of the room to be freed
+     */
     public void freeRoom(int cap){
         if((cap >= 0) && (cap <= (this._Capacity_max - this._Capacity_current))){
             this._Capacity_current += cap;
         }
     }
 
+    /**
+     * Get notes of the shelter
+     * @return the notes on the shelter
+     */
     public String getNotes(){
         return _Notes;
     }
 
+    /**
+     * Get coordinates of the shelter
+     * @return the coordinates of the shelter
+     */
     public double[] getCoord() {
         return new double[] {this._lat, this._lon};
     }
 
+    /**
+     * Gets the address of the shelter
+     * @return the address of the shelter
+     */
     public String getAddr(){
         return this._Addr;
     }
 
+    /**
+     * Gets the phone of the shelter
+     * @return the phone of the shelter
+     */
     public String getPhone(){
         return this._Phone;
     }
 
+    /**
+     * Simple toString of the shelter
+     * @return the name of the shelter
+     */
     public String toString(){
         return this._Name;
     }
 
+    /**
+     * Detailed toString of the shelter
+     * @return the name, capacity, gender restrictions, age restrictions, notes, coordinates,
+     * address, phone number, total capacity and available capacity of the shelter
+     */
     public String toDetailedString(){
         String coord = "";
         for(int i = 0; i < this.getCoord().length; i++) {
@@ -125,6 +211,10 @@ public class Shelter {
                 + "\n" + "Available Capacity:" + this._Capacity_current;
     }
 
+    /**
+     * Hash code of the shelter's ID
+     * @return the shelter's ID
+     */
     @Override
     public int hashCode() {
         return this._UID;

@@ -17,6 +17,7 @@ public enum AgeEnum {
     public final int mask_val;
     public final String repr;
     public static final int ALL_MASK = 0b1111;
+
     AgeEnum(int num, String repr){
         this.mask_val = num;
         this.repr = repr;
