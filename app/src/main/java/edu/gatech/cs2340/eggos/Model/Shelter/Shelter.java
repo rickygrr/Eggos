@@ -126,6 +126,9 @@ public class Shelter {
      * @return whether or not there is enough room for the given capacity
      */
     public boolean haveRoomFor(int cap){
+        if (cap < 0) {
+            return false;
+        }
         return (this._Capacity_current >= cap);
     }
 

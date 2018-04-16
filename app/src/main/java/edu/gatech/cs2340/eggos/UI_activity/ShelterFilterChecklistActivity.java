@@ -1,8 +1,5 @@
 package edu.gatech.cs2340.eggos.UI_activity;
 
-/**
- * Created by Vibhav on 3/13/2018.
- */
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +29,10 @@ import edu.gatech.cs2340.eggos.Model.Shelter.ShelterDatabase_room;
 import edu.gatech.cs2340.eggos.R;
 
 
+
+/**
+ * Created by Vibhav on 3/13/2018.
+ */
 @SuppressWarnings("ChainedMethodCall")
 //Insert yet another TextView.getText() rant here.
 public class ShelterFilterChecklistActivity extends Activity {
