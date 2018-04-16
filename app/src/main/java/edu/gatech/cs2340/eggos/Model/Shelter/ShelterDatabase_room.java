@@ -25,6 +25,10 @@ public final class ShelterDatabase_room implements ShelterDatabaseInterface {
     private ShelterDatabase_room() {
     }
 
+    /**
+     * Get instance of shelter database
+     * @return instance of shelter database
+     */
     public static ShelterDatabaseInterface getInstance() {
         if((ourInstance.dao == null) || (ourInstance.dao.getRowCount() == 0)){
             throw new IllegalStateException("Database not initialized");
@@ -33,6 +37,11 @@ public final class ShelterDatabase_room implements ShelterDatabaseInterface {
         return ourInstance;
     }
 
+    /**
+     * Get first instance of shelter database
+     * @param cont context of shelter
+     * @return instance of shelter database
+     */
     @SuppressWarnings("ChainedMethodCall")
     //Builder pattern strikes again.
     public static ShelterDatabaseInterface getFirstInstance(Context cont) {
@@ -46,6 +55,11 @@ public final class ShelterDatabase_room implements ShelterDatabaseInterface {
         return ourInstance;
     }
 
+    /**
+     * Get first instance of shelter database
+     * @param ext_dao external data access object
+     * @return instance of shelter database
+     */
     public static ShelterDatabaseInterface getFirstInstance(ShelterDatabaseDAO ext_dao) {
         if(ourInstance.db == null){
             //throw new IllegalStateException("Database not initialized");
@@ -56,10 +70,19 @@ public final class ShelterDatabase_room implements ShelterDatabaseInterface {
         return ourInstance;
     }
 
+    /**
+     * Get row count
+     * @return row count of database
+     */
     public int getRowCount(){
         return dao.getRowCount();
     }
 
+    /**
+     * Get shelter by ID
+     * @param id ID of shelter
+     * @return list of shelters by ID
+     */
     @Override
     public Shelter getShelterByID(int id) {
         List<Shelter> match_list = dao.getShelter(id);
@@ -70,12 +93,21 @@ public final class ShelterDatabase_room implements ShelterDatabaseInterface {
         }
     }
 
+    /**
+     * Add shelter to database
+     * @param s shelter to add
+     * @return whether or not the shelter was added
+     */
     @Override
     public boolean addShelter(Shelter s) {
         this.dao.insertAll(s);
         return true;
     }
 
+    /**
+     * Update shelter list
+     * @param s shelter to update
+     */
     @Override
     public void updateShelter(Shelter s) {
         int count = this.dao.update(s);
@@ -89,11 +121,22 @@ public final class ShelterDatabase_room implements ShelterDatabaseInterface {
         }
     }
 
+    /**
+     * Get shelter list
+     * @return shelter list
+     */
     @Override
     public List<Shelter> getShelterList() {
         return getFilteredShelterList("",null,null);
     }
 
+    /**
+     * Get filtered shelter list
+     * @param name name of shelter
+     * @param genderFilter gender filter of shelter
+     * @param ageFilter age filter of shelter
+     * @return filtered shelter list
+     */
     @Override
     public List<Shelter> getFilteredShelterList(
                 String name,
@@ -114,6 +157,11 @@ public final class ShelterDatabase_room implements ShelterDatabaseInterface {
         }
     }
 
+    /**
+     * Pack shelter list
+     * @param shelterList shelter list
+     * @return packed shelter list
+     */
     @Override
     public List<Integer> packShelterList(Iterable<Shelter> shelterList) {
         List<Integer> out = new ArrayList<>();
@@ -123,6 +171,11 @@ public final class ShelterDatabase_room implements ShelterDatabaseInterface {
         return out;
     }
 
+    /**
+     * Unpack shelter list
+     * @param shelterIndexList shelter index list
+     * @return unpacked shelter list
+     */
     @Override
     public List<Shelter> unpackShelterList(Iterable<Integer> shelterIndexList) {
         List<Shelter> out = new ArrayList<>();
@@ -132,6 +185,13 @@ public final class ShelterDatabase_room implements ShelterDatabaseInterface {
         return out;
     }
 
+    /**
+     * Transfer reservation between shelter
+     * @param oldOccupancy old occupancy of shelter
+     * @param oldShelterID old shelter's ID
+     * @param newOccupancy new occupancy of shelter
+     * @param newShelterID new shelter's ID
+     */
     public void transferReservation(int oldOccupancy, int oldShelterID, int newOccupancy, int newShelterID){
         if(oldShelterID != -1) {
             //return beds
@@ -150,6 +210,9 @@ public final class ShelterDatabase_room implements ShelterDatabaseInterface {
         }
     }
 
+    /**
+     * Initialize test database
+     */
     @SuppressWarnings({"MagicNumber", "FeatureEnvy", "LawOfDemeter", "ChainedMethodCall"})
     //It's a test database. OF COURSE it will have magic numbers.
     //It's a shelter*BUILDER*. Of course we will access it a bunch to *BUILD* the shelter object.
