@@ -99,8 +99,6 @@ public class RegisterUserActivity extends AppCompatActivity {
                 mRegisterButton.setError("User addition failed. Please try again.");
                 focusView = mRegisterButton;
                 valid_user = false;
-            } else {
-
             }
         }
         if (!valid_user) {

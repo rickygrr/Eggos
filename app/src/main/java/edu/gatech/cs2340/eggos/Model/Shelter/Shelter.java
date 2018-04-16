@@ -74,10 +74,7 @@ public class Shelter {
         return (this._Capacity_current);
     }
     public boolean haveRoomFor(int cap){
-        if (cap < 0) {
-            return false;
-        }
-        return (this._Capacity_current >= cap);
+        return (cap >= 0 && this._Capacity_current >= cap);
     }
     public void requestRoom(int cap){
         if((cap >= 0) && this.haveRoomFor(cap)){

@@ -188,6 +188,7 @@ public class DummyAppActivity extends AppCompatActivity {
         @SuppressWarnings("ChainedMethodCall")
         //LayoutInflater API required this.
         @Override
+        @NonNull
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             /*
 
@@ -292,6 +293,7 @@ public class DummyAppActivity extends AppCompatActivity {
                 }
 
                 @Override
+                @SuppressWarnings("unchecked")
                 protected void publishResults(CharSequence charSequence,
                                               FilterResults filterResults) {
                     mFiltered = (ArrayList<Shelter>) filterResults.values;

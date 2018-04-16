@@ -53,13 +53,10 @@ public final class UserDatabase_room implements UserDatabaseInterface {
     @Override
     public void updateUser(User s) {
         int count = this.dbDAO.update(s);
-        if(count == 0){
-        } else {
-            if(count > 1){
-                throw new IllegalStateException(
-                    "User update wrote too many rows. Database probably clobbered. Rows: "+count
-                );
-            }
+        if(count > 1){
+            throw new IllegalStateException(
+                "User update wrote too many rows. Database probably clobbered. Rows: "+count
+            );
         }
     }
 

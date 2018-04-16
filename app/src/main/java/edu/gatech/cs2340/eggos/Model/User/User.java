@@ -28,6 +28,7 @@ public class User {
     public User(String username, String password, String type){
         this(username, password, type, -1, 0);
     }
+
     public User(String _Username,
                 String _Password,
                 String _UserType,
