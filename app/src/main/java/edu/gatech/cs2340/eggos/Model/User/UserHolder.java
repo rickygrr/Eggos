@@ -20,7 +20,7 @@ public final class UserHolder {
 
     @Nullable
     private User _currentUser;
-    private UserHolder() {
+    public UserHolder() {
         this._currentUser = null; //Might default to guest when we implement guest.
         //this._UserDBInstance = UserDatabase_local.getInstance();
         this._UserDBInstance = UserDatabase_room.getInstance();
