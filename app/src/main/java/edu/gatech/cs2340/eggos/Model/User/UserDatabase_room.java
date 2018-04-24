@@ -17,6 +17,10 @@ public final class UserDatabase_room implements UserDatabaseInterface {
     private UserDatabase_room() {
     }
 
+    /**
+     * Get instance of user database interface
+     * @return instance of user database interface
+     */
     public static UserDatabaseInterface getInstance() {
         if(ourInstance.db == null){
             throw new IllegalStateException("Database not initialized");
@@ -24,6 +28,11 @@ public final class UserDatabase_room implements UserDatabaseInterface {
         return ourInstance;
     }
 
+    /**
+     * Get first instance of user database interface
+     * @param cont context of user
+     * @return instance of user database interface
+     */
     @SuppressWarnings("ChainedMethodCall")
     //Builder pattern strikes again.
     public static UserDatabaseInterface getFirstInstance(Context cont) {
@@ -40,6 +49,11 @@ public final class UserDatabase_room implements UserDatabaseInterface {
         return ourInstance;
     }
 
+    /**
+     * Add user to database
+     * @param newUser user to add
+     * @return whether or not the user was added
+     */
     @Override
     public boolean addUser(User newUser) {
         if(userExists(newUser.getUsername())){
@@ -50,6 +64,10 @@ public final class UserDatabase_room implements UserDatabaseInterface {
         }
     }
 
+    /**
+     * Update user
+     * @param s user to update
+     */
     @Override
     public void updateUser(User s) {
         int count = this.dbDAO.update(s);
@@ -60,11 +78,22 @@ public final class UserDatabase_room implements UserDatabaseInterface {
         }
     }
 
+    /**
+     * Check if a user exists
+     * @param username username of user
+     * @return whether or not the user exists
+     */
     @Override
     public boolean userExists(String username) {
         return this.dbDAO.userExistsCount(username) > 0;
     }
 
+    /**
+     * Get user from database
+     * @param username username of user
+     * @param password password of user
+     * @return user
+     */
     @Override
     public User getUser(String username, String password) {
         List<User> user = this.dbDAO.getUser(username, password);
@@ -76,6 +105,9 @@ public final class UserDatabase_room implements UserDatabaseInterface {
         }
     }
 
+    /**
+     * Initialize test database of users
+     */
     @Override
     public void _initTestDatabase() {
 
